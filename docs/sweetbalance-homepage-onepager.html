@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>스윗밸런스 자사몰 홈페이지 — 제작 원페이저</title>
+<style>
+  /* Sweet Balance Design System 준수 */
+  :root {
+    --sb-green:#00614E; --sb-yellow:#F8CF77; --sb-blue:#50AADC;
+    --sb-light-green:#D3EAE4; --sb-white:#FFFFFF; --sb-text:#212121; --sb-muted:#5C6B66;
+    --sp-1:8px; --sp-2:16px; --sp-3:24px; --sp-4:32px; --sp-5:48px;
+    --r-s:10px; --r-m:16px; --r-l:24px;
+    --shadow:0 2px 4px rgba(0,97,78,.05), 0 10px 26px rgba(0,97,78,.08);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--sb-light-green); color:var(--sb-text);
+    font-family:"맑은 고딕","Malgun Gothic","Pretendard","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+    line-height:1.7; word-break:keep-all; -webkit-font-smoothing:antialiased;
+    padding:var(--sp-4) var(--sp-2);
+  }
+  .sheet{max-width:940px;margin:0 auto;background:var(--sb-white);border-radius:var(--r-l);overflow:hidden;box-shadow:var(--shadow);}
+  h1,h2,h3,h4{margin:0;letter-spacing:-.02em;line-height:1.35;}
+  p{margin:0;}
+
+  /* 헤더 — Primary Green 배경이므로 흰색 워드마크 */
+  .head{background:var(--sb-green);color:var(--sb-white);padding:var(--sp-5) var(--sp-5) var(--sp-4);}
+  .mark{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.03em;margin-bottom:var(--sp-3);}
+  .mark .leaf{width:28px;height:28px;border-radius:50% 12% 50% 12%;background:var(--sb-white);transform:rotate(-8deg);}
+  .mark .txt{font-size:1.1rem;color:var(--sb-white);}
+  .mark .txt small{display:block;font-size:.55rem;font-weight:600;letter-spacing:.22em;color:rgba(255,255,255,.72);}
+  .head h1{font-size:clamp(1.5rem,3.6vw,2.15rem);font-weight:800;}
+  .head .sub{margin-top:var(--sp-2);color:rgba(255,255,255,.88);max-width:46em;}
+  .meta{display:flex;flex-wrap:wrap;gap:var(--sp-1);margin-top:var(--sp-3);}
+  .meta span{background:rgba(255,255,255,.14);border-radius:999px;padding:5px 14px;font-size:.82rem;font-weight:600;}
+
+  .body{padding:var(--sp-5);}
+  section+section{margin-top:var(--sp-5);}
+  .label{display:inline-block;background:var(--sb-light-green);color:var(--sb-green);font-weight:700;
+         font-size:.78rem;letter-spacing:.1em;padding:5px 13px;border-radius:999px;margin-bottom:var(--sp-2);}
+  h2{font-size:1.35rem;font-weight:800;color:var(--sb-green);}
+  h2+p.note{margin-top:6px;color:var(--sb-muted);font-size:.93rem;}
+
+  /* 화면 구성 */
+  .screens{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin-top:var(--sp-3);}
+  .screen{border:1px solid var(--sb-light-green);border-radius:var(--r-m);padding:var(--sp-3);position:relative;}
+  .screen.star{border-color:var(--sb-yellow);border-width:2px;background:#FFFCF4;}
+  .screen .n{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;
+             background:var(--sb-green);color:#fff;font-size:.85rem;font-weight:800;}
+  .screen.star .n{background:var(--sb-yellow);color:#000;}
+  .screen h4{margin-top:10px;font-size:1.05rem;color:var(--sb-green);}
+  .screen p{margin-top:6px;font-size:.9rem;color:var(--sb-text);}
+  .pin{position:absolute;top:14px;right:14px;background:var(--sb-yellow);color:#000;
+       font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:999px;}
+
+  /* 주인공 기능 흐름 */
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-1);margin-top:var(--sp-3);}
+  .step{background:var(--sb-light-green);border-radius:var(--r-m);padding:var(--sp-2);text-align:center;position:relative;}
+  .step .ic{font-size:1.7rem;line-height:1.2;}
+  .step b{display:block;margin-top:4px;font-size:.88rem;color:var(--sb-green);}
+  .step small{display:block;margin-top:2px;font-size:.76rem;color:var(--sb-muted);}
+  .step:not(:last-child)::after{content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);
+       color:var(--sb-green);font-weight:800;z-index:1;}
+  .feats{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-1);margin-top:var(--sp-3);}
+  .feat{display:flex;gap:10px;background:var(--sb-white);border:1px solid var(--sb-light-green);
+        border-radius:var(--r-s);padding:12px 14px;font-size:.88rem;}
+  .feat b{color:var(--sb-green);}
+
+  /* 표 — 헤더 Primary Green + 흰색 Bold, 데이터 행 흰 배경 */
+  table{width:100%;border-collapse:collapse;margin-top:var(--sp-3);font-size:.9rem;}
+  th{background:var(--sb-green);color:var(--sb-white);font-weight:700;text-align:left;padding:11px 14px;}
+  th:first-child{border-radius:var(--r-s) 0 0 0;} th:last-child{border-radius:0 var(--r-s) 0 0;}
+  td{background:var(--sb-white);padding:11px 14px;border-bottom:1px solid var(--sb-light-green);vertical-align:top;}
+  td:first-child{font-weight:700;color:var(--sb-green);white-space:nowrap;}
+  td .ans{display:inline-block;background:var(--sb-yellow);color:#000;font-weight:700;
+          padding:2px 9px;border-radius:6px;}
+
+  /* 컬러칩 */
+  .chips{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-3);}
+  .chipbox{text-align:center;font-size:.78rem;}
+  .chipbox .sw{width:74px;height:52px;border-radius:var(--r-s);border:1px solid rgba(0,0,0,.06);}
+  .chipbox b{display:block;margin-top:6px;color:var(--sb-text);}
+  .chipbox small{color:var(--sb-muted);}
+
+  .files{margin-top:var(--sp-3);}
+  .file{display:flex;gap:var(--sp-2);align-items:flex-start;background:var(--sb-light-green);
+        border-radius:var(--r-s);padding:13px 16px;font-size:.9rem;}
+  .file+.file{margin-top:8px;}
+  .file code{background:var(--sb-white);color:var(--sb-green);font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap;}
+
+  .foot{background:var(--sb-green);color:rgba(255,255,255,.75);padding:var(--sp-3) var(--sp-5);font-size:.82rem;}
+
+  @media (max-width:760px){
+    .head,.body{padding:var(--sp-3);}
+    .screens,.feats{grid-template-columns:1fr;}
+    .flow{grid-template-columns:1fr 1fr;gap:var(--sp-2);}
+    .step:not(:last-child)::after{display:none;}
+  }
+  @media print{ body{background:#fff;padding:0;} .sheet{box-shadow:none;} }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="head">
+    <span class="mark">
+      <span class="leaf" aria-hidden="true"></span>
+      <span class="txt">스윗밸런스<small>SWEET BALANCE</small></span>
+    </span>
+    <h1>스윗밸런스 자사몰 홈페이지</h1>
+    <p class="sub">
+      인터뷰 5문답에서 출발해, <b>메뉴 고르기와 습관 쌓기가 하나로 이어지는</b> 한 페이지 자사몰을 만들었습니다.
+      이 문서는 무엇을 어떻게 만들었는지 한 장으로 정리한 설명 자료입니다.
+    </p>
+    <div class="meta">
+      <span>📄 index.html 단일 파일</span>
+      <span>🎨 Sweet Balance 브랜드 컬러 시스템</span>
+      <span>🚫 외부 이미지·라이브러리 0</span>
+      <span>💾 기록은 브라우저에만 저장</span>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- 화면 구성 -->
+    <section>
+      <span class="label">SCREEN</span>
+      <h2>화면 구성</h2>
+      <p class="note">위에서 아래로 네 개의 섹션이 이어집니다.</p>
+      <div class="screens">
+        <div class="screen">
+          <span class="n">1</span>
+          <h4>첫 화면</h4>
+          <p>“이 정도면 <b>나도 꾸준히</b> 할 수 있겠다” 헤드라인과 샐러드 보울(CSS 도형+이모지),
+             단백질·칼로리 배지. 바로 습관 캘린더로 내려가는 버튼을 둡니다.</p>
+        </div>
+        <div class="screen">
+          <span class="n">2</span>
+          <h4>대표 제품</h4>
+          <p><b>시그니처 샐러드</b> 한 종을 크게. 380kcal · 단백질 24g · 식이섬유 9g를 숫자로 보여주고,
+             “왜 이 제품을 앞에 두었나요?” 박스로 선정 이유를 밝힙니다.</p>
+        </div>
+        <div class="screen star">
+          <span class="pin">★ 주인공</span>
+          <span class="n">3</span>
+          <h4>샐러드 습관 캘린더 + 점심 고민 해결 버튼</h4>
+          <p>추천받은 메뉴가 <b>그대로 달력에 기록되는</b> 하나의 흐름. 연속 일수·월 목표·응원 문구가 함께 움직입니다.</p>
+        </div>
+        <div class="screen">
+          <span class="n">4</span>
+          <h4>브랜드 소개 · 푸터</h4>
+          <p>“잘 먹는 하루가 쌓이면, 그게 균형입니다”와 세 가지 약속(매일 아침 손질 / 숨기지 않는 숫자 / 부담 없는 지속).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 주인공 기능 -->
+    <section>
+      <span class="label">★ MAIN FEATURE</span>
+      <h2>주인공 — 샐러드 습관 캘린더</h2>
+      <p class="note">
+        “점심 메뉴 고민 해결 버튼”과 “습관 캘린더”를 <b>따로 두지 않고 하나로 붙인 것</b>이 이 기능의 핵심입니다.
+        고민이 끝나는 순간이 곧 기록이 남는 순간이 됩니다.
+      </p>
+      <div class="flow">
+        <div class="step"><div class="ic">🤔</div><b>고민 시작</b><small>버튼 또는 빈 날짜 클릭</small></div>
+        <div class="step"><div class="ic">🥗</div><b>메뉴 추천</b><small>마음에 안 들면 다시 뽑기</small></div>
+        <div class="step"><div class="ic">✅</div><b>그대로 기록</b><small>해당 날짜에 도장</small></div>
+        <div class="step"><div class="ic">🔥</div><b>연속 일수 갱신</b><small>스탯·진행바·응원 문구</small></div>
+      </div>
+      <div class="feats">
+        <div class="feat"><span>🗓️</span><span><b>실제 달력</b> — 이번 달 실제 날짜, 오늘 표시, 지난달 이동 가능</span></div>
+        <div class="feat"><span>🚫</span><span><b>미래 날짜 잠금</b> — 아직 오지 않은 날은 기록할 수 없습니다</span></div>
+        <div class="feat"><span>🌱</span><span><b>자라는 아이콘</b> — 연속 0🌱 → 3🔥 → 7💪 → 14🏆 → 21👑</span></div>
+        <div class="feat"><span>📊</span><span><b>월 20일 목표</b> — 이번 달 기록·전체 누적·달성률 진행바</span></div>
+        <div class="feat"><span>↩️</span><span><b>기록 취소</b> — 기록된 날을 다시 눌러 되돌릴 수 있습니다</span></div>
+        <div class="feat"><span>💾</span><span><b>새로고침해도 유지</b> — localStorage 저장, 막힌 브라우저는 안내 후 정상 동작</span></div>
+      </div>
+    </section>
+
+    <!-- 반영된 답변 -->
+    <section>
+      <span class="label">INTERVIEW</span>
+      <h2>인터뷰 답변이 들어간 자리</h2>
+      <p class="note">노란 표시가 인터뷰에서 답한 내용, 오른쪽이 페이지에 반영된 방식입니다.</p>
+      <table>
+        <thead>
+          <tr><th style="width:15%">질문</th><th style="width:30%">나의 답변</th><th>페이지 반영</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>① 손님</td>
+            <td><span class="ans">바쁜 직장인 · 다이어터</span></td>
+            <td>“점심시간은 짧고, 메뉴 고민은 길죠” 카피 / 태그(⏱️ 10분 완성, 🔢 칼로리·단백질 표기) /
+                추천 카드마다 <b>소요 시간 + 칼로리 + 단백질</b>을 함께 표기</td>
+          </tr>
+          <tr>
+            <td>② 첫 문장</td>
+            <td><span class="ans">이 정도면 나도 꾸준히 할 수 있겠다</span></td>
+            <td>첫 화면 <b>헤드라인에 그대로</b> 사용. “나도 꾸준히”는 선샤인 옐로 하이라이트로 강조</td>
+          </tr>
+          <tr>
+            <td>③ 대표 제품</td>
+            <td><span class="ans">시그니처 샐러드</span></td>
+            <td>대표 제품 섹션 전체를 이 한 종에 할애 + <b>메뉴 추천 풀의 중심</b>(⭐ 시그니처 배지로 구분)</td>
+          </tr>
+          <tr>
+            <td>④ 아이디어 기능</td>
+            <td><span class="ans">습관 캘린더 + 고민 버튼 결합</span></td>
+            <td><b>페이지의 주인공 섹션.</b> 두 기능을 분리하지 않고
+                “추천 → 그 자리에서 기록 → 연속 일수 갱신” 하나의 흐름으로 구현</td>
+          </tr>
+          <tr>
+            <td>⑤ 분위기</td>
+            <td><span class="ans">신선한 초록</span></td>
+            <td>브랜드 그린을 주인공 섹션 <b>전면 배경</b>으로, 퓨어 라이트 그린을 여백 배경으로.
+                서브 컬러는 강조에만 사용</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 디자인 시스템 -->
+    <section>
+      <span class="label">DESIGN SYSTEM</span>
+      <h2>브랜드 규칙 준수</h2>
+      <p class="note">
+        “분위기 답변과 충돌하면 디자인 시스템이 우선” 규칙에 따라, <b>신선한 초록</b>은 새 색을 만들지 않고
+        기존 브랜드 그린을 넓게 쓰는 방식으로만 반영했습니다. 서브 컬러는 단독 주요 색으로 쓰지 않았습니다.
+      </p>
+      <div class="chips">
+        <div class="chipbox"><div class="sw" style="background:#00614E"></div><b>#00614E</b><small>메인 그린</small></div>
+        <div class="chipbox"><div class="sw" style="background:#F8CF77"></div><b>#F8CF77</b><small>선샤인 옐로 · 강조</small></div>
+        <div class="chipbox"><div class="sw" style="background:#50AADC"></div><b>#50AADC</b><small>다이브 블루 · 보조</small></div>
+        <div class="chipbox"><div class="sw" style="background:#D3EAE4"></div><b>#D3EAE4</b><small>퓨어 라이트 그린 · 배경</small></div>
+        <div class="chipbox"><div class="sw" style="background:#FFFFFF"></div><b>#FFFFFF</b><small>화이트</small></div>
+      </div>
+      <div class="feats">
+        <div class="feat"><span>🔤</span><span><b>타이포</b> — 맑은 고딕 계열, 제목 Bold / 섹션 SemiBold / 본문 Regular</span></div>
+        <div class="feat"><span>📐</span><span><b>간격</b> — 8px 기반 스케일(8·16·24·32·48·72·104)로 통일</span></div>
+        <div class="feat"><span>🔘</span><span><b>버튼</b> — Primary(그린) / Yellow(강조) / Ghost(외곽선) 3종만 사용</span></div>
+        <div class="feat"><span>🖼️</span><span><b>로고</b> — 외부 이미지 금지 규칙에 따라 CSS 워드마크로 표현(어두운 배경엔 흰색 버전)</span></div>
+      </div>
+    </section>
+
+    <!-- 변경 파일 -->
+    <section>
+      <span class="label">FILES</span>
+      <h2>변경 파일</h2>
+      <div class="files">
+        <div class="file"><code>index.html</code>
+          <span>기존 인사말 한 페이지를 <b>스윗밸런스 자사몰 홈페이지로 전면 교체.</b>
+                HTML·CSS·JS를 한 파일에 담았고 외부 리소스를 전혀 쓰지 않습니다.</span></div>
+        <div class="file"><code>docs/sweetbalance-homepage-onepager.html</code>
+          <span>지금 보고 계신 <b>PR 설명용 원페이저.</b> 화면 구성·주인공 기능·반영된 답변을 한 장으로 정리했습니다.</span></div>
+        <div class="file"><code>README.md</code>
+          <span>리포지토리 제목과 소개를 <b>자사몰 홈페이지 내용에 맞게 갱신.</b> GitHub Pages 접속 링크는 유지합니다.</span></div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="foot">
+    Sweet Balance · 자사몰 홈페이지 제작 원페이저 — 이 페이지는 설명용 자료이며, 습관 기록은 사용자 브라우저에만 저장됩니다.
+  </div>
+</div>
+</body>
+</html>
