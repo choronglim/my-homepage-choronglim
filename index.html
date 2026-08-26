@@ -1,62 +1,876 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>임초롱의 홈페이지</title>
-  <style>
-    :root {
-      color-scheme: light dark;
-      --bg: #f7f7f5;
-      --fg: #1a1a1a;
-      --muted: #6b6b6b;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #17181a;
-        --fg: #f2f2f0;
-        --muted: #9a9a98;
-      }
-    }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; margin: 0; }
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      padding: 1.5rem;
-      background: var(--bg);
-      color: var(--fg);
-      font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
-      text-align: center;
-    }
-    h1 {
-      margin: 0;
-      font-size: clamp(1.6rem, 5vw, 2.6rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-    #today {
-      margin: 0;
-      font-size: clamp(1rem, 3vw, 1.2rem);
-      color: var(--muted);
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>스윗밸런스 — 이 정도면 나도 꾸준히 할 수 있겠다</title>
+<style>
+  /* =========================================================
+     Sweet Balance Design System
+     Primary  : Sweet Balance Green  #00614E
+     Sub      : Sunshine Yellow      #F8CF77  (포인트 강조)
+                Dive Blue            #50AADC  (보조 그래픽)
+                Pure Light Green     #D3EAE4  (배경 / 부드러운 구분선)
+     Neutral  : White #FFFFFF / Dark Text #212121
+     Type     : 맑은 고딕 계열 — 제목 Bold / 섹션 SemiBold / 본문 Regular
+     ========================================================= */
+  :root {
+    --sb-green:       #00614E;
+    --sb-green-deep:  #004A3B;
+    --sb-yellow:      #F8CF77;
+    --sb-blue:        #50AADC;
+    --sb-light-green: #D3EAE4;
+    --sb-white:       #FFFFFF;
+    --sb-text:        #212121;
+    --sb-text-muted:  #5C6B66;
+    --sb-line:        #D3EAE4;
+
+    /* 간격 스케일 (8px 기반) */
+    --sp-1: 8px;  --sp-2: 16px; --sp-3: 24px;
+    --sp-4: 32px; --sp-5: 48px; --sp-6: 72px; --sp-7: 104px;
+
+    --radius-s: 10px;
+    --radius-m: 16px;
+    --radius-l: 24px;
+    --shadow-card: 0 2px 4px rgba(0,97,78,.05), 0 12px 28px rgba(0,97,78,.08);
+    --shadow-pop:  0 12px 40px rgba(0,97,78,.18);
+    --maxw: 1080px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--sb-white);
+    color: var(--sb-text);
+    font-family: "맑은 고딕", "Malgun Gothic", "Pretendard",
+                 "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { margin: 0; letter-spacing: -0.02em; line-height: 1.3; }
+  p { margin: 0; }
+  button { font-family: inherit; cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--sb-blue); outline-offset: 3px; border-radius: 6px; }
+
+  .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 var(--sp-3); }
+
+  /* ---------- 버튼 (디자인 시스템) ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-1);
+    border: 2px solid transparent; border-radius: 999px;
+    padding: 14px 28px; font-size: 1rem; font-weight: 700;
+    text-decoration: none; transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn:hover  { transform: translateY(-2px); }
+  .btn:active { transform: translateY(0); }
+  .btn-primary { background: var(--sb-green); color: var(--sb-white); box-shadow: 0 6px 16px rgba(0,97,78,.24); }
+  .btn-primary:hover { background: var(--sb-green-deep); }
+  .btn-yellow  { background: var(--sb-yellow); color: #000; box-shadow: 0 6px 16px rgba(248,207,119,.45); }
+  .btn-ghost   { background: transparent; color: var(--sb-green); border-color: var(--sb-green); }
+  .btn-ghost:hover { background: var(--sb-light-green); }
+  .btn-sm { padding: 10px 18px; font-size: .9rem; }
+
+  /* ---------- 워드마크 (로고 이미지 대신 CSS 표현) ---------- */
+  .mark { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; letter-spacing: -0.03em; }
+  .mark .leaf {
+    width: 30px; height: 30px; border-radius: 50% 12% 50% 12%;
+    background: var(--sb-green); transform: rotate(-8deg); flex: none;
+  }
+  .mark .txt { font-size: 1.2rem; color: var(--sb-green); }
+  .mark .txt small { display: block; font-size: .58rem; font-weight: 600; letter-spacing: .22em; color: var(--sb-text-muted); }
+  .mark.on-dark .leaf { background: var(--sb-white); }
+  .mark.on-dark .txt  { color: var(--sb-white); }
+  .mark.on-dark .txt small { color: rgba(255,255,255,.72); }
+
+  /* ---------- 헤더 ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,.92); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--sb-line);
+  }
+  .header-in { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  nav { display: flex; align-items: center; gap: var(--sp-3); }
+  nav a { color: var(--sb-text); text-decoration: none; font-weight: 600; font-size: .94rem; }
+  nav a:hover { color: var(--sb-green); }
+  @media (max-width: 720px) { nav .nav-link { display: none; } }
+
+  /* ---------- 히어로 ---------- */
+  .hero { background: var(--sb-light-green); padding: var(--sp-7) 0 var(--sp-6); position: relative; overflow: hidden; }
+  .hero-in { display: grid; grid-template-columns: 1.15fr .85fr; gap: var(--sp-5); align-items: center; }
+  .eyebrow {
+    display: inline-block; background: var(--sb-white); color: var(--sb-green);
+    font-size: .82rem; font-weight: 700; padding: 7px 16px; border-radius: 999px; margin-bottom: var(--sp-2);
+  }
+  .hero h1 { font-size: clamp(2rem, 5.2vw, 3.15rem); font-weight: 800; color: var(--sb-green); }
+  .hero h1 .accent {
+    background: linear-gradient(transparent 62%, var(--sb-yellow) 62%);
+    padding: 0 4px;
+  }
+  .hero .lead { margin-top: var(--sp-3); font-size: 1.06rem; color: var(--sb-text); max-width: 30em; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: var(--sp-4); }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: var(--sp-1); margin-top: var(--sp-3); }
+  .tag {
+    background: var(--sb-white); border: 1px solid rgba(0,97,78,.14);
+    color: var(--sb-green); font-size: .84rem; font-weight: 600;
+    padding: 6px 14px; border-radius: 999px;
+  }
+  /* 도형+이모지로 그린 샐러드 보울 */
+  .bowl { position: relative; width: min(320px, 88%); aspect-ratio: 1; margin: 0 auto; }
+  .bowl-plate {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: var(--sb-white); box-shadow: var(--shadow-card);
+  }
+  .bowl-fill {
+    position: absolute; inset: 13%; border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, #2F8A6E, var(--sb-green) 72%);
+  }
+  .bowl-fill span { position: absolute; font-size: clamp(1.5rem, 4.5vw, 2rem); line-height: 1; }
+  .bowl-fill span:nth-child(1) { top: 16%; left: 20%; }
+  .bowl-fill span:nth-child(2) { top: 14%; right: 20%; }
+  .bowl-fill span:nth-child(3) { top: 44%; left: 10%; }
+  .bowl-fill span:nth-child(4) { top: 42%; right: 11%; }
+  .bowl-fill span:nth-child(5) { bottom: 15%; left: 32%; }
+  .bowl-fill span:nth-child(6) { bottom: 17%; right: 28%; }
+  .bowl-fill span:nth-child(7) { top: 40%; left: 44%; }
+  .bowl-badge {
+    position: absolute; background: var(--sb-yellow); color: #000;
+    font-weight: 800; font-size: .85rem; padding: 10px 16px; border-radius: 999px;
+    box-shadow: var(--shadow-card); white-space: nowrap;
+  }
+  .bowl-badge.b1 { top: 4%; right: -6%; }
+  .bowl-badge.b2 { bottom: 6%; left: -8%; background: var(--sb-blue); color: var(--sb-white); }
+  @media (max-width: 860px) {
+    .hero { padding: var(--sp-5) 0; }
+    .hero-in { grid-template-columns: 1fr; text-align: center; }
+    .hero .lead { margin-inline: auto; }
+    .hero-cta, .hero-tags { justify-content: center; }
+    .bowl { width: min(250px, 72%); margin-top: var(--sp-4); }
+  }
+
+  /* ---------- 섹션 공통 ---------- */
+  section { padding: var(--sp-7) 0; }
+  .sec-head { text-align: center; margin-bottom: var(--sp-5); }
+  .sec-label {
+    display: inline-block; color: var(--sb-green); font-weight: 700;
+    font-size: .85rem; letter-spacing: .12em; margin-bottom: var(--sp-1);
+  }
+  .sec-head h2 { font-size: clamp(1.5rem, 3.6vw, 2.1rem); font-weight: 800; }
+  .sec-head p { margin-top: var(--sp-2); color: var(--sb-text-muted); }
+
+  /* ---------- 대표 제품 ---------- */
+  .product { display: grid; grid-template-columns: .95fr 1.05fr; gap: var(--sp-5); align-items: center; }
+  .product-visual {
+    background: var(--sb-light-green); border-radius: var(--radius-l);
+    padding: var(--sp-5) var(--sp-3); text-align: center; position: relative;
+  }
+  .product-visual .ring {
+    width: 210px; height: 210px; margin: 0 auto; border-radius: 50%;
+    background: var(--sb-white); display: grid; place-items: center;
+    box-shadow: var(--shadow-card); font-size: 4.6rem; line-height: 1;
+  }
+  .best {
+    position: absolute; top: 20px; left: 20px; background: var(--sb-green); color: #fff;
+    font-size: .78rem; font-weight: 700; padding: 6px 14px; border-radius: 999px;
+  }
+  .product h3 { font-size: 1.65rem; font-weight: 800; color: var(--sb-green); }
+  .product .why {
+    margin-top: var(--sp-3); padding: var(--sp-3);
+    background: var(--sb-white); border: 1px solid var(--sb-line);
+    border-left: 4px solid var(--sb-yellow); border-radius: var(--radius-s);
+    color: var(--sb-text);
+  }
+  .nutri { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2); margin-top: var(--sp-3); }
+  .nutri div {
+    background: var(--sb-light-green); border-radius: var(--radius-s);
+    padding: var(--sp-2); text-align: center;
+  }
+  .nutri b { display: block; font-size: 1.25rem; color: var(--sb-green); }
+  .nutri small { color: var(--sb-text-muted); font-size: .8rem; }
+  @media (max-width: 860px) { .product { grid-template-columns: 1fr; } }
+
+  /* =========================================================
+     주인공 — 샐러드 습관 캘린더 + 점심 고민 해결 버튼
+     ========================================================= */
+  .habit { background: var(--sb-green); color: var(--sb-white); }
+  .habit .sec-head h2 { color: var(--sb-white); }
+  .habit .sec-label { color: var(--sb-yellow); }
+  .habit .sec-head p { color: rgba(255,255,255,.85); }
+
+  .habit-grid { display: grid; grid-template-columns: 340px 1fr; gap: var(--sp-3); align-items: start; }
+  @media (max-width: 900px) { .habit-grid { grid-template-columns: 1fr; } }
+
+  .panel { background: var(--sb-white); color: var(--sb-text); border-radius: var(--radius-l); padding: var(--sp-3); }
+
+  /* 스탯 */
+  .stat { text-align: center; padding: var(--sp-3) var(--sp-2); }
+  .stat .flame { font-size: 2.6rem; line-height: 1; }
+  .stat .num { font-size: 3rem; font-weight: 800; color: var(--sb-green); line-height: 1.1; }
+  .stat .num span { font-size: 1.1rem; font-weight: 700; }
+  .stat .cap { color: var(--sb-text-muted); font-weight: 600; font-size: .9rem; }
+  .mini { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-1); margin-top: var(--sp-2); }
+  .mini div { background: var(--sb-light-green); border-radius: var(--radius-s); padding: 12px 8px; text-align: center; }
+  .mini b { display: block; font-size: 1.3rem; color: var(--sb-green); }
+  .mini small { font-size: .76rem; color: var(--sb-text-muted); }
+  .bar { height: 12px; background: var(--sb-light-green); border-radius: 999px; overflow: hidden; margin-top: var(--sp-3); }
+  .bar i { display: block; height: 100%; width: 0; border-radius: 999px; background: var(--sb-green); transition: width .5s cubic-bezier(.2,.8,.2,1); }
+  .cheer {
+    margin-top: var(--sp-2); background: var(--sb-yellow); color: #000;
+    border-radius: var(--radius-s); padding: 12px 14px; font-weight: 700; font-size: .92rem; text-align: center;
+  }
+
+  /* 달력 */
+  .cal-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--sp-2); }
+  .cal-top h3 { font-size: 1.2rem; font-weight: 800; color: var(--sb-green); }
+  .nav-btn {
+    width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--sb-line);
+    background: var(--sb-white); color: var(--sb-green); font-size: 1.1rem; font-weight: 700;
+  }
+  .nav-btn:hover:not(:disabled) { background: var(--sb-light-green); }
+  .nav-btn:disabled { opacity: .3; cursor: not-allowed; }
+  .dow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 6px; }
+  .dow span { text-align: center; font-size: .78rem; font-weight: 700; color: var(--sb-text-muted); }
+  .dow span:first-child { color: #C9503F; }
+  .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .day {
+    aspect-ratio: 1; border: 1px solid var(--sb-line); border-radius: var(--radius-s);
+    background: var(--sb-white); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 2px;
+    font-size: .85rem; font-weight: 600; color: var(--sb-text);
+    transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    padding: 0;
+  }
+  .day.empty { border: none; background: transparent; cursor: default; }
+  .day:not(.empty):not(:disabled):hover { background: var(--sb-light-green); border-color: var(--sb-green); transform: translateY(-2px); }
+  .day:disabled { opacity: .35; cursor: not-allowed; }
+  .day.today { border: 2px solid var(--sb-blue); }
+  .day.done { background: var(--sb-green); border-color: var(--sb-green); color: var(--sb-white); }
+  .day.done.today { border: 2px solid var(--sb-yellow); }
+  .day .stamp { font-size: 1.05rem; line-height: 1; }
+  .day.pop { animation: pop .45s cubic-bezier(.2,1.4,.4,1); }
+  @keyframes pop { 0% { transform: scale(.7); } 60% { transform: scale(1.16); } 100% { transform: scale(1); } }
+  .legend { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: var(--sp-2); font-size: .8rem; color: var(--sb-text-muted); }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; margin-right: 5px; vertical-align: -1px; }
+
+  /* 고민 해결 버튼 + 추천 시트 */
+  .solve { margin-top: var(--sp-3); text-align: center; }
+  .solve .btn { width: 100%; max-width: 460px; padding: 18px 28px; font-size: 1.05rem; }
+  .solve .hint { margin-top: 10px; font-size: .85rem; color: rgba(255,255,255,.8); }
+
+  .sheet {
+    margin-top: var(--sp-3); background: var(--sb-white); color: var(--sb-text);
+    border-radius: var(--radius-l); padding: var(--sp-3); box-shadow: var(--shadow-pop);
+    display: none;
+  }
+  .sheet.show { display: block; animation: rise .35s cubic-bezier(.2,.9,.25,1); }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); margin-bottom: var(--sp-2); }
+  .sheet-head strong { color: var(--sb-green); font-size: 1.02rem; }
+  .close-x { border: none; background: var(--sb-light-green); color: var(--sb-green); width: 34px; height: 34px; border-radius: 50%; font-size: 1rem; font-weight: 700; }
+  .pick { display: flex; align-items: center; gap: var(--sp-3); background: var(--sb-light-green); border-radius: var(--radius-m); padding: var(--sp-3); }
+  .pick .emo { font-size: 3.2rem; line-height: 1; flex: none; }
+  .pick h4 { font-size: 1.28rem; font-weight: 800; color: var(--sb-green); }
+  .pick .desc { color: var(--sb-text); font-size: .93rem; margin-top: 4px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chip { background: var(--sb-white); border-radius: 999px; padding: 4px 12px; font-size: .78rem; font-weight: 700; color: var(--sb-green); }
+  .chip.sig { background: var(--sb-yellow); color: #000; }
+  .sheet-cta { display: flex; flex-wrap: wrap; gap: var(--sp-1); margin-top: var(--sp-3); }
+  .sheet-cta .btn { flex: 1 1 180px; }
+  .sheet .done-note { text-align: center; background: var(--sb-light-green); border-radius: var(--radius-m); padding: var(--sp-3); }
+  .sheet .done-note .big { font-size: 2.4rem; line-height: 1; }
+  @media (max-width: 520px) { .pick { flex-direction: column; text-align: center; } }
+
+  /* 토스트 */
+  .toast {
+    position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 20px);
+    background: var(--sb-text); color: var(--sb-white); padding: 13px 22px;
+    border-radius: 999px; font-size: .92rem; font-weight: 600;
+    opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 99;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  /* ---------- 브랜드 소개 (푸터) ---------- */
+  .about { background: var(--sb-light-green); }
+  .about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); margin-top: var(--sp-4); }
+  .about-card { background: var(--sb-white); border-radius: var(--radius-m); padding: var(--sp-3); text-align: center; }
+  .about-card .ic { font-size: 2.1rem; }
+  .about-card h4 { margin-top: 10px; color: var(--sb-green); font-size: 1.05rem; }
+  .about-card p { margin-top: 6px; font-size: .9rem; color: var(--sb-text-muted); }
+  @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; } }
+
+  footer { background: var(--sb-green); color: rgba(255,255,255,.82); padding: var(--sp-5) 0 var(--sp-4); }
+  .foot-in { display: flex; flex-wrap: wrap; gap: var(--sp-3); justify-content: space-between; align-items: flex-start; }
+  footer p { font-size: .88rem; margin-top: var(--sp-2); max-width: 34em; }
+  .foot-links { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+  .foot-links a { color: rgba(255,255,255,.82); text-decoration: none; font-size: .88rem; font-weight: 600; }
+  .foot-links a:hover { color: var(--sb-yellow); }
+  .foot-bottom { border-top: 1px solid rgba(255,255,255,.18); margin-top: var(--sp-4); padding-top: var(--sp-2); font-size: .8rem; color: rgba(255,255,255,.6); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
+  }
+</style>
 </head>
 <body>
-  <h1>안녕하세요, 임초롱입니다</h1>
-  <p id="today"></p>
 
-  <script>
-    const today = new Date();
-    document.getElementById("today").textContent = today.toLocaleDateString("ko-KR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      weekday: "long"
+<header>
+  <div class="wrap header-in">
+    <a class="mark" href="#top" aria-label="스윗밸런스 홈">
+      <span class="leaf" aria-hidden="true"></span>
+      <span class="txt">스윗밸런스<small>SWEET BALANCE</small></span>
+    </a>
+    <nav>
+      <a class="nav-link" href="#product">대표 제품</a>
+      <a class="nav-link" href="#habit">습관 캘린더</a>
+      <a class="nav-link" href="#about">브랜드 소개</a>
+      <a class="btn btn-primary btn-sm" href="#habit">오늘 한 끼 고르기</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ 1. 첫 화면 ============ -->
+<main id="top">
+<div class="hero">
+  <div class="wrap hero-in">
+    <div>
+      <span class="eyebrow">🥗 매일 신선한 샐러드 · 건강 간편식</span>
+      <h1>이 정도면<br /><span class="accent">나도 꾸준히</span><br />할 수 있겠다</h1>
+      <p class="lead">
+        점심시간은 짧고, 메뉴 고민은 길죠.<br />
+        스윗밸런스는 <b>고민 없이 고르고, 부담 없이 기록되는 하루</b>를 만듭니다.
+        오늘 한 끼만 눌러보세요. 나머지는 캘린더가 이어갑니다.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#habit">🗓️ 내 샐러드 습관 시작하기</a>
+        <a class="btn btn-ghost" href="#product">대표 제품 보기</a>
+      </div>
+      <div class="hero-tags">
+        <span class="tag">⏱️ 점심시간 10분 완성</span>
+        <span class="tag">🔢 칼로리 · 단백질 표기</span>
+        <span class="tag">🌿 매일 아침 손질</span>
+      </div>
+    </div>
+    <div>
+      <div class="bowl" aria-hidden="true">
+        <div class="bowl-plate"></div>
+        <div class="bowl-fill">
+          <span>🥬</span><span>🍅</span><span>🥑</span>
+          <span>🥕</span><span>🌽</span><span>🧀</span><span>🍗</span>
+        </div>
+        <div class="bowl-badge b1">단백질 24g</div>
+        <div class="bowl-badge b2">380 kcal</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 2. 대표 제품 ============ -->
+<section id="product">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-label">SIGNATURE</span>
+      <h2>가장 먼저 보여드리고 싶은 한 그릇</h2>
+      <p>처음 오신 분께 늘 권하는, 스윗밸런스의 기준이 되는 샐러드입니다.</p>
+    </div>
+    <div class="product">
+      <div class="product-visual">
+        <span class="best">BEST 1</span>
+        <div class="ring" aria-hidden="true">🥗</div>
+      </div>
+      <div>
+        <h3>시그니처 샐러드</h3>
+        <p style="margin-top:8px;color:var(--sb-text-muted);">
+          그린 리프 4종 · 그릴 치킨 · 아보카도 · 방울토마토 · 옥수수 · 리코타치즈
+          <br />+ 스윗밸런스 하우스 드레싱
+        </p>
+        <div class="nutri">
+          <div><b>380</b><small>kcal</small></div>
+          <div><b>24g</b><small>단백질</small></div>
+          <div><b>9g</b><small>식이섬유</small></div>
+        </div>
+        <div class="why">
+          <b>왜 이 제품을 앞에 두었나요?</b><br />
+          바쁜 직장인에게는 <b>더 고민할 필요가 없는 기본값</b>이 되고,
+          다이어터에게는 <b>숫자로 확인되는 안심</b>이 되기 때문입니다.
+          한 그릇으로 브랜드가 무엇을 지향하는지 가장 정확하게 보여주는 메뉴예요.
+        </div>
+        <div class="hero-cta" style="margin-top:var(--sp-3);">
+          <a class="btn btn-primary" href="#habit">이 메뉴로 습관 시작하기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. 주인공 — 습관 캘린더 + 고민 해결 버튼 ============ -->
+<section id="habit" class="habit">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-label">MY SALAD HABIT</span>
+      <h2>샐러드 습관 캘린더</h2>
+      <p>
+        고민될 땐 버튼을 누르고, 고른 메뉴는 그대로 달력에 기록됩니다.<br />
+        메뉴 고르기와 습관 쌓기가 하나로 이어지는 이 페이지의 주인공이에요.
+      </p>
+    </div>
+
+    <div class="habit-grid">
+      <!-- 왼쪽: 스탯 -->
+      <div class="panel">
+        <div class="stat">
+          <div class="flame" id="flame" aria-hidden="true">🌱</div>
+          <div class="num"><span id="streak">0</span><span>일 연속</span></div>
+          <div class="cap">지금 이어가고 있는 기록</div>
+        </div>
+        <div class="mini">
+          <div><b id="monthCount">0</b><small>이번 달 기록</small></div>
+          <div><b id="totalCount">0</b><small>전체 누적</small></div>
+        </div>
+        <div class="bar" role="progressbar" aria-labelledby="goalCap" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0" id="goalBar">
+          <i id="goalFill"></i>
+        </div>
+        <p id="goalCap" style="margin-top:8px;font-size:.84rem;color:var(--sb-text-muted);text-align:center;">
+          이번 달 목표 <b>20일</b> 중 <b id="goalNow">0</b>일 달성
+        </p>
+        <div class="cheer" id="cheer">첫 한 끼가 가장 큰 한 걸음이에요 🌱</div>
+      </div>
+
+      <!-- 오른쪽: 달력 -->
+      <div class="panel">
+        <div class="cal-top">
+          <button class="nav-btn" id="prevM" aria-label="이전 달">‹</button>
+          <h3 id="calTitle">2026년 8월</h3>
+          <button class="nav-btn" id="nextM" aria-label="다음 달">›</button>
+        </div>
+        <div class="dow" aria-hidden="true">
+          <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+        </div>
+        <div class="cal" id="cal"></div>
+        <div class="legend">
+          <span><i style="background:var(--sb-green);"></i>기록한 날</span>
+          <span><i style="background:var(--sb-white);border:2px solid var(--sb-blue);"></i>오늘</span>
+          <span><i style="background:var(--sb-green);border:2px solid var(--sb-yellow);"></i>오늘 기록 완료</span>
+          <span><i style="background:var(--sb-light-green);"></i>아직 비어 있는 날</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 고민 해결 버튼 -->
+    <div class="solve">
+      <button class="btn btn-yellow" id="solveBtn">🤔 점심 뭐 먹지? — 눌러서 끝내기</button>
+      <p class="hint">달력의 날짜를 눌러도 같은 추천이 열리고, 고른 메뉴가 그 날짜에 기록돼요.</p>
+    </div>
+
+    <!-- 추천 시트 -->
+    <div class="sheet" id="sheet" role="dialog" aria-modal="false" aria-labelledby="sheetTitle">
+      <div class="sheet-head">
+        <strong id="sheetTitle">오늘의 추천</strong>
+        <button class="close-x" id="closeSheet" aria-label="추천 닫기">✕</button>
+      </div>
+      <div id="sheetBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. 브랜드 소개 ============ -->
+<section id="about" class="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-label">ABOUT US</span>
+      <h2>잘 먹는 하루가 쌓이면, 그게 균형입니다</h2>
+      <p>스윗밸런스는 한 끼의 완벽함보다 <b>이어갈 수 있는 리듬</b>을 더 중요하게 생각합니다.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="ic" aria-hidden="true">🌿</div>
+        <h4>매일 아침 손질</h4>
+        <p>전날 밤 입고된 채소를 당일 아침에 손질해 그날 안에 배송합니다.</p>
+      </div>
+      <div class="about-card">
+        <div class="ic" aria-hidden="true">🔢</div>
+        <h4>숨기지 않는 숫자</h4>
+        <p>칼로리·단백질·식이섬유를 모든 메뉴에 그대로 표기합니다.</p>
+      </div>
+      <div class="about-card">
+        <div class="ic" aria-hidden="true">🔁</div>
+        <h4>부담 없는 지속</h4>
+        <p>완벽한 한 달보다, 이번 주에 세 번을 목표로 함께 갑니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-in">
+      <div>
+        <span class="mark on-dark">
+          <span class="leaf" aria-hidden="true"></span>
+          <span class="txt">스윗밸런스<small>SWEET BALANCE</small></span>
+        </span>
+        <p>샐러드와 건강 간편식으로 매일의 균형을 만드는 브랜드. 오늘 한 끼가 내일의 기준이 됩니다.</p>
+      </div>
+      <div class="foot-links">
+        <a href="#product">대표 제품</a>
+        <a href="#habit">습관 캘린더</a>
+        <a href="#about">브랜드 소개</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      © <span id="year">2026</span> Sweet Balance. 이 페이지는 데모용으로 제작되었으며, 기록은 사용자 브라우저에만 저장됩니다.
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- 메뉴 데이터 (시그니처 샐러드가 중심) ---------- */
+  var MENUS = [
+    { emo: "🥗", name: "시그니처 샐러드",     kcal: 380, protein: 24, min: 0, sig: true,
+      desc: "고민될 땐 결국 여기로 돌아옵니다. 스윗밸런스의 기준이 되는 한 그릇." },
+    { emo: "🍗", name: "그릴 치킨 프로틴 볼", kcal: 450, protein: 34, min: 0,
+      desc: "운동한 날, 단백질이 확실히 필요한 날의 선택." },
+    { emo: "🥑", name: "아보카도 곡물 샐러드", kcal: 420, protein: 16, min: 0,
+      desc: "포만감이 오래가서 오후 간식 생각이 덜 나는 구성." },
+    { emo: "🍜", name: "닭가슴살 온샐러드",   kcal: 390, protein: 28, min: 0,
+      desc: "찬 게 부담스러운 날, 따뜻하게 먹는 샐러드." },
+    { emo: "🌯", name: "라이트 그레인 랩",    kcal: 340, protein: 19, min: 0,
+      desc: "자리에서 한 손으로 먹기 좋은 가벼운 한 끼." },
+    { emo: "🥣", name: "두부 포케 볼",        kcal: 360, protein: 21, min: 0,
+      desc: "느끼함 없이 담백하게, 속이 편한 하루를 원할 때." },
+    { emo: "🍲", name: "저염 채소 수프 세트", kcal: 290, protein: 12, min: 0,
+      desc: "과식한 다음 날 속을 정리해주는 가벼운 조합." }
+  ];
+  /* 조리·수령 소요시간은 메뉴별로 다르게 표기 */
+  var MINUTES = [5, 7, 6, 8, 4, 6, 5];
+  MENUS.forEach(function (m, i) { m.min = MINUTES[i]; });
+
+  /* 연속 일수는 위에 숫자로 이미 보이므로, 응원 문구에는 숫자를 넣지 않는다 */
+  var CHEERS = [
+    { at: 0,  msg: "첫 한 끼가 가장 큰 한 걸음이에요 🌱" },
+    { at: 1,  msg: "시작했어요! 내일 한 번만 더 이어가볼까요 🙂" },
+    { at: 3,  msg: "이제 슬슬 리듬이 생기고 있어요 🔥" },
+    { at: 7,  msg: "이 정도면 습관이라고 불러도 되겠어요 💪" },
+    { at: 14, msg: "스스로를 칭찬해도 좋은 기록이에요 🏆" },
+    { at: 21, msg: "완전히 자리 잡았네요. 대단해요 👑" }
+  ];
+
+  var STORE_KEY = "sb-salad-habit-v1";
+  var MONTH_GOAL = 20;
+
+  /* ---------- 저장소 (브라우저가 막아둔 경우에도 동작) ---------- */
+  var records = {};          /* { "2026-08-26": "시그니처 샐러드" } */
+  var storageOK = true;
+
+  function load() {
+    try {
+      var raw = window.localStorage.getItem(STORE_KEY);
+      records = raw ? JSON.parse(raw) : {};
+      if (!records || typeof records !== "object") { records = {}; }
+    } catch (e) {
+      records = {};
+      storageOK = false;
+    }
+  }
+  function save() {
+    if (!storageOK) { return; }
+    try {
+      window.localStorage.setItem(STORE_KEY, JSON.stringify(records));
+    } catch (e) {
+      storageOK = false;
+    }
+  }
+
+  /* ---------- 날짜 유틸 ---------- */
+  var today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  function key(d) {
+    var m = String(d.getMonth() + 1);
+    var day = String(d.getDate());
+    return d.getFullYear() + "-" + (m.length < 2 ? "0" + m : m) + "-" + (day.length < 2 ? "0" + day : day);
+  }
+  function addDays(d, n) {
+    var c = new Date(d.getTime());
+    c.setDate(c.getDate() + n);
+    return c;
+  }
+  function labelOf(d) {
+    return (d.getMonth() + 1) + "월 " + d.getDate() + "일";
+  }
+
+  var view = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  /* ---------- 통계 ---------- */
+  function streakOf() {
+    /* 오늘 기록이 있으면 오늘부터, 없으면 어제부터 거슬러 셈 */
+    var cursor = records[key(today)] ? today : addDays(today, -1);
+    var n = 0;
+    while (records[key(cursor)]) {
+      n += 1;
+      cursor = addDays(cursor, -1);
+    }
+    return n;
+  }
+  function monthCountOf(year, month) {
+    var prefix = year + "-" + String(month + 1).padStart(2, "0") + "-";
+    return Object.keys(records).filter(function (k) { return k.indexOf(prefix) === 0; }).length;
+  }
+  function cheerFor(n) {
+    var msg = CHEERS[0].msg;
+    CHEERS.forEach(function (c) { if (n >= c.at) { msg = c.msg; } });
+    return msg;
+  }
+  function flameFor(n) {
+    if (n >= 21) { return "👑"; }
+    if (n >= 14) { return "🏆"; }
+    if (n >= 7)  { return "💪"; }
+    if (n >= 3)  { return "🔥"; }
+    if (n >= 1)  { return "🙂"; }
+    return "🌱";
+  }
+
+  /* ---------- DOM ---------- */
+  var $ = function (id) { return document.getElementById(id); };
+  var cal = $("cal"), sheet = $("sheet"), sheetBody = $("sheetBody"),
+      sheetTitle = $("sheetTitle"), toastEl = $("toast");
+  var popKey = null;   /* 직전에 기록되어 애니메이션을 줄 날짜 */
+  var pendingDate = null;
+
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    window.clearTimeout(toast._t);
+    toast._t = window.setTimeout(function () { toastEl.classList.remove("show"); }, 2400);
+  }
+
+  function renderStats() {
+    var s = streakOf();
+    var mc = monthCountOf(today.getFullYear(), today.getMonth());
+    $("streak").textContent = s;
+    $("flame").textContent = flameFor(s);
+    $("monthCount").textContent = mc;
+    $("totalCount").textContent = Object.keys(records).length;
+    $("goalNow").textContent = mc;
+    var pct = Math.min(100, Math.round((mc / MONTH_GOAL) * 100));
+    $("goalFill").style.width = pct + "%";
+    $("goalBar").setAttribute("aria-valuenow", String(mc));
+    $("cheer").textContent = cheerFor(s);
+  }
+
+  function renderCalendar() {
+    var y = view.getFullYear(), m = view.getMonth();
+    $("calTitle").textContent = y + "년 " + (m + 1) + "월";
+    /* 미래 달은 볼 수 없게 */
+    $("nextM").disabled = (y > today.getFullYear()) ||
+                          (y === today.getFullYear() && m >= today.getMonth());
+
+    cal.textContent = "";
+    var first = new Date(y, m, 1).getDay();
+    var last = new Date(y, m + 1, 0).getDate();
+    var i;
+
+    for (i = 0; i < first; i += 1) {
+      var blank = document.createElement("div");
+      blank.className = "day empty";
+      cal.appendChild(blank);
+    }
+    for (i = 1; i <= last; i += 1) {
+      var d = new Date(y, m, i);
+      var k = key(d);
+      var done = !!records[k];
+      var future = d.getTime() > today.getTime();
+
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "day" + (done ? " done" : "") + (k === key(today) ? " today" : "") + (k === popKey ? " pop" : "");
+      btn.dataset.key = k;
+      btn.disabled = future;
+      btn.setAttribute("aria-label",
+        labelOf(d) + (done ? " — " + records[k] + " 기록됨" : future ? " — 아직 오지 않은 날" : " — 기록하기"));
+
+      var num = document.createElement("span");
+      num.textContent = String(i);
+      btn.appendChild(num);
+
+      var stamp = document.createElement("span");
+      stamp.className = "stamp";
+      stamp.textContent = done ? "🥗" : "";
+      stamp.setAttribute("aria-hidden", "true");
+      btn.appendChild(stamp);
+
+      cal.appendChild(btn);
+    }
+    popKey = null;
+  }
+
+  function render() {
+    renderStats();
+    renderCalendar();
+  }
+
+  /* ---------- 추천 시트 ---------- */
+  function pickMenu(exclude) {
+    var pool = MENUS.filter(function (m) { return m.name !== exclude; });
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  function openSuggestion(dateKey, menu) {
+    pendingDate = dateKey;
+    var picked = menu || pickMenu(null);
+    var isToday = dateKey === key(today);
+    sheetTitle.textContent = isToday ? "오늘의 추천" : dateKey.slice(5).replace("-", "월 ") + "일의 추천";
+
+    sheetBody.textContent = "";
+    var box = document.createElement("div");
+    box.className = "pick";
+    box.innerHTML =
+      '<div class="emo" aria-hidden="true">' + picked.emo + '</div>' +
+      '<div>' +
+        '<h4>' + picked.name + '</h4>' +
+        '<p class="desc">' + picked.desc + '</p>' +
+        '<div class="chips">' +
+          (picked.sig ? '<span class="chip sig">⭐ 시그니처</span>' : '') +
+          '<span class="chip">' + picked.kcal + ' kcal</span>' +
+          '<span class="chip">단백질 ' + picked.protein + 'g</span>' +
+          '<span class="chip">⏱️ ' + picked.min + '분</span>' +
+        '</div>' +
+      '</div>';
+    sheetBody.appendChild(box);
+
+    var cta = document.createElement("div");
+    cta.className = "sheet-cta";
+
+    var again = document.createElement("button");
+    again.type = "button";
+    again.className = "btn btn-ghost";
+    again.textContent = "🔄 다른 메뉴 볼래요";
+    again.addEventListener("click", function () { openSuggestion(dateKey, pickMenu(picked.name)); });
+
+    var ok = document.createElement("button");
+    ok.type = "button";
+    ok.className = "btn btn-primary";
+    ok.textContent = "✅ 이걸로 먹고 기록하기";
+    ok.addEventListener("click", function () { commit(dateKey, picked.name); });
+
+    cta.appendChild(again);
+    cta.appendChild(ok);
+    sheetBody.appendChild(cta);
+
+    showSheet();
+  }
+
+  function openRecorded(dateKey) {
+    pendingDate = dateKey;
+    sheetTitle.textContent = "이미 기록한 날";
+    sheetBody.textContent = "";
+
+    var note = document.createElement("div");
+    note.className = "done-note";
+    note.innerHTML =
+      '<div class="big" aria-hidden="true">🥗</div>' +
+      '<p style="margin-top:8px;font-weight:800;color:var(--sb-green);font-size:1.1rem;">' +
+        dateKey.slice(5).replace("-", "월 ") + "일 · " + records[dateKey] +
+      '</p>' +
+      '<p style="margin-top:4px;color:var(--sb-text-muted);font-size:.9rem;">이 날의 기록이 연속 일수에 반영되고 있어요.</p>';
+    sheetBody.appendChild(note);
+
+    var cta = document.createElement("div");
+    cta.className = "sheet-cta";
+
+    var undo = document.createElement("button");
+    undo.type = "button";
+    undo.className = "btn btn-ghost";
+    undo.textContent = "기록 취소하기";
+    undo.addEventListener("click", function () {
+      delete records[dateKey];
+      save();
+      render();
+      closeSheet();
+      toast("기록을 취소했어요.");
     });
-  </script>
+
+    var keep = document.createElement("button");
+    keep.type = "button";
+    keep.className = "btn btn-primary";
+    keep.textContent = "그대로 둘게요";
+    keep.addEventListener("click", closeSheet);
+
+    cta.appendChild(undo);
+    cta.appendChild(keep);
+    sheetBody.appendChild(cta);
+
+    showSheet();
+  }
+
+  function commit(dateKey, menuName) {
+    records[dateKey] = menuName;
+    save();
+    popKey = dateKey;
+    render();
+    closeSheet();
+    var s = streakOf();
+    toast("🥗 " + menuName + " 기록 완료! " + (s > 1 ? s + "일 연속이에요" : "오늘도 잘 챙겼어요"));
+    if (!storageOK) {
+      window.setTimeout(function () {
+        toast("이 브라우저는 저장이 막혀 있어 새로고침하면 기록이 사라져요.");
+      }, 2600);
+    }
+  }
+
+  function showSheet() {
+    sheet.classList.add("show");
+    sheet.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  function closeSheet() {
+    sheet.classList.remove("show");
+    pendingDate = null;
+  }
+
+  /* ---------- 이벤트 ---------- */
+  cal.addEventListener("click", function (e) {
+    var btn = e.target.closest(".day");
+    if (!btn || btn.classList.contains("empty") || btn.disabled) { return; }
+    var k = btn.dataset.key;
+    if (records[k]) { openRecorded(k); } else { openSuggestion(k, null); }
+  });
+
+  $("prevM").addEventListener("click", function () {
+    view = new Date(view.getFullYear(), view.getMonth() - 1, 1);
+    renderCalendar();
+  });
+  $("nextM").addEventListener("click", function () {
+    view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
+    renderCalendar();
+  });
+
+  $("solveBtn").addEventListener("click", function () {
+    var k = key(today);
+    /* 오늘이 보이도록 이번 달로 되돌린 뒤 추천 열기 */
+    view = new Date(today.getFullYear(), today.getMonth(), 1);
+    renderCalendar();
+    if (records[k]) { openRecorded(k); } else { openSuggestion(k, null); }
+  });
+
+  $("closeSheet").addEventListener("click", closeSheet);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && sheet.classList.contains("show")) { closeSheet(); }
+  });
+
+  $("year").textContent = String(today.getFullYear());
+
+  load();
+  render();
+}());
+</script>
 </body>
 </html>
