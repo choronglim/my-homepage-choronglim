@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>임초롱의 홈페이지</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f7f7f5;
+      --fg: #1a1a1a;
+      --muted: #6b6b6b;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #17181a;
+        --fg: #f2f2f0;
+        --muted: #9a9a98;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1.5rem;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.6rem, 5vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    #today {
+      margin: 0;
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <h1>안녕하세요, 임초롱입니다</h1>
+  <p id="today"></p>
+
+  <script>
+    const today = new Date();
+    document.getElementById("today").textContent = today.toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      weekday: "long"
+    });
+  </script>
+</body>
+</html>
