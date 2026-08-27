@@ -184,39 +184,54 @@
   .sec-head p { margin-top: var(--sp-2); color: var(--sb-text-muted); }
 
   /* ---------- 대표 제품 ---------- */
-  .product { display: grid; grid-template-columns: .95fr 1.05fr; gap: var(--sp-5); align-items: center; }
-  .product-visual {
-    background: var(--sb-light-green); border-radius: var(--radius-l);
-    padding: var(--sp-5) var(--sp-3); text-align: center; position: relative;
+  .sig-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); }
+  .sig-card {
+    background: var(--sb-white); border: 1px solid var(--sb-line); border-radius: var(--radius-l);
+    padding: var(--sp-4) var(--sp-3) var(--sp-3); text-align: center; position: relative;
+    display: flex; flex-direction: column;
+    transition: transform .35s var(--bounce), box-shadow .25s ease, border-color .25s ease;
   }
-  .product-visual .ring {
-    width: 210px; height: 210px; margin: 0 auto;
+  .sig-card:hover {
+    transform: translateY(-8px) rotate(-1deg);
+    box-shadow: var(--shadow-card); border-color: var(--sb-green);
+  }
+  .sig-card h3 { margin-top: var(--sp-2); font-size: 1.28rem; font-weight: 800; color: var(--sb-green); }
+  .sig-desc { margin-top: 8px; font-size: .87rem; color: var(--sb-text-muted); }
+  .sig-card .nutri { margin-top: auto; padding-top: var(--sp-3); }
+  .sig-for {
+    margin-top: var(--sp-2); background: var(--tint-yellow); color: #000;
+    border-radius: 999px; padding: 8px 14px; font-size: .84rem; font-weight: 700;
+  }
+  .sig-card .ring {
+    width: 128px; height: 128px; margin: 0 auto;
     border-radius: 58% 42% 55% 45% / 48% 52% 48% 52%;   /* 말랑한 블롭 모양 */
-    background: var(--sb-white); display: grid; place-items: center;
-    box-shadow: var(--shadow-card); font-size: 4.6rem; line-height: 1;
+    display: grid; place-items: center;
+    background: var(--sb-light-green);
+    box-shadow: none; font-size: 3.4rem; line-height: 1;
     animation: float 6s ease-in-out infinite;
   }
+  .sig-card:nth-child(2) .ring { animation-delay: .9s; }
+  .sig-card:nth-child(3) .ring { animation-delay: 1.8s; }
   .best {
     position: absolute; top: 20px; left: 20px; background: var(--sb-green); color: #fff;
     font-size: .78rem; font-weight: 700; padding: 6px 14px; border-radius: 999px;
   }
-  .product h3 { font-size: 1.65rem; font-weight: 800; color: var(--sb-green); }
-  .product .why {
+  .why {
     margin-top: var(--sp-3); padding: var(--sp-3);
     background: var(--sb-white); border: 1px solid var(--sb-line);
     border-left: 4px solid var(--sb-yellow); border-radius: var(--radius-s);
     color: var(--sb-text);
   }
-  .nutri { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2); margin-top: var(--sp-3); }
+  .nutri { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: var(--sp-3); }
   .nutri div {
     background: var(--sb-light-green); border-radius: var(--radius-s);
     padding: var(--sp-2); text-align: center;
     transition: transform .32s var(--bounce);
   }
   .nutri div:hover { transform: translateY(-5px) scale(1.05); }
-  .nutri b { display: block; font-size: 1.25rem; color: var(--sb-green); }
-  .nutri small { color: var(--sb-text-muted); font-size: .8rem; }
-  @media (max-width: 860px) { .product { grid-template-columns: 1fr; } }
+  .nutri b { display: block; font-size: 1.15rem; color: var(--sb-green); }
+  .nutri small { color: var(--sb-text-muted); font-size: .76rem; }
+  @media (max-width: 900px) { .sig-grid { grid-template-columns: 1fr; } }
 
   /* =========================================================
      주인공 — 샐러드 습관 캘린더 + 점심 고민 해결 버튼
@@ -409,7 +424,7 @@
       </p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#habit">🗓️ 내 샐러드 습관 시작하기</a>
-        <a class="btn btn-ghost" href="#product">대표 제품 보기</a>
+        <a class="btn btn-ghost" href="#product">시그니처 3종 보기</a>
       </div>
       <div class="hero-tags">
         <span class="tag">⏱️ 점심시간 10분 완성</span>
@@ -435,36 +450,59 @@
 <section id="product">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="sec-label">SIGNATURE</span>
-      <h2>가장 먼저 보여드리고 싶은 한 그릇</h2>
-      <p>처음 오신 분께 늘 권하는, 스윗밸런스의 기준이 되는 샐러드입니다.</p>
+      <span class="sec-label">SIGNATURE 3</span>
+      <h2>가장 먼저 보여드리고 싶은 세 그릇</h2>
+      <p>처음 오신 분께 늘 권하는, 스윗밸런스의 기준이 되는 시그니처 샐러드 3종입니다.</p>
     </div>
-    <div class="product reveal">
-      <div class="product-visual">
+
+    <div class="sig-grid reveal">
+      <article class="sig-card">
         <span class="best">BEST 1</span>
         <div class="ring" aria-hidden="true">🥗</div>
-      </div>
-      <div>
-        <h3>시그니처 샐러드</h3>
-        <p style="margin-top:8px;color:var(--sb-text-muted);">
-          그린 리프 4종 · 그릴 치킨 · 아보카도 · 방울토마토 · 옥수수 · 리코타치즈
-          <br />+ 스윗밸런스 하우스 드레싱
-        </p>
+        <h3>시그니처 그린</h3>
+        <p class="sig-desc">그린 리프 4종 · 그릴 치킨 · 아보카도 · 방울토마토 · 리코타치즈<br />+ 하우스 드레싱</p>
         <div class="nutri">
           <div><b>380</b><small>kcal</small></div>
           <div><b>24g</b><small>단백질</small></div>
           <div><b>9g</b><small>식이섬유</small></div>
         </div>
-        <div class="why">
-          <b>왜 이 제품을 앞에 두었나요?</b><br />
-          바쁜 직장인에게는 <b>더 고민할 필요가 없는 기본값</b>이 되고,
-          다이어터에게는 <b>숫자로 확인되는 안심</b>이 되기 때문입니다.
-          한 그릇으로 브랜드가 무엇을 지향하는지 가장 정확하게 보여주는 메뉴예요.
+        <p class="sig-for">🙂 처음이라 뭘 골라야 할지 모르겠을 때</p>
+      </article>
+
+      <article class="sig-card">
+        <div class="ring" aria-hidden="true">🍗</div>
+        <h3>시그니처 프로틴</h3>
+        <p class="sig-desc">닭가슴살 2배 · 병아리콩 · 계란 · 로메인 · 파프리카<br />+ 홀그레인 머스터드</p>
+        <div class="nutri">
+          <div><b>450</b><small>kcal</small></div>
+          <div><b>34g</b><small>단백질</small></div>
+          <div><b>7g</b><small>식이섬유</small></div>
         </div>
-        <div class="hero-cta" style="margin-top:var(--sp-3);">
-          <a class="btn btn-primary" href="#habit">이 메뉴로 습관 시작하기</a>
+        <p class="sig-for">💪 운동한 날 단백질이 필요할 때</p>
+      </article>
+
+      <article class="sig-card">
+        <div class="ring" aria-hidden="true">🥑</div>
+        <h3>시그니처 곡물</h3>
+        <p class="sig-desc">퀴노아 · 현미 · 아보카도 · 옥수수 · 병아리콩<br />+ 발사믹 드레싱</p>
+        <div class="nutri">
+          <div><b>420</b><small>kcal</small></div>
+          <div><b>16g</b><small>단백질</small></div>
+          <div><b>11g</b><small>식이섬유</small></div>
         </div>
-      </div>
+        <p class="sig-for">🌾 오후 간식 생각을 줄이고 싶을 때</p>
+      </article>
+    </div>
+
+    <div class="why reveal">
+      <b>왜 이 세 가지를 앞에 두었나요?</b><br />
+      바쁜 직장인에게는 <b>세 개 중에 하나만 고르면 되는 단순함</b>이 되고,
+      다이어터에게는 <b>그날 컨디션에 맞춰 고를 수 있는 선택지</b>가 되기 때문입니다.
+      기본 · 단백질 · 포만감 — 가장 자주 필요한 세 가지 상황을 하나씩 맡고 있어요.
+    </div>
+
+    <div class="hero-cta reveal" style="margin-top:var(--sp-3);justify-content:center;">
+      <a class="btn btn-primary" href="#habit">이 메뉴로 습관 시작하기</a>
     </div>
   </div>
 </section>
@@ -596,13 +634,13 @@
 (function () {
   "use strict";
 
-  /* ---------- 메뉴 데이터 (시그니처 샐러드가 중심) ---------- */
+  /* ---------- 메뉴 데이터 (앞의 3종이 시그니처 샐러드) ---------- */
   var MENUS = [
-    { emo: "🥗", name: "시그니처 샐러드",     kcal: 380, protein: 24, min: 0, sig: true,
+    { emo: "🥗", name: "시그니처 그린",       kcal: 380, protein: 24, min: 0, sig: true,
       desc: "고민될 땐 결국 여기로 돌아옵니다. 스윗밸런스의 기준이 되는 한 그릇." },
-    { emo: "🍗", name: "그릴 치킨 프로틴 볼", kcal: 450, protein: 34, min: 0,
+    { emo: "🍗", name: "시그니처 프로틴",     kcal: 450, protein: 34, min: 0, sig: true,
       desc: "운동한 날, 단백질이 확실히 필요한 날의 선택." },
-    { emo: "🥑", name: "아보카도 곡물 샐러드", kcal: 420, protein: 16, min: 0,
+    { emo: "🥑", name: "시그니처 곡물",       kcal: 420, protein: 16, min: 0, sig: true,
       desc: "포만감이 오래가서 오후 간식 생각이 덜 나는 구성." },
     { emo: "🍜", name: "닭가슴살 온샐러드",   kcal: 390, protein: 28, min: 0,
       desc: "찬 게 부담스러운 날, 따뜻하게 먹는 샐러드." },
@@ -631,7 +669,7 @@
   var MONTH_GOAL = 20;
 
   /* ---------- 저장소 (브라우저가 막아둔 경우에도 동작) ---------- */
-  var records = {};          /* { "2026-08-26": "시그니처 샐러드" } */
+  var records = {};          /* { "2026-08-26": "시그니처 그린" } */
   var storageOK = true;
 
   function load() {
