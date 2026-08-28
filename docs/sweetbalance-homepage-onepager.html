@@ -4,265 +4,244 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>스윗밸런스 자사몰 홈페이지 — 제작 원페이저</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Chewy&display=swap" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet" />
 <style>
-  /* Sweet Balance Design System 준수 */
-  :root {
-    --sb-green:#00614E; --sb-yellow:#F8CF77; --sb-blue:#50AADC;
-    --sb-light-green:#D3EAE4; --sb-white:#FFFFFF; --sb-text:#212121; --sb-muted:#5C6B66;
-    --sp-1:8px; --sp-2:16px; --sp-3:24px; --sp-4:32px; --sp-5:48px;
-    --r-s:10px; --r-m:16px; --r-l:24px;
-    --shadow:0 2px 4px rgba(0,97,78,.05), 0 10px 26px rgba(0,97,78,.08);
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0; background:var(--sb-light-green); color:var(--sb-text);
-    font-family:"맑은 고딕","Malgun Gothic","Pretendard","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
-    line-height:1.7; word-break:keep-all; -webkit-font-smoothing:antialiased;
-    padding:var(--sp-4) var(--sp-2);
-  }
-  .sheet{max-width:940px;margin:0 auto;background:var(--sb-white);border-radius:var(--r-l);overflow:hidden;box-shadow:var(--shadow);}
-  h1,h2,h3,h4{margin:0;letter-spacing:-.02em;line-height:1.35;}
-  p{margin:0;}
-
-  /* 헤더 — Primary Green 배경이므로 흰색 워드마크 */
-  .head{background:var(--sb-green);color:var(--sb-white);padding:var(--sp-5) var(--sp-5) var(--sp-4);}
-  .mark{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.03em;margin-bottom:var(--sp-3);}
-  .mark .leaf{width:28px;height:28px;border-radius:50% 12% 50% 12%;background:var(--sb-white);transform:rotate(-8deg);}
-  .mark .txt{font-size:1.1rem;color:var(--sb-white);}
-  .mark .txt small{display:block;font-size:.55rem;font-weight:600;letter-spacing:.22em;color:rgba(255,255,255,.72);}
-  .head h1{font-size:clamp(1.5rem,3.6vw,2.15rem);font-weight:800;}
-  .head .sub{margin-top:var(--sp-2);color:rgba(255,255,255,.88);max-width:46em;}
-  .meta{display:flex;flex-wrap:wrap;gap:var(--sp-1);margin-top:var(--sp-3);}
-  .meta span{background:rgba(255,255,255,.14);border-radius:999px;padding:5px 14px;font-size:.82rem;font-weight:600;}
-
-  .body{padding:var(--sp-5);}
-  section+section{margin-top:var(--sp-5);}
-  .label{display:inline-block;background:var(--sb-light-green);color:var(--sb-green);font-weight:700;
-         font-size:.78rem;letter-spacing:.1em;padding:5px 13px;border-radius:999px;margin-bottom:var(--sp-2);}
-  h2{font-size:1.35rem;font-weight:800;color:var(--sb-green);}
-  h2+p.note{margin-top:6px;color:var(--sb-muted);font-size:.93rem;}
-
-  /* 화면 구성 */
-  .screens{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-2);margin-top:var(--sp-3);}
-  .screen{border:1px solid var(--sb-light-green);border-radius:var(--r-m);padding:var(--sp-3);position:relative;}
-  .screen.star{border-color:var(--sb-yellow);border-width:2px;background:#FFFCF4;}
-  .screen .n{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;
-             background:var(--sb-green);color:#fff;font-size:.85rem;font-weight:800;}
-  .screen.star .n{background:var(--sb-yellow);color:#000;}
-  .screen h4{margin-top:10px;font-size:1.05rem;color:var(--sb-green);}
-  .screen p{margin-top:6px;font-size:.9rem;color:var(--sb-text);}
-  .pin{position:absolute;top:14px;right:14px;background:var(--sb-yellow);color:#000;
-       font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:999px;}
-
-  /* 주인공 기능 흐름 */
-  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-1);margin-top:var(--sp-3);}
-  .step{background:var(--sb-light-green);border-radius:var(--r-m);padding:var(--sp-2);text-align:center;position:relative;}
-  .step .ic{font-size:1.7rem;line-height:1.2;}
-  .step b{display:block;margin-top:4px;font-size:.88rem;color:var(--sb-green);}
-  .step small{display:block;margin-top:2px;font-size:.76rem;color:var(--sb-muted);}
-  .step:not(:last-child)::after{content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);
-       color:var(--sb-green);font-weight:800;z-index:1;}
-  .feats{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp-1);margin-top:var(--sp-3);}
-  .feat{display:flex;gap:10px;background:var(--sb-white);border:1px solid var(--sb-light-green);
-        border-radius:var(--r-s);padding:12px 14px;font-size:.88rem;}
-  .feat b{color:var(--sb-green);}
-
-  /* 표 — 헤더 Primary Green + 흰색 Bold, 데이터 행 흰 배경 */
-  table{width:100%;border-collapse:collapse;margin-top:var(--sp-3);font-size:.9rem;}
-  th{background:var(--sb-green);color:var(--sb-white);font-weight:700;text-align:left;padding:11px 14px;}
-  th:first-child{border-radius:var(--r-s) 0 0 0;} th:last-child{border-radius:0 var(--r-s) 0 0;}
-  td{background:var(--sb-white);padding:11px 14px;border-bottom:1px solid var(--sb-light-green);vertical-align:top;}
-  td:first-child{font-weight:700;color:var(--sb-green);white-space:nowrap;}
-  td .ans{display:inline-block;background:var(--sb-yellow);color:#000;font-weight:700;
-          padding:2px 9px;border-radius:6px;}
-
-  /* 컬러칩 */
-  .chips{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-3);}
-  .chipbox{text-align:center;font-size:.78rem;}
-  .chipbox .sw{width:74px;height:52px;border-radius:var(--r-s);border:1px solid rgba(0,0,0,.06);}
-  .chipbox b{display:block;margin-top:6px;color:var(--sb-text);}
-  .chipbox small{color:var(--sb-muted);}
-
-  .files{margin-top:var(--sp-3);}
-  .file{display:flex;gap:var(--sp-2);align-items:flex-start;background:var(--sb-light-green);
-        border-radius:var(--r-s);padding:13px 16px;font-size:.9rem;}
-  .file+.file{margin-top:8px;}
-  .file code{background:var(--sb-white);color:var(--sb-green);font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap;}
-
-  .foot{background:var(--sb-green);color:rgba(255,255,255,.75);padding:var(--sp-3) var(--sp-5);font-size:.82rem;}
-
-  @media (max-width:760px){
-    .head,.body{padding:var(--sp-3);}
-    .screens,.feats{grid-template-columns:1fr;}
-    .flow{grid-template-columns:1fr 1fr;gap:var(--sp-2);}
-    .step:not(:last-child)::after{display:none;}
-  }
-  @media print{ body{background:#fff;padding:0;} .sheet{box-shadow:none;} }
+/* SweetBalance Brand Design System Manual (v2025.07.25) 준수 */
+:root{
+  --vital:#00614E; --harmony:#007C5E; --sw:#FDFFE6; --seed:#84BA45;
+  --ink:#1B2A24; --charcoal:#3A4742; --slate:#6B7571; --mist:#C8CEC9;
+  --paper:#F6F4E8; --white:#FFFFFF;
+  --border:rgba(0,97,78,.18); --divider:rgba(0,97,78,.09);
+  --seed-tint:rgba(132,186,69,.12); --green-tint:rgba(0,97,78,.06);
+  --en:'Montserrat',sans-serif; --ui:'Montserrat','Pretendard','Apple SD Gothic Neo',sans-serif;
+  --display-en:'Chewy','Montserrat',cursive;
+  --display-kr:'SamlipHopangche','Pretendard','Apple SD Gothic Neo',sans-serif;
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:20px;--s6:24px;--s8:32px;--s10:40px;--s12:48px;--s16:64px;
+  --r-sm:8px;--r-md:14px;--r-lg:20px;--r-xl:28px;--r-2xl:36px;--r-pill:999px;
+  --sh-sm:0 2px 6px rgba(27,42,36,.08); --sh-md:0 8px 24px rgba(27,42,36,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--sw);color:var(--charcoal);font-family:var(--ui);font-size:16px;line-height:1.7;
+     word-break:keep-all;-webkit-font-smoothing:antialiased;padding:var(--s8) var(--s4)}
+h1,h2,h3,h4{color:var(--ink);line-height:1.2;letter-spacing:-.02em}
+.sheet{max-width:960px;margin:0 auto;background:var(--white);border-radius:var(--r-2xl);
+       overflow:hidden;box-shadow:var(--sh-md);border:1px solid var(--border)}
+.head{background:var(--vital);color:rgba(253,255,230,.85);padding:var(--s16) var(--s12) var(--s12)}
+.head img{height:30px;margin-bottom:var(--s6);filter:brightness(0) invert(1) sepia(1) saturate(.35) hue-rotate(10deg)}
+.head h1{font-family:var(--display-kr);font-size:clamp(28px,5vw,44px);color:var(--sw)}
+.head .tag{font-family:var(--display-en);font-size:22px;color:var(--seed);margin-top:var(--s2)}
+.head p{margin-top:var(--s4);max-width:46em}
+.meta{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s6)}
+.meta span{background:rgba(253,255,230,.14);border-radius:var(--r-pill);padding:5px 14px;
+           font-family:var(--en);font-size:12px;font-weight:600;letter-spacing:.04em}
+.body{padding:var(--s12)}
+section+section{margin-top:var(--s12)}
+.eyebrow{font-family:var(--en);font-size:12px;font-weight:700;letter-spacing:.16em;
+         text-transform:uppercase;color:var(--vital)}
+h2{font-size:24px;margin:var(--s2) 0 var(--s3)}
+.note{color:var(--slate);font-size:15px;margin-bottom:var(--s5)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--s5);position:relative}
+.card.star{border-color:var(--seed);border-width:2px;background:#FCFDF6}
+.card .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:var(--r-pill);
+         background:var(--vital);color:var(--sw);font-family:var(--en);font-size:13px;font-weight:700}
+.card.star .n{background:var(--seed);color:var(--white)}
+.card h4{margin-top:var(--s3);font-size:17px;color:var(--vital)}
+.card p{margin-top:var(--s2);font-size:14px}
+.pin{position:absolute;top:14px;right:14px;background:var(--seed);color:var(--white);
+     font-family:var(--en);font-size:10px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:var(--r-pill)}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s2);margin-top:var(--s4)}
+.step{background:var(--paper);border-radius:var(--r-md);padding:var(--s4) var(--s3);text-align:center;position:relative}
+.step b{display:block;margin-top:6px;font-size:14px;color:var(--vital)}
+.step small{display:block;margin-top:2px;font-size:12px;color:var(--slate)}
+.step:not(:last-child)::after{content:"";position:absolute;right:-9px;top:50%;width:10px;height:2px;
+     background:var(--vital);opacity:.4}
+.menus{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s3);margin-top:var(--s4)}
+.menu{text-align:center;background:var(--paper);border-radius:var(--r-md);padding:var(--s4) var(--s2)}
+.menu svg{width:62px;height:62px}
+.menu b{display:block;margin-top:4px;font-size:13px;color:var(--ink)}
+.menu small{font-family:var(--en);font-size:11px;color:var(--slate)}
+table{width:100%;border-collapse:collapse;margin-top:var(--s4);font-size:14px}
+th{background:var(--vital);color:var(--sw);text-align:left;padding:11px 14px;font-weight:700}
+th:first-child{border-radius:var(--r-sm) 0 0 0}th:last-child{border-radius:0 var(--r-sm) 0 0}
+td{background:var(--white);padding:11px 14px;border-bottom:1px solid var(--divider);vertical-align:top}
+td:first-child{font-weight:700;color:var(--vital);white-space:nowrap}
+.ans{display:inline-block;background:var(--seed-tint);color:var(--ink);font-weight:700;padding:2px 9px;border-radius:var(--r-sm)}
+.chips{display:flex;flex-wrap:wrap;gap:var(--s4);margin-top:var(--s4)}
+.chip{text-align:center;font-family:var(--en);font-size:11px}
+.chip .sw{width:76px;height:50px;border-radius:var(--r-md);border:1px solid rgba(0,0,0,.06)}
+.chip b{display:block;margin-top:6px;color:var(--ink)}
+.chip small{color:var(--slate);font-family:var(--ui)}
+.rule{margin-top:var(--s4);padding:var(--s4) var(--s5);background:var(--paper);border-radius:var(--r-md);
+      border-left:3px solid var(--seed);font-size:14px}
+.rule b{color:var(--vital)}
+.files{margin-top:var(--s4)}
+.file{display:flex;gap:var(--s4);align-items:flex-start;background:var(--paper);
+      border-radius:var(--r-md);padding:13px 16px;font-size:14px}
+.file+.file{margin-top:8px}
+.file code{background:var(--white);color:var(--vital);font-family:ui-monospace,Menlo,monospace;
+           font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap;font-size:12px}
+.foot{background:var(--vital);color:rgba(253,255,230,.7);padding:var(--s6) var(--s12);
+      font-family:var(--en);font-size:12px;display:flex;flex-wrap:wrap;gap:var(--s4);justify-content:space-between}
+@media(max-width:820px){
+  .head,.body,.foot{padding:var(--s6)}
+  .grid2,.grid3,.flow,.menus{grid-template-columns:1fr 1fr}
+  .step:not(:last-child)::after{display:none}
+}
+@media print{body{background:#fff;padding:0}.sheet{box-shadow:none}}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-m-green" viewBox="0 0 48 48"><path d="M8.5 17h31v10.4a10.1 10.1 0 0 1-10.1 10.1H18.6A10.1 10.1 0 0 1 8.5 27.4Z" fill="#CFC7E9"/><path d="M11.9 28.4c1.1 5.1 5.5 8.2 12.1 8.2s11-3.1 12.1-8.2c-2.7 3-6.9 4.5-12.1 4.5s-9.4-1.5-12.1-4.5Z" fill="#E4DFF5"/><ellipse cx="24" cy="17" rx="15.5" ry="5.4" fill="#F1EEFA"/><ellipse cx="24" cy="17.4" rx="12.8" ry="4.6" fill="#C4BAE2"/><ellipse cx="24" cy="15.2" rx="13.0" ry="6.6" fill="#2F6B39"/><path d="M0 0C-5.6 -3.6 -6.4 -11.8 0 -16.4 6.4 -11.8 5.6 -3.6 0 0Z" fill="#4E9A45" transform="translate(15.0 16.5) rotate(-36) scale(1.0)"/><path d="M0 0C-5.6 -3.6 -6.4 -11.8 0 -16.4 6.4 -11.8 5.6 -3.6 0 0Z" fill="#4E9A45" transform="translate(33.0 16.5) rotate(36) scale(0.95)"/><path d="M0 0C-5.6 -3.6 -6.4 -11.8 0 -16.4 6.4 -11.8 5.6 -3.6 0 0Z" fill="#7CBE55" transform="translate(24 16.5) rotate(-3) scale(1.15)"/><ellipse cx="15.0" cy="9.5" rx="4.2" ry="4.0" fill="#D2395E"/><ellipse cx="14.0" cy="8.5" rx="1.5" ry="1.3" fill="#EA6E8E"/><ellipse cx="33.0" cy="10.5" rx="3.6" ry="3.4" fill="#B12A4B"/><ellipse cx="24" cy="6.6" rx="3.0" ry="2.9" fill="#F4C63C"/><ellipse cx="29.5" cy="14.5" rx="2.6" ry="2.4" fill="#93B23F"/><ellipse cx="18.5" cy="13.5" rx="2.2" ry="2.1" fill="#93B23F"/><path d="M8.5 17a15.5 4.7 0 0 0 31 0Z" fill="#E4DEF4"/></symbol><symbol id="i-m-protein" viewBox="0 0 48 48"><path d="M8.5 17h31v10.4a10.1 10.1 0 0 1-10.1 10.1H18.6A10.1 10.1 0 0 1 8.5 27.4Z" fill="#CFC7E9"/><path d="M11.9 28.4c1.1 5.1 5.5 8.2 12.1 8.2s11-3.1 12.1-8.2c-2.7 3-6.9 4.5-12.1 4.5s-9.4-1.5-12.1-4.5Z" fill="#E4DFF5"/><ellipse cx="24" cy="17" rx="15.5" ry="5.4" fill="#F1EEFA"/><ellipse cx="24" cy="17.4" rx="12.8" ry="4.6" fill="#C4BAE2"/><ellipse cx="24" cy="15.2" rx="13.0" ry="6.6" fill="#2F6B39"/><path d="M0 0C-5.6 -3.6 -6.4 -11.8 0 -16.4 6.4 -11.8 5.6 -3.6 0 0Z" fill="#4E9A45" transform="translate(12.8 16.5) rotate(-44) scale(0.9)"/><path d="M0 0C-5.6 -3.6 -6.4 -11.8 0 -16.4 6.4 -11.8 5.6 -3.6 0 0Z" fill="#4E9A45" transform="translate(35.2 16.5) rotate(44) scale(0.85)"/><rect x="12.5" y="4.5" width="10.5" height="15" rx="5.2" fill="#F6EBD2" transform="rotate(-11 17.7 12)"/><path d="M14.6 8.6h6M14 12.6h6.6M14.6 16.4h5.6" stroke="#E5D3AA" stroke-width="1.5" stroke-linecap="round" transform="rotate(-11 17.7 12)"/><rect x="24.5" y="7" width="10" height="13" rx="5" fill="#F6EBD2" transform="rotate(10 29.5 13.5)"/><path d="M26.6 11h5.8M26.2 14.6h6" stroke="#E5D3AA" stroke-width="1.5" stroke-linecap="round" transform="rotate(10 29.5 13.5)"/><ellipse cx="24" cy="6.2" rx="4.4" ry="4.2" fill="#FCF8EF"/><ellipse cx="24" cy="6.2" rx="2.2" ry="2.1" fill="#F4C63C"/><ellipse cx="31.5" cy="17.0" rx="2.3" ry="2.2" fill="#D2395E"/><path d="M8.5 17a15.5 4.7 0 0 0 31 0Z" fill="#E4DEF4"/></symbol><symbol id="i-m-grain" viewBox="0 0 48 48"><path d="M8.5 17h31v10.4a10.1 10.1 0 0 1-10.1 10.1H18.6A10.1 10.1 0 0 1 8.5 27.4Z" fill="#CFC7E9"/><path d="M11.9 28.4c1.1 5.1 5.5 8.2 12.1 8.2s11-3.1 12.1-8.2c-2.7 3-6.9 4.5-12.1 4.5s-9.4-1.5-12.1-4.5Z" fill="#E4DFF5"/><ellipse cx="24" cy="17" rx="15.5" ry="5.4" fill="#F1EEFA"/><ellipse cx="24" cy="17.4" rx="12.8" ry="4.6" fill="#C4BAE2"/><ellipse cx="24" cy="15.2" rx="13.0" ry="6.6" fill="#B87C43"/><ellipse cx="15.2" cy="13.6" rx="2.1" ry="1.8" fill="#E5D3AA" transform="rotate(-25 15.2 13.6)"/><ellipse cx="19.6" cy="10.6" rx="2.1" ry="1.8" fill="#E5D3AA" transform="rotate(10 19.6 10.6)"/><ellipse cx="24.2" cy="12.8" rx="2.1" ry="1.8" fill="#E5D3AA" transform="rotate(-15 24.2 12.8)"/><ellipse cx="28.8" cy="10.2" rx="2.1" ry="1.8" fill="#E5D3AA" transform="rotate(20 28.8 10.2)"/><ellipse cx="32.6" cy="13.6" rx="2.1" ry="1.8" fill="#E5D3AA" transform="rotate(-10 32.6 13.6)"/><ellipse cx="24" cy="16.4" rx="2.1" ry="1.8" fill="#E5D3AA" transform="rotate(5 24 16.4)"/><ellipse cx="19.4" cy="15.6" rx="2.1" ry="1.8" fill="#E5D3AA" transform="rotate(-20 19.4 15.6)"/><ellipse cx="29.4" cy="15.8" rx="2.1" ry="1.8" fill="#E5D3AA" transform="rotate(15 29.4 15.8)"/><path d="M16.4 10.6c0-4.2 2.9-7.5 6.5-7.5 0 4.2-2.9 7.5-6.5 7.5Z" fill="#2F6B39"/><path d="M18.1 9.4c0-2.7 1.9-4.9 4.2-4.9 0 2.7-1.9 4.9-4.2 4.9Z" fill="#7CBE55"/><ellipse cx="31.5" cy="6.6" rx="3.0" ry="2.9" fill="#F4C63C"/><ellipse cx="13.2" cy="15.6" rx="2.2" ry="2.1" fill="#93B23F"/><path d="M8.5 17a15.5 4.7 0 0 0 31 0Z" fill="#E4DEF4"/></symbol><symbol id="i-m-warm" viewBox="0 0 48 48"><path d="M17.5 8c0 2.3333333333333335 2.6 2.3333333333333335 2.6 4.666666666666667 S17.5 1 17.5 -1.799999999999999" fill="none" stroke="#FFFFFF" stroke-opacity=".75" stroke-width="2.4" stroke-linecap="round"/><path d="M24 5.5c0 2.8333333333333335 2.6 2.8333333333333335 2.6 5.666666666666667 S24 -3.0 24 -6.399999999999999" fill="none" stroke="#FFFFFF" stroke-opacity=".75" stroke-width="2.4" stroke-linecap="round"/><path d="M30.5 8c0 2.3333333333333335 2.6 2.3333333333333335 2.6 4.666666666666667 S30.5 1 30.5 -1.799999999999999" fill="none" stroke="#FFFFFF" stroke-opacity=".75" stroke-width="2.4" stroke-linecap="round"/><path d="M8.5 17h31v10.4a10.1 10.1 0 0 1-10.1 10.1H18.6A10.1 10.1 0 0 1 8.5 27.4Z" fill="#CFC7E9"/><path d="M11.9 28.4c1.1 5.1 5.5 8.2 12.1 8.2s11-3.1 12.1-8.2c-2.7 3-6.9 4.5-12.1 4.5s-9.4-1.5-12.1-4.5Z" fill="#E4DFF5"/><ellipse cx="24" cy="17" rx="15.5" ry="5.4" fill="#F1EEFA"/><ellipse cx="24" cy="17.4" rx="12.8" ry="4.6" fill="#C4BAE2"/><ellipse cx="24" cy="15.2" rx="13.0" ry="6.6" fill="#2F6B39"/><path d="M0 0C-5.6 -3.6 -6.4 -11.8 0 -16.4 6.4 -11.8 5.6 -3.6 0 0Z" fill="#4E9A45" transform="translate(13.6 16.5) rotate(-42) scale(0.9)"/><path d="M0 0C-5.6 -3.6 -6.4 -11.8 0 -16.4 6.4 -11.8 5.6 -3.6 0 0Z" fill="#4E9A45" transform="translate(34.4 16.5) rotate(42) scale(0.85)"/><ellipse cx="19" cy="13.2" rx="6.4" ry="4.3" fill="#F6EBD2" transform="rotate(-12 19 13.2)"/><path d="M15.6 12h6.6M15.4 14.6h6.8" stroke="#E5D3AA" stroke-width="1.4" stroke-linecap="round" transform="rotate(-12 19 13.2)"/><ellipse cx="29.6" cy="13.6" rx="5.6" ry="3.9" fill="#F6EBD2" transform="rotate(10 29.6 13.6)"/><path d="M26.8 12.6h5.8" stroke="#E5D3AA" stroke-width="1.4" stroke-linecap="round" transform="rotate(10 29.6 13.6)"/><ellipse cx="24" cy="17.6" rx="2.6" ry="2.4" fill="#E8863B"/><ellipse cx="32" cy="17.8" rx="2.2" ry="2.1" fill="#E8863B"/><path d="M8.5 17a15.5 4.7 0 0 0 31 0Z" fill="#E4DEF4"/></symbol><symbol id="i-m-wrap" viewBox="0 0 48 48"><path d="M6.5 16.5h24a9.5 9.5 0 0 1 0 19h-24a9.5 9.5 0 0 1 0-19Z" fill="#F6EBD2"/><path d="M6.5 26a9.5 9.5 0 0 0 9.5 9.5h14.5a9.5 9.5 0 0 0 9.4-8.2c-1 4.6-5 7-9.4 7H16A9.5 9.5 0 0 1 6.5 26Z" fill="#E5D3AA"/><path d="M14 18v16M20.5 18v16" stroke="#E5D3AA" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="30.5" cy="26" rx="9.5" ry="9.5" fill="#F6EBD2"/><ellipse cx="30.5" cy="26" rx="7.2" ry="7.2" fill="#2F6B39"/><path d="M30.5 18.8a7.2 7.2 0 0 1 0 14.4Z" fill="#4E9A45"/><ellipse cx="30.5" cy="22.6" rx="2.4" ry="2.2" fill="#D2395E"/><ellipse cx="27.6" cy="28.6" rx="2.0" ry="1.9" fill="#F4C63C"/><ellipse cx="33.8" cy="28.4" rx="1.9" ry="1.8" fill="#E8863B"/><ellipse cx="30.6" cy="26.2" rx="1.5" ry="1.4" fill="#F6EBD2"/></symbol><symbol id="i-m-tofu" viewBox="0 0 48 48"><path d="M8.5 17h31v10.4a10.1 10.1 0 0 1-10.1 10.1H18.6A10.1 10.1 0 0 1 8.5 27.4Z" fill="#CFC7E9"/><path d="M11.9 28.4c1.1 5.1 5.5 8.2 12.1 8.2s11-3.1 12.1-8.2c-2.7 3-6.9 4.5-12.1 4.5s-9.4-1.5-12.1-4.5Z" fill="#E4DFF5"/><ellipse cx="24" cy="17" rx="15.5" ry="5.4" fill="#F1EEFA"/><ellipse cx="24" cy="17.4" rx="12.8" ry="4.6" fill="#C4BAE2"/><ellipse cx="24" cy="15.2" rx="13.0" ry="6.6" fill="#2F6B39"/><path d="M0 0C-5.6 -3.6 -6.4 -11.8 0 -16.4 6.4 -11.8 5.6 -3.6 0 0Z" fill="#4E9A45" transform="translate(12.6 16.5) rotate(-46) scale(0.88)"/><path d="M0 0C-5.6 -3.6 -6.4 -11.8 0 -16.4 6.4 -11.8 5.6 -3.6 0 0Z" fill="#4E9A45" transform="translate(35.4 16.5) rotate(46) scale(0.82)"/><rect x="13" y="5.5" width="11" height="11" rx="2.6" fill="#FCF8EF" transform="rotate(-8 18.5 11)"/><rect x="13" y="5.5" width="11" height="4" rx="2" fill="#F6EBD2" transform="rotate(-8 18.5 11)"/><rect x="24" y="8" width="9.5" height="9.5" rx="2.4" fill="#FCF8EF" transform="rotate(7 28.7 12.7)"/><rect x="24" y="8" width="9.5" height="3.5" rx="1.8" fill="#F6EBD2" transform="rotate(7 28.7 12.7)"/><ellipse cx="24" cy="5.5" rx="3.2" ry="3.0" fill="#D2395E"/><ellipse cx="31" cy="17.4" rx="2.3" ry="2.2" fill="#F4C63C"/><ellipse cx="17.2" cy="17.6" rx="2.1" ry="2.0" fill="#93B23F"/><path d="M8.5 17a15.5 4.7 0 0 0 31 0Z" fill="#E4DEF4"/></symbol><symbol id="i-m-soup" viewBox="0 0 48 48"><path d="M19 13c0 2.3333333333333335 2.6 2.3333333333333335 2.6 4.666666666666667 S19 6 19 3.200000000000001" fill="none" stroke="#FFFFFF" stroke-opacity=".75" stroke-width="2.4" stroke-linecap="round"/><path d="M29 13c0 2.3333333333333335 2.6 2.3333333333333335 2.6 4.666666666666667 S29 6 29 3.200000000000001" fill="none" stroke="#FFFFFF" stroke-opacity=".75" stroke-width="2.4" stroke-linecap="round"/><path d="M5.5 22h37v5A11.3 11.3 0 0 1 31.2 38.3H16.8A11.3 11.3 0 0 1 5.5 27Z" fill="#CFC7E9"/><path d="M9.4 28.4c2 5 7.3 8.1 14.6 8.1s12.6-3.1 14.6-8.1c-3.4 3.2-8.6 4.8-14.6 4.8S12.8 31.6 9.4 28.4Z" fill="#E4DFF5"/><ellipse cx="24" cy="22" rx="18.5" ry="7.0" fill="#F1EEFA"/><ellipse cx="24" cy="22.2" rx="15.4" ry="5.2" fill="#F0D9A6"/><ellipse cx="18.5" cy="20.6" rx="2.8" ry="2.0" fill="#4E9A45" transform="rotate(-15 18.5 20.6)"/><ellipse cx="28.5" cy="22.0" rx="2.6" ry="1.9" fill="#2F6B39" transform="rotate(12 28.5 22.0)"/><ellipse cx="23.5" cy="19.6" rx="2.2" ry="1.7" fill="#E8863B"/><ellipse cx="32" cy="20.2" rx="1.8" ry="1.4" fill="#E8863B" transform="rotate(-20 32 20.2)"/><ellipse cx="14.5" cy="22.2" rx="1.8" ry="1.4" fill="#93B23F"/><path d="M5.5 22a18.5 5.4 0 0 0 37 0Z" fill="#E4DEF4"/><path d="M4.5 39.5h39a2.1 2.1 0 0 1 0 4.2h-39a2.1 2.1 0 0 1 0-4.2Z" fill="#B9AFDD"/></symbol></defs></svg>
 <div class="sheet">
 
   <div class="head">
-    <span class="mark">
-      <span class="leaf" aria-hidden="true"></span>
-      <span class="txt">스윗밸런스<small>SWEET BALANCE</small></span>
-    </span>
-    <h1>스윗밸런스 자사몰 홈페이지</h1>
-    <p class="sub">
-      인터뷰 5문답에서 출발해, <b>메뉴 고르기와 습관 쌓기가 하나로 이어지는</b> 한 페이지 자사몰을 만들었습니다.
-      이 문서는 무엇을 어떻게 만들었는지 한 장으로 정리한 설명 자료입니다.
-    </p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAzwAAAFkCAYAAADltD5dAAAACXBIWXMAAC4jAAAuIwF4pT92AAAgAElEQVR4nO3d2XFbyfk34Neuf+FWcgSCIxAdgTARgI5AHCQgOoLBRDCcBDBQBCYiMBSByQgMRvCJt7iZ7+I0xCOKC5az9nmeKpQ0I/KgSWz96+Xtv/z5558BAACQo7+23QAAAIC6CDwAAEC2BB4AACBbAg8AAJAtgQcAAMiWwAMAAGRL4AEAALIl8AAAANkSeAAAgGwJPAAAQLYEHgAAIFsCDwAAkC2BBwAAyJbAAwAAZEvgAQAAsiXwAAAA2RJ4AACAbAk8AABAtgQeAAAgWwIPAACQLYEHAADIlsADAABkS+ABAACyJfAAAADZEngAAIBsCTwAAEC2BB4AACBbAg8AAJAtgQcAAMiWwAMAAGRL4AEAALIl8AAAANkSeAAAgGwJPAAAQLYEHgAAIFsCDwAAkC2BBwAAyJbAAwAAZEvgAQAAsiXwAAAA2RJ4AACAbAk8AABAtgQeAAAgWwIPAACQLYEHAADIlsADAABkS+ABAACyJfAAAADZEngAAIBsCTwAAEC2BB4AACBbAg8AAJAtgQcAAMiWwAMAAGRL4AEAALIl8AAAANkSeAAAgGwJPAAAQLYEHgAAIFsCDwAAkC2BBwAAyJbAAwAAZEvgAQAAsiXwAAAA2RJ4AACAbAk8AABAtgQeAAAgWwIPAACQLYEHAADIlsADAABkS+ABAACyJfAAAADZEngAAIBsCTwAAEC2BB4AACBbAg8AAJAtgQcAAMiWwAMAAGRL4AEAALIl8AAAANkSeAAAgGwJPAAAQLYEHgAAIFsCDwAAkC2BBwAAyJbAAwAAZEvgAQAAsiXwAAAA2RJ4AACAbAk8AABAtgQeAAAgWwIPAACQLYEHAADIlsADAABkS+ABAACyJfAAAADZEngAAIBsCTwAAEC2BB4AACBbAg8AAJAtgQcAAMiWwAMAAGRL4AEAALIl8AAAANkSeAAAgGwJPAAAQLYEHgAAIFsCDwAAkC2BBwAAyJbAAwAAZEvgAQAAsiXwAAAA2RJ4AACAbP1f2w0AaMtoNl2f8O1fI2IdEdfbxWpTRXuo1mg2PYuIqyO+9WtE3ETx2N5U2yr2deLrcx0RN9vF6rqa1gB99pc///yz7TYAtGI0m1bxBngfEZfbxWpZwbWyN5pNxxExPuJbvx4aPkaz6SQi/nPEfZV93i5WFydegyNU9Pq8jYjJdrH6WsG1gJ4ywwMcLXUod95GxFnpv9elvx/cWe2RNxFxNZpNr3Wq9nIREb8c842j2fQuinDZ5Kj9x9FsuhZoe+t9FLN8Fy23A2iRwAO8Ko3KT6IINLvbm1e+7btO7Wg2jShmQ27SbR3FkpNNlW1tyZuIOI+IZcvtyN27iPj3aDb9Z8Oh5yI8tn32MQQeGDSBB3hS2v9wEUVH/l1Fl30TER/S7VO6n9sows+y57NA46oulGbOJk/80ybdnrRdrNYn3u/jWbp9tDF7N4+IJgPPob8TOmY0m571/P0FOIHAA3yTOrwXEXEZ1YWc17xPt08p/FxZPhSTOGLZ12g2PXU/0Vkcseclzd59TvfdxLK+9w3cR9lrs5l039u2GwC0R+ChF9Jsw1EfWKeOeg/FaDadRxF02uzcvY+IP1Jb5gMOPpMjv+9NFL+/TQvP+48RMUkj6fYydcAJBSJecuPx7ZcjZ253NpksO2bgBB764iLSEqhDpdHn37eL1WWVDcpFWj61jOZmdPbxLh6Cz4XQerCL+L5oRFPepfs+phR09lKZ5Q9tt+NUo9n0SxSzeZaI9cNRM7c7qVjIucebPnPwKH1x6ojip9R5pmQ0m15F8UHYpbBT9i4i/jPAx+7UTvG4ikYc6bzF+6YZHyJinWYOyN+7aHbPHFRO4GFIdMSS0Wz6No02HzVr1oJfRrOpDtb+jg1Mfr/s600UxSMYhnePjiGAXhF4GJKmNzp3UgoN6+jf0ppBjCqn/Wqnuj3y+3KrRpb1c6UDcnu+8LJx2w2AYwk8MCClsNPX8Pc+8g89VfxsNpUXdMihOuO2GwDHEnhgWJbR37Cz8z4cAgldMG67AQD7EHhgIEaz6WVETNtuR0Wm6efJ0aTtBsCeulrsBOA7Ag99kfMSptql8zjmLTejavP0c/Ej5WMBIBF46Atr8U8zj/xOi38Tznt5jj08AJAIPJC5NAvysYG7+vLErW7TDEulTtpuAJAVA4YM3v+13QDYU99KKHfJvIZr3kdxEN11RKy3i9WzMwopcE3SrY7gdRFF5TkAfjRuuwHQNoGHzrNP42RVH7j6a0RcvRRyyraL1SaKqmrLVGhgHtUeePpxNJte7tuegbg4cuZrXHE7+N4mDN7QPDM8DJ7AQx9M2m5AX41m0/Oobu/OfURMtovV0RviUyi5HM2mu9mhqtp2HkpVl70LFbSqdFfRdW6imeWlUCbwMHj28NAHk7Yb0GOTKq91Stgp2y5W66i4bRVeq21mALpnU9F1llEMHEAjRrPpWVQ3sKT6I70l8NAHk4quc1vRdfqkqpG9X6sKOzvper9WdLlJRdeB2qQZzkkIPTSnyiXNlg3TW5a00WlpdKqqpTlDfLOuarZgWdF1HruKiF8quM670Wz61j4eui4F/bdpuWlbS40mYSZxKKoMPJsKrwWNEnjoussKr7Wu8FqdV2Gxh9tUeKBy28Xq62g2/RLVdL7OYmCP8ZCNZtM/227DKbaL1W4fW+NS8RCBJ3NpwPB9Vder63MAmmBJG501mk3fhtGpU4wruk7d67bXNV8f+J69GMNQ5YBhE+eqQW0EHrrsIqrbbBmhY32sTdsN2JNKRABRy4ChkEyvCTx0WZWjU3em4482brsBe3rbdgMAOuIyDBjCNwIPnZTWmFd5jsi6wmsNTd0zJ5Oar98bDtkFTpVmd6ocMNztOYPeEnjonPRmPa/4st6sj/e+ro54eqyr2jydw5KLcdsNAHrvKqqd3VlVeC1ohcBDF82j2jfre6NTJ7vqwXWVpAYGLVVm+1jxZX1+0nsCD50ymk0nEfGp4ssuK75eL2wXq3WFl5umZYaVGc2mF1HtB7PAAwzdsuoLbheryq8JTRN46Iy0vGlZw6U/jWbTebr+0FR5ovtvo9l0eervcTSbvh3NplcR8UdF7YqIbwc6AgzSaDadR4Xn7pSuu04zR9BbDh6lS5ZRbaGCsl8i4nI0m14ObLRqHRHTCq/3MSLOR7PpMiKWh4SM9IF5EdWXG4+IuK34en330zEzfKnD9EvlraET0l68cSjhnp20OqKu1+6HiPjvaDb9HBGX28XKbDq9I/DQCWm5VJUd86e8iYg/0lKqecVLvrpqHdX/Xt9Esezw02g2vYvinJ71C18/iaKDVXXIKXvp/ntju1itR7O6Xwa0aTSbnkfEv9tuB/lIQbaJfTa7Aa/5drGqa18n1ELgoXVpZOq3Bu/yQ0T8ZyCjVddR7+/2XbpVVWntWMuW7x/2ZXaFyqQlxtdR74BS2ZsoljdfRsTFQAYOyYA9PLQqLXNqqwLMx4jYpGU8WUqHrX5pux01u7N/hx4ReKjSMmrYt7OHd1EMHF47P4w+MMNDa9Kb5DqaG5l6ypuI+CUtc8t1tGoZ7c/A1GnedgM6aBKZLPPLUPbFU0az6Sbq249JkvZStr0GdhoRk1SI5irzFRP0mBkeWtHCNPxrdqNV69xGq1KRhlxnee4GVoSC/st6hifN2gs7NUthp+rzdo71JoqCCTdpjxp0jsBD41LYWUc70/Cv+RAR/8uwjHWlZ+h0yEXbDeionJ67uenKIE9ddHhr1rGwU/YuIv6tjDVdJPDQqPQmeBPdDDtlv0Sxv+ei7YZUIe1x+bXtdlTs90yXIFZRYltno4MG0gkcws/Ymg6HnbJdGeurzAYO6TGBh8akD/t19Ge5w66M9TpVkuu17WI1j4jPbbejIrfbxSrXWasq1sDrZHTTEB4XgacmPQk7ZZ+iGDjM9b2aHhF4aERa17uOfi7n2JWxXvZ9tGq7WF1E/0PPbRSb8nle12dQyVdfBrR6YzSbvh3NpjfRr7CzsytjfZPDwCH9pUobtUujO02es1OX3aFrV2m2pJe2i9VFOtyyjx+eQzg76SYqqKo3mk3Pci7XvV2s/vLa16SS83WdPn+MSdsNoF/Syohl9H8Q430UA4erKN7DNy23h4Exw0Nt0qjUMvIIOzu7MtabPlejSTM9P0fEfctN2dd9RPxru1hdZB52IqpZ0hahcw29VloZ0fewUzaNoppbboWB6DgzPNQilXa+jrzeqMt21Wi+RHF+z6bl9hxsu1gtR7PpdURcRbdne4Y2Irip6DrnUTy2QM+kc20+td2OmuzKWF+MZtPL7WJ11OHjafbrLCLGj/5pExGbTIvacCSBh8qlymZX0c/9OofalbH+PSLmfZt9SO29SEt/5tGt4LOK4iC7ddsNadimout86OiytnHbDYCuSoOFy8j7sOidbwOH28Vqss83pN/PPIoBnRf7GGnp9ioilseGKvJhSRuVKS1h+yOGEXbKdtVoLtpuyDG2i9UmLXP7W0T8K6opjXyM23T/f98uVucDDDsRxR6eqnSx0Ma47Qa0aNJ2A+iutIStkj18PfPqe16pf/G/KAbm9u1jTKMIVb1ehs7pzPBQiVR9ZRnNVui5j24Fq10Z68solmCtW27PwdKMz1VEXKWRtEm6nUU9yxNvo/iwW0fEekDL1p61Xay+jmbTu6jmtfQ+ivXyF889H1MgmkRxiOu0gvukO26juj1h+/oSw+uwnyS9BpfR7Otvt3+z7c/QV48YSP2L6zitreVl6Od9W43B6QQeTpLeqOfR/FrjXWnisyg66F3aK7SrRvM5imVum5bbc5TU7mW6RcS3NdO7DnJEMVo/3uNym3hYqnUTEV/7GAgbdBPVDR68i+L5eBcPj8Pb0q1Lrx3282uHK0VeRzcDzySKgZVOSbMOy2g+eFxG8fuYR7tLmS9e+se0auKPCu/vQxSrMSYdXO5LjQQejtbSrE5EMTK1G6FZR8RZelOct9CWl+zKWM+3i1UWm8dLHxDrNtsxANdR/Wjvu3TrYmeUfCyjeC9ue+ag01qa1dn5ebtYLdPfd3s4l9H8e8Pnl0JHDWFn501ErIWeYbGHh4OltbTXEfGfaCfsTB7PmmwXq+V2sRpHxK/RrVLLu0PX1h3cS0F3XUe3nsewlzQQ9eISpaFLHflNtB92IuLbHs5JRPwUxZLEpsyf+4e0mqDOgcI3EXHtc3k4BB4OkvanbKKdN+pd2Hl2RCYt8xhHEXy65EMUI0reXCs2mk3Ho9l08uh21na7TpE6jaoKdYdR4AOkDvU/Q2j/zmg2PRvNputor7DPr4/DTtl2sVqn4PNzRNzV3JbPryz3Xkb9v6N38ULoIi+WtLGXFpev7bwadnZSZ3GeKrrMozullt9H0YmdtNyOTkrPsbLdfqGd8r+P45XnYtqzct7jJQvz2KP0Ko2wwflA28XqOhU+uYjieTzYpZRpoKvt88723veVQtEyDXDOo573oOVz/5BmwJraW/hpNJte9XWvLfsTeHhRR84E2DvslKU3sIt0gNtVdOMD90Pa0zOv6oJp/fVTNlHdmS6PvY0ikBz7NU08Fu+ix+u0t4vVJj22v7XdlgNtGriPvs4cbKIb70ONKFd9jPiu6MnjwYzHvkYxq9a1gjQHS6/hy2h34OKHZWz72C5WV2ng8DKq/RnuXilaM6/ofvY1j1eKJ9B/Ag9P6siIVEQxrX7SKH363kmaQejCB+hu1Kwqv1R4rdy8iYeZkt5JHY5J9Ktc9KaB++hdgE02FV1nUtF1GnVo0ZPRbNrbmbUOFdI5KuzslFZM7IJrFX2CZ5frpt/bob+z2yieU1+jeG0cOqjwcTSbXipVnTd7ePhOKkgwj+KDue2wcxsRlZ0Un9Ynn0Uz65Nf8uaJ5VvUZ9J2A050Ee0dBEth3XYDHvlgP2A3pT2EN1Hs02kz7NzHiWGnbLtYfU2HU/89IlYnXu6l/YkXB1znPiJ+2i5WZ9vF6nK7WM3THqS/xeH7eHs5KMb+BB6+KRUk+CXa3zewimIZW+UjLh2p6DZp6X6HqO3n8knSa2ASQk/ZpuH7q+p9qMr3s3mF1+JEqXjKOorqpW2vItgtA19WfeFU0e08Tqjo9sohyPvOzux+xh+ulcLZPIrBzX1NDvhaekjgoawrG6R/3y5WtZ+E3OGKbvCd9AF+FhGf227LK75EM9XlmlzSdl/hHrAq2/0pDVLRDePoxv6sSldGPKdU0e2fcdiKiZdC0iGzLPPXfsYU+PYdKJoccN/0kMBD2brl+7+PiH9uF6vGPsRLI0F/j+53Jhm4tKSki+V+v0SxtKSpAhFNluyu8r6qHsTZnfF1UfF1Odym7QZE8Rn2wzl1ddouVtdpxcTPsd/70kvvD/seJ3B/wGHe6z2/ru29VtRM0QLKNi3e921EXLRVTauFim7rmq9PpkrlfquunHSo+yjCwFXDr9vXzu8oG1dwf8sKrhERxab90azy+hMfotjT80cUwXMdDxUaN1V3ftNzb5z+s/z3sygC3SYilkMr85uqKt5HO6/H+4i4rGMJ2762i9UyHUj+2vvS5oXL7Bt4DhmE2HuQIVX0XB9wbXpE4KFs3dL9/t7krM5LGqzotqnpugzAo8pJF1F0MJoaoVxF0eG4bqGq0W0UP+u+xife3+81dIBuo773lQ/xaLDmUcA6Zs/FWRzeif9lNJt25n29QetovqJiq4OFZXtWdHupnfsONB4SeA75vSgEkjGBh2/SCNVdNNdxuovijXrd0P3tLbXprKbSordDG/2kHuVzTtIZJ+dxXFnW59xF0WG4iYh1y6/Vz1GMYjcVsm6jnsIA62hvU3uTe0w+jWbTmzZnHVpwHc0Gnr0PE21Seo1epIqvV/H976SKYLY54GsPeb84i2aXy9IggYfH5lGU06zb71FsOux03fvSidPzqG750L5rj2FvaYT3W2eitPTotUMey3YHPj5bSakCy3Q/uwMon3tN3ae27GaTNjW15yl1diTXEfGppmt3zWVUuCSwB66jeH+ve1lbZ2Z1XpJes+dpxcQ8imIKT37mH3JUQ9d/brpJ4OE7aR3uPOqb5bmNYpR2XdP1a7FdrHbT9Jdx2kGfdwMb8aQlqbOxiY7tF9sNIrTcjKfsDi+8qjNcpT1Ybe31aFrb5ZkbtV2svqbPz99quov7KJ6f85quX4v0eT9JgzDPeenfyg4t2DI58OvJlMDDU84j4r8VX7P1TZWnKq1PXkYxWnXMwax1HG72JbpRDhW65jIeZpKemuXapNtNw7PN19H+wc7UYLtYXY1m0/Oo/j35cxSrIjYVX7cxr7R934IFZnc4isDDD1IloZ+jmqVt95H2GHR9+dq+Tqjo9nNNU/E3B7QBBqP0elu32Y4nzEPgydl5VLdX60sUg4W5d/Qne35d7r8HauIcHp6UZmL+EYcdKFZ2F8WBnuPtYtX5vTrH2C5WN+ngtZ/i5cPN7qMIO8uamnIV3TuXpQ13UXQOVlE89/4VxWPzjzYbBY+lQZPf224H9Uifd5Mo3ouO9TmaPduqNaPZ9G3sHw43B15+cuDXkykzPDwrzfScxWHnfayi2GC8rLNtXfJKRbe7iDiv8wMrVdebRDGimNu+gHIZ3Zt4qLjz7e992w8GyTyKztig9rkMRQo95Q37+8zC30axv63pIh1tmxzwtVmHP+oj8PCi3b6VKPaunEexznZS+pJNurVdsrZ1T1R0a2wpXwqn4yjOZDmL7zeAHjJ61qQfzlQZ+nOobimUn0URjtc5zrz2RdrgfhF5DlSQlDbs7z47H78/r+PhM3TTaOO6Y++9rUd8RljuTUQIPBxgu1hdhxr1r0oVdOYt3O/uTJZajGbTdVT74fFVwGncRRSP4aeIiHTu1rdzdqL5zfutSIMDk3QbRzFb2PjMdBqomITQk73HZeP5zmTPr3tp6fgP0lI5iAiBB2BIHldCepdu00jl1lMI2sTDyPOmz8E0dXrKo+uTeDpcTEez6WVETJoMfaXQcx3NHfoMnZBmvvZ93q8PvPy+ld8YAIEHYABSx2KfWYRdCPo2mzeaTSOK/Wib0m23j2rThaU46ed7G0Wg2YWcfX/mnfdR7KGoo3z8s0r7JecxnENJIaKYdd7XoTNkhwYeM3AZE3gAhuHU0c4fgtBOCkQRD0Umvsb3nYfH/32oXYDZKZ+rU/Ua/eloNh03HeLSrNLlaDa9jv03uUPfHTK4sD7w2oe+52W/nHfIBB6AYZg0cB/lTvr02a/qvotoYR9exA+b3C+j6BDa39NhpYI+OzdpzysvSEs5913OdnfIIER6/Rw6U7v39ekfgQdgGKxn39+k7QakTe4XEd861OdRtKsP+3zuo5jR27TcjlqlTvUynqiCmfbCzYd0RMMRLg742r0DZHpc1nHgQEEXluZSH4EHYBi6WJq8qzpV3alcITNVmDsr3d5G88vfdoEm4mEv17c/h1DpL1nG86+rdxHxx2g2nWwXq4vGWtQTqZjIxwO+Zb3ndS+iqFZ66Kzol9e/hD4TeACqsWm7Ac9JI57sr7PhMI1Cb+KJEe9S4YaIH/c9HWP96L7XT3/Z8KSO9T7Pk4+j2fTrdrG6fP1LB+XiwK9fv/YF6Qy8X45oS0SH37+phsADtCW3UeBN2w14QW6/69qNZtO3fZupSMvgyuwjqc/kgK/9NJpNrwXG7xwSAL+89FpMs0XLOG3foAptmftr2w0ABiu3D5hN2w14TpoVuG+7HT1jVoyXjA/8+mUNbeilNDt2yF60Z4N7KnywidOLpOT2ecQjAg/A6e57sOHVaP9hxm03gEpV3aHdHPj171JHn8NmdyKeXr75djSbXkXEf6KCKoZm3/In8ABtyWlErQ9hYh5meQ4xbrsBVKrq5YnHvH8Nfh9PmpE5ZI/c7ePBpBQcN1HdIb0KFgyAPTwDkt5oLqNYe/w1Hja+Lvu2Vp0sCDwN2i5Wm9FsehkRf7Tdlp4Yt92Al7RxOGrPbSq+3vqI73k/mk3PnthrNSTzA79+uftL6sMso/rS7J1//+Z0As9ApHMc/l36X2/i4dT0eTrd+2rgb8StSBsuL6I4Z2NXXvYuiiA6b6lZdXv2ELlUaedQm4hYt9QB/NKXQwa3i9VyNJvexMvldCmM227AK/43mk0jvi8RvU5/7kpEf/WeHhE1LDndLlY36aydQzvfk8hrsGdvaWbm0BLq1ynozI/43n2ta7ouHSLwDMfVC//2Jop6+B9Hs+lt+tprsz71SiH0Ip7ebPkuIn5JlaJyXAaxfOHfji0rGqPZ9HPDZ17cR8+WqaQO8FnqfJzH6Zt9czVuuwHPeVRm/E08dAR/6BCmUBTxEIxuohjc2tTYxK6pa0DiOg5fVnUeL38e52x+4NffR/FZUec5U3cGBYbBHp4BSKMj+45CvY9iyctmNJsu0/dSkdFsOh7Nplej2XQTxYzba53NT+mgwZzc1jhz9fHIGaJj3EfEpK8fltvFarldrM63i9VfIuKniPg1rGUvq3rZTJWOqSC3C0afIuImDbgMRV2BZ33E93xIs/qDkt6XD31NlcN8XZY1X5+OMMMzDJMjvqc863MXD3t9etm5a1MKLLvZnGOWEV3E4SNjXXUbxz0fD3EZ9f++PkfEZS6zoKlC0Xr332kGYRJFx/osBrr8rcNn8YxP/P43UXT0htDxrnPJ6bGfh5MY0L6R9Bl49Mx9zZZtN4BmCDzDcOp5Eu+iGBX8JPzsp4KQUzY58fu74D6KZRxXDXQg3xywoXvfNfh3UXRu1lEs99zn2r2VXtvfvb5TCBrHQwh6G/WPvr7mSxR7VW6i2Mf1NiJ+q/D6Z9HN9f2TCq7xZjSbnvdl/9mRal1ymgqBHPOtZzGgwBPd/Vk/5/5ezgOBZxiqPEDvqfCzzvxDcy+pQ3gRRWekyhHxPh+A+CUOqAT4aG/CKcaxR1Wm7WI1fnTfj0e8N33/QExnVbyNh9fqUYGzFIKeOhNjkv5a/h0+9fs8i+fPzLiLHx+zTen/ffv7c2dmpIGGKgNPV1U1M5Nzx7vLS04v07K27PdSjWbTZXR3hnjedgNojsCTufSmWtda9HL4iYhYRTEauu7oh0ylUudqEsVMziQqOPzsGW86srTmMoqO1tt4PoRt0u3Y6lCthbscn7PpObrbVP0x/b/d67SymapSAFm/8GW1O2HE/TmT6OYMT1c7kF3R9SWnb+Lhs3MVxYBQdsEzFUb52HY7nvF77mGT7wk8+WuyAzlNtxjNpveRwk9kEoAe7WuYRLObmltfWvPoMazrw7mqjdSbiq7Td08t59m9Tn9Ls7TrOHH2p2Puo77Bh9ZlWMSkCuUlp307V24aEdP0mXkdGbwWX6lA2gVfMq1+ygsEnvxNWrrfN/F9AIooljftlsVsnluW0gUp3JRvbe9VaD3w1C115Cr5gDRy981rAfJdpOIkERGlAHQT/R2ouInqXq9dXE46brsBTdkuVpOIbysVnnosWl1yWnG1tW+FgtK1d8uBO/86TEtad7e2Pytf87uwM0wCT/7GbTeg5EOU3gxTCNqt21/Hw+bjRg7LK+3Z2P05SX92cbnIuO0GNKCqsynuK7pOrx1Yjn7ncQCKKCrr7YoCrKND+5pSSB5H8Rre/VllSBlCFbPOS7Md67bb8YQ6A/G3z8s0+7ObwVq3OVj4aDBwEt38vHzKfRTLHJdtN4R2CDz56+IIZdm7dPtuVKi0Dv82iiAU8f0G5kM8Hh3s+gjUU7r+OJ4kLYGoavlDp0dDG1TV8sD38dCp+SXiuyD0bZCi9PeICkLRoyISu7+XByj60tGq2qTtBvBNVa+x1+zOo/kQxYHUEQ8DEeVVE5sq7qw0ozaO7wcU+vqau42I864M1NAOgSd/fX2D2im3v49BpSrZBp7UsV1WeMl1hdfqs0nN19+9Np98XT5RPOCpKmw7L1Vvg65qKvA8ZTcQ8a0owKNVExEPg90Qu8gAAAw9SURBVBHPGcf3qwdyfB1awkZECDxZK5WKpf8OOVumN1LYWUe1H7LZVTs6VBqh7dpgx242t082bTeAbjpyyWgTyq+zIQ8S3kXERZf3CtOsv7bdAGqV7azAQI3bbkCVago7913f4NsQr/1qLNtuAJ01b7sBPOv3iDgTdigzw5O33pa15EmTyGS5VhodvY7ql0+8Gc2mX6PoqC4HHH4mbTcgA1862mGatN2AoUvvX0OePemq2ygKE6zbbgjdY4YnY6kayd+jGO1Quar/Nm03oAqj2XQeEf+JGg9qjeJQv/+OZtPNaDa9HODZJeO2G9Bz91GcI5K7cdsN6Kll2w3gO/cR8a/tYmVWh2eZ4clc2vNxGRGX6dTjizAy1Sd38TBbsWm3KadJoWMZzT7/3kXEb1Ecsvkl3f91nw/129O47Qb02G0Ua/83bTekAeO2G9A3acCmi3t3hupzFLM6ub+nc6K//Pnnn223gYaljudlFBVmvHF30yqKkJPFBvzRbHoZxZr3rlQA+hxF8Mni9/vYaDa9ie4VLeiD3yNi3uXO02g2XUeFgwbbxeovVV0rd2kp23/abgcRURxkPpSBCSog8AxcOv9kd+tKZ3SobqM4fDObGYjUQbiK7na+7yPD/T6j2dQb+2E+RxF0Nm035DVVB56I+NlhjK9LlQ834XOybV+ieK2u224I/SLw8I3w04rbeFhmtWm3KdVJs4hXUd1hok24i4fAuWm5LScRePayC7tXfXq8R7PpMkpnr1TgLoqKVrkMsryNorDDrlLhJk4cRErXXEd3B26GQNDhJAIPTyqFn0lY9la1VRQVytZ96mjtIwWdeVTbIWtDr2fbBJ4X9Xq5aNpD8kvFl72NiEkfn+sR30rcT6LYo/pUKLmP4uc7ahZ3NJteR78Gb3LyOYrX67rthtBvAg+vKn2YnIeCB8e4i4eA08tO1msyCjpP6V0HWeD5zn0Ur7/da7CXnfqdmgJPxEOxhs4v7Sx9Ju1u+6xIuI+I8aGPfyr288dBDeRUvZx9pdsEHg5SWi6wu5ni/9F9FMsfspzFKUt7dOYxjCC86zhfdb1TWHHguY2imldflrnuXn/rKF5/nX6sDtVAB7xT+5nSe8w4iiVqZ3Hae83B+5VGs+kmjl/lcB/FQOE4HgYN+/I6akOvZ9bpNoGHkwhAEVHM4KzT7Sa3DtZj6TE/jyLoDHW5426/z7KLH8wVB56ftovVOs3inZVu42j/9X4fETfl2ymvv/QzTuKhXPOmaxv6G6wUtttfWHtoTL/38m0SEW+j+ufX5+1idXFgu/535H09uYwuzU7tlosPYaDoNVkWjqF7BB4qlz6QJ/HQMcqpU7zrYK13f3axw1uHUjnzizBKuXMfxWj4VdsNKau4kteLo+KpA/c2itd6+c9Ifz/luXIbEbvX1zr9eRMRX6ta05+e1+fx/P6Pzu1vaWnJ4pcoCgBsonhMDu2cTp74+zia/Xz4sl2sJq9+VXJCuNx7z1Dp83ISwwlAt5FWQdibQ1MEHmqXZgTKo8K7v3e901z+gF9HMXrcmU5PE0qzOZfR/mh+l32JiPOuPD8qDjyVVfEqvRc85WtTI7ylmZzz2G8z+kEzA3VzztLR7reL1dvXv6xw5AzPSXuhHgWgPnxO7mMXcNYxoEFCukXgoTWlzs/jPyOaGen6kv7cPLoNLtg8VqrSl2MRgrrcbher5zrzjRrNplcR8anCS95GEeg2FV6zUaWlROdxXFj4W1feF2p4fAfj0INWD9zDU/lsYGm53yQelvx1eSboNorZv00U4WbdamsgEXjotGdGhMtLZl6zfvTfgw8zz0kdwouwZO0Uv24Xq3nbjUiB9d81XPpz9KBoQ8TRlbxe8lNXOm8n7i0Zur8fEtxHs+llRPy2x5c2Ogv4yoBhnTNDu2XdEQ+fr+tocIYWjiHwwICVQs55dHev1Zfo9ohm2VGlb6uWOkP/r8a76NQa/PQ83i2ZnUQ9z5eDK3zVqeJli0NycHB9ZUbtPoolbJ0sW1/aY1f22qDhTTzsnYuIiC68zuEUAg8M1AEjl2351pFIHfiLeH5jeZf8swudn9FsuozmliR+iYdKaZuoYSb1meII42ju+dCJ2budBqu15eaombo0q3YRD8+/3fNdCWXoAYEHBqrjHaZn94yUqmpdRjdnpTrRMe7Isqe7KALQzvqVr3+8hHUc3XmMD6rw1YSGQ20uOvH6BJr1f203AOCRFzskKQRdRcRVT5bktWK7WG1Gs+nnaLdD/C6+f1z6vARr7+peDbqMYgmf5z7AC/7adgOA1mzabsAjXyLiH4eMvm4Xq5vtYnW5XazGEfFTFJvq7+tpXi9dRjHLwuk6t5QyLaU6D8/5Q3SikiLQLIEHBirNlHShM3wfxYbwvQ7qe852sVpvF6uLdM7GP6MIP23YtHS/P9AhrlbaS9Yp6TUzCY/xvjr3GAL1E3hg2NYt3/+vUVQ1W1Z50e1idZ1KxP4tIn6OiFWV139Fp0qzpg7xRdvtyEQnZwdKoacLAxhdt2m7AUDzFC2AAWuxcMHniJg3eZBlQ5Xe7tLyus5J+53W4YylU/yjy2eNpOf4MiKmLTela+6j+L0su/z4AfUReGDgGj7Po/Gg85RSpbeLqDb8dLoCVAo9y+jgfpSO68Tzdl9pIGMZwy5mcBcPZ0W1XiYeaJfAAwOXOsH/rfEu7qOoqrbsYoexwkpvnTh09DVpFmAezx+kSGH3vL3q+mP6nNFsehHFYz2U4HMbEddRhBwzOcA3Ag+w6xj9UfFlb6PoMPbmYL4Ufi6jCD+HLv3qxIGj+0o/61X0u1R0Hb5EEc6XbTekKmnG5yKOe1532e7A23VErPvyPgM0T+ABIqKy0HMfxQjrVd9HWEez6XkUHcR9Ook/97WDnDrD8xh28Nnt8bjq4ixkldLzepJufVraeBtFuLmJiJvtYrVutzlAnwg8wDdHjvrfxsNa+XUNzWpVWgK2Cz6PN4PfR8RlX8NOWWkWoM2DSpu0C+eD3eORnttnUYSfsyhKNrcZfO+iqKK2u91ExKbvgydA+wQe4Acp+JzHQyeobJNu6yhGWgezjKQUfi6i+B30ZiP7vko/42X0awZgHzay76EUhHZ/RkSM063sLJ6f/byPp0u0r5/4+ya31xHQLQIPAE96NLs1iX7u//gSxUzO2kwBwDAJPADsJS17291eGt1vy1087PNY57jEEoDDCTwAHCUtfTyLYqnTJP3ZRAnk3XKpTQx0eSUA+xN4AKhUOti1fIv4fj/IPjbp9t3fzdoAcCiBBwAAyNZf224AAABAXQQeAAAgWwIPAACQLYEHAADIlsADAABkS+ABAACyJfAAAADZEngAAIBsCTwAAEC2BB4AACBbAg8AAJAtgQcAAMiWwAMAAGRL4AEAALIl8AAAANkSeAAAgGwJPAAAQLYEHgAAIFsCDwAAkC2BBwAAyJbAAwAAZEvgAQAAsiXwAAAA2RJ4AACAbAk8AABAtgQeAAAgWwIPAACQLYEHAADIlsADAABkS+ABAACyJfAAAADZEngAAIBsCTwAAEC2BB4AACBbAg8AAJAtgQcAAMiWwAMAAGRL4AEAALIl8AAAANkSeAAAgGwJPAAAQLYEHgAAIFsCDwAAkC2BBwAAyJbAAwAAZEvgAQAAsiXwAAAA2RJ4AACAbAk8AABAtgQeAAAgWwIPAACQLYEHAADIlsADAABkS+ABAACyJfAAAADZEngAAIBsCTwAAEC2BB4AACBbAg8AAJAtgQcAAMiWwAMAAGRL4AEAALIl8AAAANkSeAAAgGwJPAAAQLYEHgAAIFsCDwAAkC2BBwAAyJbAAwAAZEvgAQAAsiXwAAAA2RJ4AACAbAk8AABAtgQeAAAgWwIPAACQLYEHAADIlsADAABkS+ABAACyJfAAAADZEngAAIBsCTwAAEC2BB4AACBbAg8AAJAtgQcAAMiWwAMAAGRL4AEAALIl8AAAANkSeAAAgGwJPAAAQLYEHgAAIFsCDwAAkC2BBwAAyJbAAwAAZEvgAQAAsiXwAAAA2RJ4AACAbAk8AABAtgQeAAAgWwIPAACQLYEHAADIlsADAABkS+ABAACyJfAAAADZEngAAIBsCTwAAEC2BB4AACBbAg8AAJAtgQcAAMiWwAMAAGRL4AEAALIl8AAAANkSeAAAgGwJPAAAQLb+P9PUMDnSvQsnAAAAAElFTkSuQmCC" alt="스윗밸런스" />
+    <h1>자사몰 홈페이지</h1>
+    <p class="tag">Eat fresh, be your Best.</p>
+    <p>인터뷰 5문답에서 출발해, <b>메뉴 고르기와 습관 쌓기가 하나로 이어지는</b> 한 페이지 자사몰을 만들었습니다.
+       이 문서는 무엇을 어떻게 만들었는지 한 장으로 정리한 설명 자료입니다.</p>
     <div class="meta">
-      <span>📄 index.html 단일 파일</span>
-      <span>🎨 Sweet Balance 브랜드 컬러 시스템</span>
-      <span>🚫 외부 이미지·라이브러리 0</span>
-      <span>💾 기록은 브라우저에만 저장</span>
+      <span>index.html 단일 파일</span>
+      <span>Brand Design System Manual v2025.07.25 준수</span>
+      <span>기록은 브라우저에만 저장</span>
     </div>
   </div>
 
   <div class="body">
 
-    <!-- 화면 구성 -->
     <section>
-      <span class="label">SCREEN</span>
+      <p class="eyebrow">Screen</p>
       <h2>화면 구성</h2>
-      <p class="note">위에서 아래로 네 개의 섹션이 이어집니다.</p>
-      <div class="screens">
-        <div class="screen">
-          <span class="n">1</span>
-          <h4>첫 화면</h4>
-          <p>“이 정도면 <b>나도 꾸준히</b> 할 수 있겠다” 헤드라인과 샐러드 보울(CSS 도형+이모지),
-             단백질·칼로리 배지. 바로 습관 캘린더로 내려가는 버튼을 둡니다.</p>
-        </div>
-        <div class="screen">
-          <span class="n">2</span>
-          <h4>대표 제품</h4>
-          <p><b>시그니처 샐러드</b> 한 종을 크게. 380kcal · 단백질 24g · 식이섬유 9g를 숫자로 보여주고,
-             “왜 이 제품을 앞에 두었나요?” 박스로 선정 이유를 밝힙니다.</p>
-        </div>
-        <div class="screen star">
-          <span class="pin">★ 주인공</span>
-          <span class="n">3</span>
-          <h4>샐러드 습관 캘린더 + 점심 고민 해결 버튼</h4>
-          <p>추천받은 메뉴가 <b>그대로 달력에 기록되는</b> 하나의 흐름. 연속 일수·월 목표·응원 문구가 함께 움직입니다.</p>
-        </div>
-        <div class="screen">
-          <span class="n">4</span>
-          <h4>브랜드 소개 · 푸터</h4>
-          <p>“잘 먹는 하루가 쌓이면, 그게 균형입니다”와 세 가지 약속(매일 아침 손질 / 숨기지 않는 숫자 / 부담 없는 지속).</p>
-        </div>
+      <p class="note">위에서 아래로 다섯 개 섹션이 이어집니다.</p>
+      <div class="grid3">
+        <div class="card"><span class="n">1</span><h4>첫 화면</h4>
+          <p>“이 정도면 나도 꾸준히 할 수 있겠다” 헤드라인과 마스코트 냠. 버튼을 누르면 그 자리에서 테스트와 메뉴 목록이 열립니다.</p></div>
+        <div class="card"><span class="n">2</span><h4>시그니처 3종</h4>
+          <p>기본 · 단백질 · 포만감을 하나씩 맡는 세 그릇. 칼로리 · 단백질 · 식이섬유를 숫자로 표기합니다.</p></div>
+        <div class="card star"><span class="pin">주인공</span><span class="n">3</span><h4>샐러드 습관 캘린더</h4>
+          <p>고른 메뉴가 그대로 달력에 기록되고 연속 일수가 쌓입니다.</p></div>
+        <div class="card"><span class="n">4</span><h4>미니게임</h4>
+          <p>이름만 보고 그린 뒤 실제 일러스트와 나란히 비교합니다.</p></div>
+        <div class="card"><span class="n">5</span><h4>브랜드 소개</h4>
+          <p>새벽에 만들어 아침에 도착 · 숨기지 않는 숫자 · 부담 없는 지속.</p></div>
       </div>
     </section>
 
-    <!-- 주인공 기능 -->
     <section>
-      <span class="label">★ MAIN FEATURE</span>
+      <p class="eyebrow">Main Feature</p>
       <h2>주인공 — 샐러드 습관 캘린더</h2>
-      <p class="note">
-        “점심 메뉴 고민 해결 버튼”과 “습관 캘린더”를 <b>따로 두지 않고 하나로 붙인 것</b>이 이 기능의 핵심입니다.
-        고민이 끝나는 순간이 곧 기록이 남는 순간이 됩니다.
-      </p>
+      <p class="note">“메뉴 고민 해결”과 “습관 기록”을 따로 두지 않고 <b>하나의 흐름으로 붙인 것</b>이 핵심입니다.</p>
       <div class="flow">
-        <div class="step"><div class="ic">🤔</div><b>고민 시작</b><small>버튼 또는 빈 날짜 클릭</small></div>
-        <div class="step"><div class="ic">🥗</div><b>메뉴 추천</b><small>마음에 안 들면 다시 뽑기</small></div>
-        <div class="step"><div class="ic">✅</div><b>그대로 기록</b><small>해당 날짜에 도장</small></div>
-        <div class="step"><div class="ic">🔥</div><b>연속 일수 갱신</b><small>스탯·진행바·응원 문구</small></div>
+        <div class="step"><b>고민 시작</b><small>버튼 또는 날짜 클릭</small></div>
+        <div class="step"><b>메뉴 결정</b><small>목록 · 테스트 · 무작위</small></div>
+        <div class="step"><b>그대로 기록</b><small>해당 날짜에 도장</small></div>
+        <div class="step"><b>연속 일수 갱신</b><small>스탯 · 진행바 · 응원</small></div>
       </div>
-      <div class="feats">
-        <div class="feat"><span>🗓️</span><span><b>실제 달력</b> — 이번 달 실제 날짜, 오늘 표시, 지난달 이동 가능</span></div>
-        <div class="feat"><span>🚫</span><span><b>미래 날짜 잠금</b> — 아직 오지 않은 날은 기록할 수 없습니다</span></div>
-        <div class="feat"><span>🌱</span><span><b>자라는 아이콘</b> — 연속 0🌱 → 3🔥 → 7💪 → 14🏆 → 21👑</span></div>
-        <div class="feat"><span>📊</span><span><b>월 20일 목표</b> — 이번 달 기록·전체 누적·달성률 진행바</span></div>
-        <div class="feat"><span>↩️</span><span><b>기록 취소</b> — 기록된 날을 다시 눌러 되돌릴 수 있습니다</span></div>
-        <div class="feat"><span>💾</span><span><b>새로고침해도 유지</b> — localStorage 저장, 막힌 브라우저는 안내 후 정상 동작</span></div>
+      <div class="rule">
+        <b>메뉴를 고르는 세 가지 방법.</b> 달력 날짜를 누르면 7종 목록이 기본으로 열려 한 번에 기록됩니다.
+        무엇을 먹을지 모르겠으면 6문항 성향 테스트, 아무래도 상관없으면 무작위 추천으로 넘어갈 수 있습니다.
+        원하는 메뉴가 나올 때까지 다시 뽑을 필요가 없습니다.
+      </div>
+      <div class="rule">
+        <b>테스트 설계.</b> 선택지 하나가 성향 축 하나(단백질 · 속편함 · 든든함 · 따뜻함 · 빠름)에 3점을 줍니다.
+        축마다 등장 문항 수가 달라 최대 점수가 다르므로(12점 대 9점) 축별 최대점으로 정규화한 뒤 메뉴 가중치와 곱합니다.
+        729가지 전체 경로를 시뮬레이션한 결과 <b>7종이 모두 9.7~17.4%로 출현</b>하고, 시그니처 3종 합계는 46.8%입니다.
       </div>
     </section>
 
-    <!-- 반영된 답변 -->
     <section>
-      <span class="label">INTERVIEW</span>
+      <p class="eyebrow">Illustration</p>
+      <h2>제품 일러스트 7종</h2>
+      <p class="note">외부 이미지를 쓰지 않고 메뉴마다 구분되는 샐러드를 직접 그렸습니다.</p>
+      <div class="menus">
+        <div class="menu"><svg viewBox="0 0 48 48"><use href="#i-m-green"/></svg><b>시그니처 그린</b><small>380 kcal</small></div>
+        <div class="menu"><svg viewBox="0 0 48 48"><use href="#i-m-protein"/></svg><b>시그니처 프로틴</b><small>450 kcal</small></div>
+        <div class="menu"><svg viewBox="0 0 48 48"><use href="#i-m-grain"/></svg><b>시그니처 곡물</b><small>420 kcal</small></div>
+        <div class="menu"><svg viewBox="0 0 48 48"><use href="#i-m-warm"/></svg><b>닭가슴살 온샐러드</b><small>390 kcal</small></div>
+        <div class="menu"><svg viewBox="0 0 48 48"><use href="#i-m-wrap"/></svg><b>라이트 그레인 랩</b><small>340 kcal</small></div>
+        <div class="menu"><svg viewBox="0 0 48 48"><use href="#i-m-tofu"/></svg><b>두부 포케 볼</b><small>360 kcal</small></div>
+        <div class="menu"><svg viewBox="0 0 48 48"><use href="#i-m-soup"/></svg><b>저염 채소 수프</b><small>290 kcal</small></div>
+        <div class="menu" style="display:grid;place-items:center"><small style="font-family:var(--ui);line-height:1.6">
+          그릇 · 재료를<br />층으로 쌓아<br />담긴 느낌을 냄</small></div>
+      </div>
+    </section>
+
+    <section>
+      <p class="eyebrow">Interview</p>
       <h2>인터뷰 답변이 들어간 자리</h2>
-      <p class="note">노란 표시가 인터뷰에서 답한 내용, 오른쪽이 페이지에 반영된 방식입니다.</p>
       <table>
-        <thead>
-          <tr><th style="width:15%">질문</th><th style="width:30%">나의 답변</th><th>페이지 반영</th></tr>
-        </thead>
+        <thead><tr><th style="width:14%">질문</th><th style="width:28%">나의 답변</th><th>페이지 반영</th></tr></thead>
         <tbody>
-          <tr>
-            <td>① 손님</td>
-            <td><span class="ans">바쁜 직장인 · 다이어터</span></td>
-            <td>“점심시간은 짧고, 메뉴 고민은 길죠” 카피 / 태그(⏱️ 10분 완성, 🔢 칼로리·단백질 표기) /
-                추천 카드마다 <b>소요 시간 + 칼로리 + 단백질</b>을 함께 표기</td>
-          </tr>
-          <tr>
-            <td>② 첫 문장</td>
-            <td><span class="ans">이 정도면 나도 꾸준히 할 수 있겠다</span></td>
-            <td>첫 화면 <b>헤드라인에 그대로</b> 사용. “나도 꾸준히”는 선샤인 옐로 하이라이트로 강조</td>
-          </tr>
-          <tr>
-            <td>③ 대표 제품</td>
-            <td><span class="ans">시그니처 샐러드</span></td>
-            <td>대표 제품 섹션 전체를 이 한 종에 할애 + <b>메뉴 추천 풀의 중심</b>(⭐ 시그니처 배지로 구분)</td>
-          </tr>
-          <tr>
-            <td>④ 아이디어 기능</td>
-            <td><span class="ans">습관 캘린더 + 고민 버튼 결합</span></td>
-            <td><b>페이지의 주인공 섹션.</b> 두 기능을 분리하지 않고
-                “추천 → 그 자리에서 기록 → 연속 일수 갱신” 하나의 흐름으로 구현</td>
-          </tr>
-          <tr>
-            <td>⑤ 분위기</td>
-            <td><span class="ans">신선한 초록</span></td>
-            <td>브랜드 그린을 주인공 섹션 <b>전면 배경</b>으로, 퓨어 라이트 그린을 여백 배경으로.
-                서브 컬러는 강조에만 사용</td>
-          </tr>
+          <tr><td>① 손님</td><td><span class="ans">바쁜 직장인 · 다이어터</span></td>
+              <td>“하루는 바쁘고, 메뉴 고민은 깁니다” 카피 / 모든 메뉴에 소요 시간 · 칼로리 · 단백질 동시 표기</td></tr>
+          <tr><td>② 첫 문장</td><td><span class="ans">이 정도면 나도 꾸준히 할 수 있겠다</span></td>
+              <td>첫 화면 헤드라인에 그대로 사용</td></tr>
+          <tr><td>③ 대표 제품</td><td><span class="ans">시그니처 샐러드</span></td>
+              <td>시그니처 3종으로 확장해 별도 섹션 + 메뉴 목록 상단 고정</td></tr>
+          <tr><td>④ 아이디어 기능</td><td><span class="ans">습관 캘린더 + 고민 버튼 결합</span></td>
+              <td>페이지의 주인공 섹션. 고르기와 기록을 한 흐름으로 구현</td></tr>
+          <tr><td>⑤ 분위기</td><td><span class="ans">신선한 초록</span></td>
+              <td>Vital Green 을 습관 섹션 전면 배경으로. 매뉴얼 팔레트 안에서만 반영</td></tr>
         </tbody>
       </table>
     </section>
 
-    <!-- 디자인 시스템 -->
     <section>
-      <span class="label">DESIGN SYSTEM</span>
-      <h2>브랜드 규칙 준수</h2>
-      <p class="note">
-        “분위기 답변과 충돌하면 디자인 시스템이 우선” 규칙에 따라, <b>신선한 초록</b>은 새 색을 만들지 않고
-        기존 브랜드 그린을 넓게 쓰는 방식으로만 반영했습니다. 서브 컬러는 단독 주요 색으로 쓰지 않았습니다.
-      </p>
+      <p class="eyebrow">Design System</p>
+      <h2>브랜드 매뉴얼 준수</h2>
       <div class="chips">
-        <div class="chipbox"><div class="sw" style="background:#00614E"></div><b>#00614E</b><small>메인 그린</small></div>
-        <div class="chipbox"><div class="sw" style="background:#F8CF77"></div><b>#F8CF77</b><small>선샤인 옐로 · 강조</small></div>
-        <div class="chipbox"><div class="sw" style="background:#50AADC"></div><b>#50AADC</b><small>다이브 블루 · 보조</small></div>
-        <div class="chipbox"><div class="sw" style="background:#D3EAE4"></div><b>#D3EAE4</b><small>퓨어 라이트 그린 · 배경</small></div>
-        <div class="chipbox"><div class="sw" style="background:#FFFFFF"></div><b>#FFFFFF</b><small>화이트</small></div>
+        <div class="chip"><div class="sw" style="background:#00614E"></div><b>#00614E</b><small>Vital Green</small></div>
+        <div class="chip"><div class="sw" style="background:#007C5E"></div><b>#007C5E</b><small>Harmony Green</small></div>
+        <div class="chip"><div class="sw" style="background:#FDFFE6"></div><b>#FDFFE6</b><small>Sunshine White</small></div>
+        <div class="chip"><div class="sw" style="background:#84BA45"></div><b>#84BA45</b><small>Seed Green</small></div>
+        <div class="chip"><div class="sw" style="background:#F6F4E8"></div><b>#F6F4E8</b><small>Paper</small></div>
       </div>
-      <div class="feats">
-        <div class="feat"><span>🔤</span><span><b>타이포</b> — 맑은 고딕 계열, 제목 Bold / 섹션 SemiBold / 본문 Regular</span></div>
-        <div class="feat"><span>📐</span><span><b>간격</b> — 8px 기반 스케일(8·16·24·32·48·72·104)로 통일</span></div>
-        <div class="feat"><span>🔘</span><span><b>버튼</b> — Primary(그린) / Yellow(강조) / Ghost(외곽선) 3종만 사용</span></div>
-        <div class="feat"><span>🖼️</span><span><b>로고</b> — 외부 이미지 금지 규칙에 따라 CSS 워드마크로 표현(어두운 배경엔 흰색 버전)</span></div>
+      <div class="rule">
+        <b>로고</b> 공식 한글 수평형을 그대로 사용하고 Clear Space 를 로고 높이의 50% 이상 확보했습니다.
+        직접 만든 워드마크는 “지정 외 폰트로 로고 재현” 금지에 걸려 전부 걷어냈습니다.
+        마스코트 냠은 UI 아이콘이 아닌 일러스트 앵커로만 씁니다.
+      </div>
+      <div class="rule">
+        <b>타이포</b> Montserrat(영문 · UI) + Pretendard(한글 본문 · UI), Chewy 는 디스플레이 전용이라 슬로건에만.
+        <b>배경</b> 마케팅 서피스는 Sunshine White, 순백은 카드 표면에만.
+        <b>Secondary</b> 는 한 화면에 하나만 쓰는 규칙에 따라 Seed Green 으로 통일했습니다.
+      </div>
+      <div class="rule">
+        <b>모션</b> Motion Don’ts 에 따라 지속 루프 애니메이션과 텍스트 튀기기를 넣지 않았고,
+        모든 지속시간을 500ms 이하로 맞췄습니다. 버튼은 매뉴얼 스펙대로 hover translateY(-2px) 180ms,
+        press scale(0.98) 120ms 입니다.
+        <b>아이콘</b> 이모지와 ★ ✓ 기호를 UI에서 제거하고 stroke 1.75 인라인 SVG 27종으로 교체했습니다.
+      </div>
+      <div class="rule">
+        <b>한 가지 예외.</b> 샐러드 제품 일러스트에 한해 “Secondary 1색” 규칙의 예외를 승인받아
+        실제 식재료 색(토마토 · 옥수수 · 당근 · 곡물 · 크림)을 사용했습니다. UI 전반은 그대로 매뉴얼을 따릅니다.
       </div>
     </section>
 
-    <!-- 변경 파일 -->
     <section>
-      <span class="label">FILES</span>
+      <p class="eyebrow">Files</p>
       <h2>변경 파일</h2>
       <div class="files">
         <div class="file"><code>index.html</code>
-          <span>기존 인사말 한 페이지를 <b>스윗밸런스 자사몰 홈페이지로 전면 교체.</b>
-                HTML·CSS·JS를 한 파일에 담았고 외부 리소스를 전혀 쓰지 않습니다.</span></div>
+          <span>홈페이지 본문. HTML · CSS · JS 를 한 파일에 담았고 로고와 마스코트는 data URI 로 임베드했습니다.
+                외부 요청은 매뉴얼 지정 폰트(Google Fonts · Pretendard CDN)뿐입니다.</span></div>
         <div class="file"><code>docs/sweetbalance-homepage-onepager.html</code>
-          <span>지금 보고 계신 <b>PR 설명용 원페이저.</b> 화면 구성·주인공 기능·반영된 답변을 한 장으로 정리했습니다.</span></div>
+          <span>지금 보고 계신 설명용 원페이저.</span></div>
         <div class="file"><code>README.md</code>
-          <span>리포지토리 제목과 소개를 <b>자사몰 홈페이지 내용에 맞게 갱신.</b> GitHub Pages 접속 링크는 유지합니다.</span></div>
+          <span>리포지토리 소개와 GitHub Pages 접속 링크.</span></div>
       </div>
     </section>
 
   </div>
 
   <div class="foot">
-    Sweet Balance · 자사몰 홈페이지 제작 원페이저 — 이 페이지는 설명용 자료이며, 습관 기록은 사용자 브라우저에만 저장됩니다.
+    <span>© 2026 SWB Corporation.</span>
+    <span>자사몰 홈페이지 제작 원페이저 — 습관 기록은 사용자 브라우저에만 저장됩니다.</span>
   </div>
 </div>
 </body>
