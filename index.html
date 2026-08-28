@@ -341,6 +341,31 @@ section { padding: var(--space-24) 0; }
                         background: var(--vital); color: var(--sw); display: grid; place-items: center; }
 @media (max-width: 560px) { .pick { flex-direction: column; text-align: center; } .chips { justify-content: center; } }
 
+/* 메뉴 직접 고르기 */
+.sheet-hint { font-size: var(--text-sm); color: var(--slate); margin-bottom: var(--space-4); }
+.menu-list { display: grid; gap: var(--space-2); }
+.menu-row {
+  display: flex; align-items: center; gap: var(--space-4); width: 100%; text-align: left;
+  background: var(--paper); border: 1.5px solid transparent; border-radius: var(--r-md);
+  padding: 12px 16px;
+  transition: background var(--dur-fast) var(--ease-soft), border-color var(--dur-fast) var(--ease-soft),
+              transform 180ms var(--ease-spring);
+}
+.menu-row:hover  { background: var(--white); border-color: var(--vital); transform: translateY(-2px); }
+.menu-row:active { transform: scale(.98); transition-duration: var(--dur-fast); }
+.row-mark { width: 46px; height: 46px; border-radius: var(--r-pill); background: var(--white);
+            color: var(--vital); display: grid; place-items: center; flex: none; }
+.menu-row:hover .row-mark { background: var(--green-tint); }
+.row-mark .ic { width: 28px; height: 28px; }
+.row-body { min-width: 0; }
+.row-body b { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-md); color: var(--ink); }
+.row-body small { display: block; font-family: var(--en); font-size: var(--text-xs); color: var(--slate); margin-top: 2px; }
+.row-tag { background: var(--seed); color: var(--white); font-family: var(--en); font-size: 9px;
+           font-weight: 700; letter-spacing: .06em; padding: 3px 8px; border-radius: var(--r-pill); }
+.row-go { margin-left: auto; color: var(--mist); flex: none; }
+.menu-row:hover .row-go { color: var(--vital); }
+.sheet-links { display: flex; flex-wrap: wrap; gap: var(--space-2); justify-content: center; margin-top: var(--space-5); }
+
 /* 테스트 */
 .quiz-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-6); }
 .quiz-dots { display: flex; gap: 6px; }
@@ -432,7 +457,7 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
 </head>
 
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c0-8 6-15 16-16 1 10-6 16-16 16Z M4 20 11 13"/></symbol><symbol id="i-dumbbell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8v8 M8 5.5v13 M16 5.5v13 M19 8v8 M8 12h8"/></symbol><symbol id="i-wheat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V7 M12 12c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4Z M12 18c-2.2 0-4-1.8-4-4 M12 18c2.2 0 4-1.8 4-4"/></symbol><symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M12 7v5l3.5 2"/></symbol><symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z M12 2v2 M12 20v2 M4.9 4.9l1.4 1.4 M17.7 17.7l1.4 1.4 M2 12h2 M20 12h2 M4.9 19.1l1.4-1.4 M17.7 6.3l1.4-1.4"/></symbol><symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4.5 15.6 4.5 10.4A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 3.1c0 5.2-7.5 10.1-7.5 10.1Z"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v12A1.5 1.5 0 0 1 19 20.5H5A1.5 1.5 0 0 1 3.5 19V7A1.5 1.5 0 0 1 5 5.5Z M8 3v5 M16 3v5 M3.5 10.5h17"/></symbol><symbol id="i-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5c3.9 0 6-2.5 6-6 0-4-4-6-4-10 0 0-2 1.7-2 4 0-1.2-1-2.3-2-3.2 0 3.2-4 5-4 9.2 0 3.5 2.1 6 6 6Z"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5 9.5 17.5 19.5 6.5"/></symbol><symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12a8.5 8.5 0 1 1-2.5-6 M20.5 3.5V9h-5.5"/></symbol><symbol id="i-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.1 6.4 6.4 2.1-6.4 2.1L12 20.5l-2.1-6.4L3.5 12l6.4-2.1Z"/></symbol><symbol id="i-bowl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11h17 M5.5 11a6.5 6.5 0 0 0 13 0 M9 7.5C9 6 10 4.5 12 4.5S15 6 15 7.5"/></symbol><symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M9.5 9.3A2.6 2.6 0 0 1 14.5 10c0 1.7-2.5 2.1-2.5 3.6 M12 17h.01"/></symbol><symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5l11 11 M17.5 6.5l-11 11"/></symbol><symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6.5 9 12l5.5 5.5"/></symbol><symbol id="i-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 6.5 15 12l-5.5 5.5"/></symbol><symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5.5 M11.5 18 5 12l6.5-6"/></symbol><symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.3 14.2A8.6 8.6 0 0 1 9.8 3.7a8.6 8.6 0 1 0 10.5 10.5Z"/></symbol><symbol id="i-bed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 18.5v-6a2 2 0 0 1 2-2h15a2 2 0 0 1 2 2v6 M2.5 13.5V6 M6.5 10.5V8h5v2.5"/></symbol><symbol id="i-rain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 14.5a4 4 0 0 1 .6-8 5 5 0 0 1 9.4 1.5 3.5 3.5 0 0 1 1.5 6.5 M8 18v2.5 M12 18v2.5 M16 18v2.5"/></symbol><symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z M12 13.2a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4Z"/></symbol><symbol id="i-smile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M8.5 14s1.3 2 3.5 2 3.5-2 3.5-2 M9.5 9.5h.01 M14.5 9.5h.01"/></symbol><symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5 4.5 14H11l-1 7.5L19 10h-6.5Z"/></symbol><symbol id="i-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-8 M12 13c0-3 2.2-5.5 5.5-5.5 0 3.3-2.5 5.5-5.5 5.5Z M12 13c0-2.5-1.8-4.5-4.5-4.5 0 2.7 2 4.5 4.5 4.5Z"/></symbol><symbol id="i-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z M8.5 14.5 7 21.5l5-2.5 5 2.5-1.5-7"/></symbol><symbol id="i-crown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5 6 15.5h12l2.5-7-4.5 3-4-5.5-4 5.5Z M6 18.5h12"/></symbol><symbol id="i-utensils" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3v7a2.5 2.5 0 0 0 5 0V3 M9 3v18 M17.5 3c-1.5 1.5-2 3.5-2 5.5s.5 3 2 3.5V21"/></symbol></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c0-8 6-15 16-16 1 10-6 16-16 16Z M4 20 11 13"/></symbol><symbol id="i-dumbbell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8v8 M8 5.5v13 M16 5.5v13 M19 8v8 M8 12h8"/></symbol><symbol id="i-wheat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V7 M12 12c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4Z M12 18c-2.2 0-4-1.8-4-4 M12 18c2.2 0 4-1.8 4-4"/></symbol><symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M12 7v5l3.5 2"/></symbol><symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z M12 2v2 M12 20v2 M4.9 4.9l1.4 1.4 M17.7 17.7l1.4 1.4 M2 12h2 M20 12h2 M4.9 19.1l1.4-1.4 M17.7 6.3l1.4-1.4"/></symbol><symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4.5 15.6 4.5 10.4A4.4 4.4 0 0 1 12 7.3a4.4 4.4 0 0 1 7.5 3.1c0 5.2-7.5 10.1-7.5 10.1Z"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v12A1.5 1.5 0 0 1 19 20.5H5A1.5 1.5 0 0 1 3.5 19V7A1.5 1.5 0 0 1 5 5.5Z M8 3v5 M16 3v5 M3.5 10.5h17"/></symbol><symbol id="i-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5c3.9 0 6-2.5 6-6 0-4-4-6-4-10 0 0-2 1.7-2 4 0-1.2-1-2.3-2-3.2 0 3.2-4 5-4 9.2 0 3.5 2.1 6 6 6Z"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5 9.5 17.5 19.5 6.5"/></symbol><symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12a8.5 8.5 0 1 1-2.5-6 M20.5 3.5V9h-5.5"/></symbol><symbol id="i-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.1 6.4 6.4 2.1-6.4 2.1L12 20.5l-2.1-6.4L3.5 12l6.4-2.1Z"/></symbol><symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M9.5 9.3A2.6 2.6 0 0 1 14.5 10c0 1.7-2.5 2.1-2.5 3.6 M12 17h.01"/></symbol><symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5l11 11 M17.5 6.5l-11 11"/></symbol><symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6.5 9 12l5.5 5.5"/></symbol><symbol id="i-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 6.5 15 12l-5.5 5.5"/></symbol><symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5.5 M11.5 18 5 12l6.5-6"/></symbol><symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.3 14.2A8.6 8.6 0 0 1 9.8 3.7a8.6 8.6 0 1 0 10.5 10.5Z"/></symbol><symbol id="i-bed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 18.5v-6a2 2 0 0 1 2-2h15a2 2 0 0 1 2 2v6 M2.5 13.5V6 M6.5 10.5V8h5v2.5"/></symbol><symbol id="i-rain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 14.5a4 4 0 0 1 .6-8 5 5 0 0 1 9.4 1.5 3.5 3.5 0 0 1 1.5 6.5 M8 18v2.5 M12 18v2.5 M16 18v2.5"/></symbol><symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z M12 13.2a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4Z"/></symbol><symbol id="i-smile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M8.5 14s1.3 2 3.5 2 3.5-2 3.5-2 M9.5 9.5h.01 M14.5 9.5h.01"/></symbol><symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5 4.5 14H11l-1 7.5L19 10h-6.5Z"/></symbol><symbol id="i-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-8 M12 13c0-3 2.2-5.5 5.5-5.5 0 3.3-2.5 5.5-5.5 5.5Z M12 13c0-2.5-1.8-4.5-4.5-4.5 0 2.7 2 4.5 4.5 4.5Z"/></symbol><symbol id="i-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z M8.5 14.5 7 21.5l5-2.5 5 2.5-1.5-7"/></symbol><symbol id="i-crown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5 6 15.5h12l2.5-7-4.5 3-4-5.5-4 5.5Z M6 18.5h12"/></symbol><symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 6.5h12 M8.5 12h12 M8.5 17.5h12 M4 6.5h.01 M4 12h.01 M4 17.5h.01"/></symbol><symbol id="i-dice" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h14A1.5 1.5 0 0 1 20.5 6v12a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18V6A1.5 1.5 0 0 1 5 4.5Z M8.5 8.5h.01 M15.5 8.5h.01 M12 12h.01 M8.5 15.5h.01 M15.5 15.5h.01"/></symbol><symbol id="i-m-green" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11.5h17 M5.5 11.5a6.5 6.5 0 0 0 13 0 M9.6 11.5c-2.3 0-4.1-1.9-4.1-4.2 2.3 0 4.1 1.9 4.1 4.2Z M14.4 11.5c2.3 0 4.1-1.9 4.1-4.2-2.3 0-4.1 1.9-4.1 4.2Z M12 11.5a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z"/></symbol><symbol id="i-m-protein" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11.5h17 M5.5 11.5a6.5 6.5 0 0 0 13 0 M7.4 11.5V7.4a1.7 1.7 0 0 1 3.4 0v4.1 M13.2 11.5V8.9a1.7 1.7 0 0 1 3.4 0v2.6"/></symbol><symbol id="i-m-grain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11.5h17 M5.5 11.5a6.5 6.5 0 0 0 13 0 M12 11.5V4.2 M12 8.6c-1.8 0-3.2-1.5-3.2-3.3 1.8 0 3.2 1.5 3.2 3.3Z M12 8.6c1.8 0 3.2-1.5 3.2-3.3-1.8 0-3.2 1.5-3.2 3.3Z M7 11.5a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4Z M17 11.5a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4Z"/></symbol><symbol id="i-m-warm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 13h17 M5.5 13a6.5 6.5 0 0 0 13 0 M8.6 10c0-1.1 1.1-1.5 1.1-2.6S8.6 5.4 8.6 4.3 M15.4 10c0-1.1 1.1-1.5 1.1-2.6s-1.1-1.5-1.1-2.6 M12 10c0-1.1 1.1-1.5 1.1-2.6S12 5.4 12 4.3"/></symbol><symbol id="i-m-wrap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 8h9a4 4 0 0 1 0 8h-9a4 4 0 0 1 0-8Z M7.5 8a4 4 0 0 1 0 8 M11 8.6v6.8 M14 8.6v6.8"/></symbol><symbol id="i-m-tofu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11.5h17 M5.5 11.5a6.5 6.5 0 0 0 13 0 M6.3 11.5V8.3h3.3v3.2 M14.4 11.5V8.3h3.3v3.2 M10.4 11.5V9.4h3.2v2.1"/></symbol><symbol id="i-m-soup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5h16 M5.2 12.5a6.8 6.8 0 0 0 13.6 0 M9.5 9.6c0-1 1-1.4 1-2.4s-1-1.4-1-2.4 M14.5 9.6c0-1 1-1.4 1-2.4s-1-1.4-1-2.4 M2.5 20.5h19"/></symbol></defs></svg>
 
 <header>
   <div class="wrap header-in">
@@ -441,7 +466,7 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
       <a class="nav-link" href="#signature">시그니처</a>
       <a class="nav-link" href="#habit">습관 캘린더</a>
       <a class="nav-link" href="#about">브랜드 소개</a>
-      <a class="btn btn-primary btn-sm" href="#habit">오늘 한 끼 고르기</a>
+      <button class="btn btn-primary btn-sm" data-start-test>오늘 한 끼 고르기</button>
     </nav>
   </div>
 </header>
@@ -460,8 +485,12 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
         6개 질문에 답하면 오늘의 한 끼가 정해지고, 고른 메뉴는 그대로 달력에 기록됩니다.
       </p>
       <div class="hero-cta">
-        <a class="btn btn-primary btn-lg" href="#habit">오늘 한 끼 고르기</a>
-        <a class="btn btn-secondary btn-lg" href="#signature">시그니처 3종 보기</a>
+        <button class="btn btn-primary btn-lg" data-start-test>
+          <svg class="ic ic-btn" aria-hidden="true"><use href="#i-help"/></svg> 6문항 테스트로 고르기
+        </button>
+        <button class="btn btn-secondary btn-lg" data-open-picker>
+          <svg class="ic ic-btn" aria-hidden="true"><use href="#i-list"/></svg> 메뉴에서 직접 고르기
+        </button>
       </div>
       <p class="spec">
         <span><svg class="ic ic-sm"><use href="#i-clock"/></svg> 점심시간 10분 완성</span>
@@ -487,7 +516,7 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
     <div class="sig-grid reveal">
       <article class="sig-card">
         <span class="badge">BEST</span>
-        <div class="sig-mark"><svg class="ic"><use href="#i-bowl"/></svg></div>
+        <div class="sig-mark"><svg class="ic"><use href="#i-m-green"/></svg></div>
         <h3>시그니처 그린</h3>
         <p class="sig-desc">그린 리프 4종 · 그릴 치킨 · 아보카도 · 방울토마토 · 리코타치즈 · 하우스 드레싱</p>
         <p class="nutri">380 kcal <span class="dot">·</span> 단백질 24g <span class="dot">·</span> 식이섬유 9g</p>
@@ -495,7 +524,7 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
       </article>
 
       <article class="sig-card">
-        <div class="sig-mark"><svg class="ic"><use href="#i-dumbbell"/></svg></div>
+        <div class="sig-mark"><svg class="ic"><use href="#i-m-protein"/></svg></div>
         <h3>시그니처 프로틴</h3>
         <p class="sig-desc">닭가슴살 2배 · 병아리콩 · 계란 · 로메인 · 파프리카 · 홀그레인 머스터드</p>
         <p class="nutri">450 kcal <span class="dot">·</span> 단백질 34g <span class="dot">·</span> 식이섬유 7g</p>
@@ -503,7 +532,7 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
       </article>
 
       <article class="sig-card">
-        <div class="sig-mark"><svg class="ic"><use href="#i-wheat"/></svg></div>
+        <div class="sig-mark"><svg class="ic"><use href="#i-m-grain"/></svg></div>
         <h3>시그니처 곡물</h3>
         <p class="sig-desc">퀴노아 · 현미 · 아보카도 · 옥수수 · 병아리콩 · 발사믹 드레싱</p>
         <p class="nutri">420 kcal <span class="dot">·</span> 단백질 16g <span class="dot">·</span> 식이섬유 11g</p>
@@ -658,25 +687,25 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
   /* ---------- 메뉴 데이터 (앞의 3종이 시그니처 샐러드) ----------
      ax = 성향 점수. p 단백질 / l 가벼움 / f 든든함 / w 따뜻함 / q 빠름 */
   var MENUS = [
-    { icon: "bowl",     name: "시그니처 그린",       kcal: 380, protein: 24, min: 5, sig: true,
+    { icon: "m-green",   name: "시그니처 그린",       kcal: 380, protein: 24, min: 5, sig: true,
       ax: { p: 5, l: 5, f: 5, w: 0, q: 1 },
       desc: "고민될 땐 결국 여기로 돌아옵니다. 스윗밸런스의 기준이 되는 한 그릇." },
-    { icon: "dumbbell", name: "시그니처 프로틴",     kcal: 450, protein: 34, min: 7, sig: true,
+    { icon: "m-protein", name: "시그니처 프로틴",     kcal: 450, protein: 34, min: 7, sig: true,
       ax: { p: 9, l: 0, f: 0, w: 2, q: 2 },
       desc: "운동한 날, 단백질이 확실히 필요한 날의 선택." },
-    { icon: "wheat",    name: "시그니처 곡물",       kcal: 420, protein: 16, min: 6, sig: true,
+    { icon: "m-grain",   name: "시그니처 곡물",       kcal: 420, protein: 16, min: 6, sig: true,
       ax: { p: 1, l: 3, f: 9, w: 0, q: 1 },
       desc: "포만감이 오래가서 오후 간식 생각이 덜 나는 구성." },
-    { icon: "sun",      name: "닭가슴살 온샐러드",   kcal: 390, protein: 28, min: 8,
+    { icon: "m-warm",    name: "닭가슴살 온샐러드",   kcal: 390, protein: 28, min: 8,
       ax: { p: 3, l: 1, f: 0, w: 8, q: 1 },
       desc: "찬 게 부담스러운 날, 따뜻하게 먹는 샐러드." },
-    { icon: "zap",      name: "라이트 그레인 랩",    kcal: 340, protein: 19, min: 4,
+    { icon: "m-wrap",    name: "라이트 그레인 랩",    kcal: 340, protein: 19, min: 4,
       ax: { p: 1, l: 0, f: 0, w: 0, q: 9 },
       desc: "자리에서 한 손으로 먹기 좋은 가벼운 한 끼." },
-    { icon: "heart",    name: "두부 포케 볼",        kcal: 360, protein: 21, min: 6,
+    { icon: "m-tofu",    name: "두부 포케 볼",        kcal: 360, protein: 21, min: 6,
       ax: { p: 3, l: 8, f: 0, w: 1, q: 3 },
       desc: "느끼함 없이 담백하게, 속이 편한 하루를 원할 때." },
-    { icon: "leaf",     name: "저염 채소 수프 세트", kcal: 290, protein: 12, min: 5,
+    { icon: "m-soup",    name: "저염 채소 수프 세트", kcal: 290, protein: 12, min: 5,
       ax: { p: 1, l: 7, f: 1, w: 5, q: 1 },
       desc: "과식한 다음 날 속을 정리해 주는 가벼운 조합." }
   ];
@@ -993,15 +1022,18 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
     showSheet();
   }
 
-  function linkRow(ic, label, onClick) {
-    var wrap = document.createElement("div");
-    wrap.className = "quiz-link-wrap";
+  function linkButton(ic, label, onClick) {
     var btn = document.createElement("button");
     btn.type = "button";
     btn.className = "quiz-link";
     btn.innerHTML = icon(ic, "ic-sm") + "<span>" + label + "</span>";
     btn.addEventListener("click", onClick);
-    wrap.appendChild(btn);
+    return btn;
+  }
+  function linkRow(ic, label, onClick) {
+    var wrap = document.createElement("div");
+    wrap.className = "quiz-link-wrap";
+    wrap.appendChild(linkButton(ic, label, onClick));
     return wrap;
   }
 
@@ -1074,6 +1106,12 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
     cta.appendChild(ctaButton("btn-primary", "check", "이걸로 먹고 기록하기",
       function () { commit(dateKey, m.name); }));
     sheetBody.appendChild(cta);
+
+    var links = document.createElement("div");
+    links.className = "sheet-links";
+    links.appendChild(linkButton("list", "다른 메뉴를 먹었어요", function () { openPicker(dateKey); }));
+    sheetBody.appendChild(links);
+
     showSheet();
   }
 
@@ -1082,6 +1120,47 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
     var saved = loadType();
     var m = saved && menuByName(saved.name);
     if (m) { openResult(dateKey, m, saved.axis, true); } else { startQuiz(dateKey); }
+  }
+
+  /* ---------- 메뉴 직접 고르기 ----------
+     원하는 메뉴가 나올 때까지 무작위를 다시 뽑게 하지 않기 위해,
+     달력 날짜를 누르면 이 목록이 기본으로 열린다. */
+  function openPicker(dateKey) {
+    pendingDate = dateKey;
+    var isToday = dateKey === key(today);
+    sheetTitle.textContent = isToday ? "오늘 무엇을 드셨나요?" : labelOfKey(dateKey) + "에 무엇을 드셨나요?";
+    sheetBody.textContent = "";
+
+    var hint = document.createElement("p");
+    hint.className = "sheet-hint";
+    hint.textContent = "메뉴를 누르면 바로 기록됩니다. 잘못 눌러도 날짜를 다시 눌러 취소할 수 있어요.";
+    sheetBody.appendChild(hint);
+
+    var list = document.createElement("div");
+    list.className = "menu-list";
+    MENUS.forEach(function (m) {
+      var row = document.createElement("button");
+      row.type = "button";
+      row.className = "menu-row";
+      row.innerHTML =
+        '<span class="row-mark">' + icon(m.icon) + "</span>" +
+        '<span class="row-body">' +
+          "<b>" + m.name + (m.sig ? '<span class="row-tag">SIGNATURE</span>' : "") + "</b>" +
+          "<small>" + m.kcal + " kcal · 단백질 " + m.protein + "g · " + m.min + "분</small>" +
+        "</span>" +
+        '<span class="row-go">' + icon("right", "ic-btn") + "</span>";
+      row.addEventListener("click", function () { commit(dateKey, m.name); });
+      list.appendChild(row);
+    });
+    sheetBody.appendChild(list);
+
+    var links = document.createElement("div");
+    links.className = "sheet-links";
+    links.appendChild(linkButton("help", "6문항 테스트로 골라줄래요", function () { startQuiz(dateKey); }));
+    links.appendChild(linkButton("dice", "아무거나 골라줘", function () { openSuggestion(dateKey, null); }));
+    sheetBody.appendChild(links);
+
+    showSheet();
   }
 
   /* ---------- 빠른 추천 ---------- */
@@ -1106,8 +1185,12 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
       function () { commit(dateKey, picked.name); }));
     sheetBody.appendChild(cta);
 
-    /* 무작위로 뽑히는 게 싫다면 테스트로 넘어갈 수 있게 */
-    sheetBody.appendChild(linkRow("help", "6문항 테스트로 골라볼래요", function () { startQuiz(dateKey); }));
+    /* 무작위가 마음에 안 들면 직접 고르거나 테스트로 넘어갈 수 있게 */
+    var links = document.createElement("div");
+    links.className = "sheet-links";
+    links.appendChild(linkButton("list", "메뉴에서 직접 고를래요", function () { openPicker(dateKey); }));
+    links.appendChild(linkButton("help", "6문항 테스트로 골라볼래요", function () { startQuiz(dateKey); }));
+    sheetBody.appendChild(links);
     showSheet();
   }
 
@@ -1167,7 +1250,7 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
     var btn = e.target.closest(".day");
     if (!btn || btn.classList.contains("empty") || btn.disabled) { return; }
     var k = btn.dataset.key;
-    if (records[k]) { openRecorded(k); } else { openSuggestion(k, null); }
+    if (records[k]) { openRecorded(k); } else { openPicker(k); }
   });
 
   $("prevM").addEventListener("click", function () {
@@ -1184,6 +1267,20 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
     view = new Date(today.getFullYear(), today.getMonth(), 1);
     renderCalendar();
     if (records[k]) { openRecorded(k); } else { openTypeFlow(k); }
+  });
+
+  /* 첫 화면·헤더에서 바로 테스트를 열 수 있게 */
+  function todayFlow(fn) {
+    var k = key(today);
+    view = new Date(today.getFullYear(), today.getMonth(), 1);
+    renderCalendar();
+    if (records[k]) { openRecorded(k); } else { fn(k); }
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-start-test]"), function (el) {
+    el.addEventListener("click", function () { todayFlow(openTypeFlow); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-open-picker]"), function (el) {
+    el.addEventListener("click", function () { todayFlow(openPicker); });
   });
 
   $("closeSheet").addEventListener("click", closeSheet);
