@@ -336,6 +336,42 @@
   .chip.sig { background: var(--sb-yellow); color: #000; }
   .sheet-cta { display: flex; flex-wrap: wrap; gap: var(--sp-1); margin-top: var(--sp-3); }
   .sheet-cta .btn { flex: 1 1 180px; }
+  /* 점심 성향 테스트 */
+  .quiz-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); margin-bottom: var(--sp-3); }
+  .quiz-dots { display: flex; gap: 6px; }
+  .quiz-dots i {
+    width: 26px; height: 7px; border-radius: 999px; background: var(--sb-light-green);
+    transition: background .3s ease, transform .35s var(--bounce);
+  }
+  .quiz-dots i.done { background: var(--sb-green); }
+  .quiz-dots i.now  { background: var(--sb-yellow); transform: scaleY(1.5); }
+  .quiz-count { font-size: .82rem; font-weight: 700; color: var(--sb-text-muted); }
+
+  .quiz-q { text-align: center; padding: var(--sp-2) 0 var(--sp-3); }
+  .quiz-q .q-emo { font-size: 3rem; line-height: 1; animation: bobble 2.2s ease-in-out infinite; }
+  .quiz-q h4 { margin-top: var(--sp-2); font-size: 1.22rem; font-weight: 800; color: var(--sb-green); }
+
+  .quiz-a { display: grid; gap: 10px; }
+  .quiz-opt {
+    width: 100%; text-align: left; background: var(--sb-light-green); border: 2px solid transparent;
+    border-radius: var(--radius-m); padding: 16px 20px; font-size: .97rem; font-weight: 600; color: var(--sb-text);
+    transition: transform .32s var(--bounce), background .2s ease, border-color .2s ease;
+  }
+  .quiz-opt:hover  { background: var(--sb-white); border-color: var(--sb-green); transform: translateY(-4px) scale(1.02); }
+  .quiz-opt:active { transform: scale(.97); transition-duration: .1s; }
+
+  .quiz-back {
+    display: block; margin: var(--sp-3) auto 0; border: none; background: transparent;
+    color: var(--sb-text-muted); font-size: .88rem; font-weight: 600; padding: 8px 14px; border-radius: 999px;
+    transition: transform .3s var(--bounce), color .2s ease;
+  }
+  .quiz-back:hover { color: var(--sb-green); transform: translateY(-2px); }
+
+  .quiz-read {
+    text-align: center; background: var(--tint-yellow); color: #000; font-weight: 800;
+    border-radius: 999px; padding: 11px 18px; margin-bottom: var(--sp-2); font-size: .95rem;
+  }
+
   .sheet .done-note { text-align: center; background: var(--sb-light-green); border-radius: var(--radius-m); padding: var(--sp-3); }
   .sheet .done-note .big { font-size: 2.4rem; line-height: 1; }
   @media (max-width: 520px) { .pick { flex-direction: column; text-align: center; } }
@@ -514,7 +550,7 @@
       <span class="sec-label">MY SALAD HABIT</span>
       <h2>샐러드 습관 캘린더</h2>
       <p>
-        고민될 땐 버튼을 누르고, 고른 메뉴는 그대로 달력에 기록됩니다.<br />
+        6문항 성향 테스트로 오늘의 한 끼를 고르면, 그대로 달력에 기록됩니다.<br />
         메뉴 고르기와 습관 쌓기가 하나로 이어지는 이 페이지의 주인공이에요.
       </p>
     </div>
@@ -562,8 +598,8 @@
 
     <!-- 고민 해결 버튼 -->
     <div class="solve reveal">
-      <button class="btn btn-yellow" id="solveBtn">🤔 점심 뭐 먹지? — 눌러서 끝내기</button>
-      <p class="hint">달력의 날짜를 눌러도 같은 추천이 열리고, 고른 메뉴가 그 날짜에 기록돼요.</p>
+      <button class="btn btn-yellow" id="solveBtn">🤔 점심 뭐 먹지? — 6문항으로 골라드릴게요</button>
+      <p class="hint">6개 질문에 답하면 오늘의 한 끼가 정해지고, 고른 메뉴는 그대로 달력에 기록돼요.<br />한 번 본 결과는 기억해두니 다음부터는 바로 기록할 수 있어요.</p>
     </div>
 
     <!-- 추천 시트 -->
@@ -634,23 +670,90 @@
 (function () {
   "use strict";
 
-  /* ---------- 메뉴 데이터 (앞의 3종이 시그니처 샐러드) ---------- */
+  /* ---------- 메뉴 데이터 (앞의 3종이 시그니처 샐러드) ----------
+     ax = 성향 점수. p 단백질 / l 가벼움 / f 든든함 / w 따뜻함 / q 빠름
+     심리테스트 답변으로 모은 점수와 곱해 가장 잘 맞는 메뉴를 고른다. */
   var MENUS = [
     { emo: "🥗", name: "시그니처 그린",       kcal: 380, protein: 24, min: 0, sig: true,
+      ax: { p: 5, l: 5, f: 5, w: 0, q: 1 },
       desc: "고민될 땐 결국 여기로 돌아옵니다. 스윗밸런스의 기준이 되는 한 그릇." },
     { emo: "🍗", name: "시그니처 프로틴",     kcal: 450, protein: 34, min: 0, sig: true,
+      ax: { p: 9, l: 0, f: 0, w: 2, q: 2 },
       desc: "운동한 날, 단백질이 확실히 필요한 날의 선택." },
     { emo: "🥑", name: "시그니처 곡물",       kcal: 420, protein: 16, min: 0, sig: true,
+      ax: { p: 1, l: 3, f: 9, w: 0, q: 1 },
       desc: "포만감이 오래가서 오후 간식 생각이 덜 나는 구성." },
     { emo: "🍜", name: "닭가슴살 온샐러드",   kcal: 390, protein: 28, min: 0,
+      ax: { p: 3, l: 1, f: 0, w: 8, q: 1 },
       desc: "찬 게 부담스러운 날, 따뜻하게 먹는 샐러드." },
     { emo: "🌯", name: "라이트 그레인 랩",    kcal: 340, protein: 19, min: 0,
+      ax: { p: 1, l: 0, f: 0, w: 0, q: 9 },
       desc: "자리에서 한 손으로 먹기 좋은 가벼운 한 끼." },
     { emo: "🥣", name: "두부 포케 볼",        kcal: 360, protein: 21, min: 0,
+      ax: { p: 3, l: 8, f: 0, w: 1, q: 3 },
       desc: "느끼함 없이 담백하게, 속이 편한 하루를 원할 때." },
     { emo: "🍲", name: "저염 채소 수프 세트", kcal: 290, protein: 12, min: 0,
+      ax: { p: 1, l: 7, f: 1, w: 5, q: 1 },
       desc: "과식한 다음 날 속을 정리해주는 가벼운 조합." }
   ];
+
+  /* ---------- 점심 성향 테스트 (6문항) ----------
+     선택지 하나가 축 하나에 3점씩 준다. 축마다 등장 횟수가 다르므로
+     결과를 낼 때는 축별 최대 점수로 나눠 정규화한다. */
+  var QUIZ = [
+    { emo: "🛏️", q: "눈 떴을 때 오늘 몸 상태는 어땠나요?", a: [
+      { t: "어제 운동해서 근육이 뻐근하다",       s: { p: 3 } },
+      { t: "속이 더부룩하고 좀 무겁다",           s: { l: 3 } },
+      { t: "아침을 걸러서 벌써 배가 고프다",      s: { f: 3 } }
+    ]},
+    { emo: "⏰", q: "오늘 점심시간, 얼마나 여유 있어요?", a: [
+      { t: "10분 안에 끝내야 한다",              s: { q: 3 } },
+      { t: "따뜻한 걸 천천히 먹고 싶다",          s: { w: 3 } },
+      { t: "30분쯤 앉아서 든든히 먹겠다",         s: { f: 3 } }
+    ]},
+    { emo: "🪟", q: "창밖 날씨는 어떤가요?", a: [
+      { t: "쌀쌀하고 비가 온다",                 s: { w: 3 } },
+      { t: "덥고 습해서 입맛이 없다",             s: { l: 3 } },
+      { t: "딱 좋다, 얼른 먹고 산책 나가고 싶다",  s: { q: 3 } }
+    ]},
+    { emo: "🌙", q: "오늘 저녁 계획은요?", a: [
+      { t: "회식이 잡혀 있다",                   s: { l: 3 } },
+      { t: "퇴근하고 운동 갈 거다",               s: { p: 3 } },
+      { t: "집에서 쉰다, 점심에 든든히 먹어두자",  s: { f: 3 } }
+    ]},
+    { emo: "🎯", q: "요즘 가장 신경 쓰는 건 무엇인가요?", a: [
+      { t: "근육량 늘리기",                      s: { p: 3 } },
+      { t: "소화와 컨디션",                      s: { l: 3 } },
+      { t: "오후에 간식 안 먹기",                 s: { f: 3 } }
+    ]},
+    { emo: "😋", q: "한 입 베어 물 때, 어떤 느낌이면 좋겠어요?", a: [
+      { t: "든든하게 꽉 씹히는 느낌",             s: { p: 3 } },
+      { t: "따뜻하고 부드러운 느낌",              s: { w: 3 } },
+      { t: "한 손으로 간편하게 집어 먹는 느낌",    s: { q: 3 } }
+    ]}
+  ];
+
+  /* 축마다 등장 횟수가 달라 최대 점수가 다르다. 정규화 기준으로 쓴다. */
+  var AXIS_MAX = (function () {
+    var max = { p: 0, l: 0, f: 0, w: 0, q: 0 };
+    QUIZ.forEach(function (item) {
+      Object.keys(max).forEach(function (k) {
+        var top = 0;
+        item.a.forEach(function (o) { if ((o.s[k] || 0) > top) { top = o.s[k] || 0; } });
+        max[k] += top;
+      });
+    });
+    return max;
+  }());
+
+  /* 결과에서 "오늘의 당신"을 한 줄로 읽어주는 문구 */
+  var AXIS_READ = {
+    p: { icon: "💪", line: "오늘은 단백질이 필요한 날이에요" },
+    l: { icon: "🌿", line: "오늘은 속이 편한 게 우선인 날이에요" },
+    f: { icon: "🌾", line: "오늘은 든든함이 필요한 날이에요" },
+    w: { icon: "☕", line: "오늘은 따뜻한 게 당기는 날이에요" },
+    q: { icon: "⚡", line: "오늘은 무엇보다 시간이 없는 날이에요" }
+  };
   /* 조리·수령 소요시간은 메뉴별로 다르게 표기 */
   var MINUTES = [5, 7, 6, 8, 4, 6, 5];
   MENUS.forEach(function (m, i) { m.min = MINUTES[i]; });
@@ -666,6 +769,7 @@
   ];
 
   var STORE_KEY = "sb-salad-habit-v1";
+  var QUIZ_KEY  = "sb-salad-type-v1";
   var MONTH_GOAL = 20;
 
   /* ---------- 저장소 (브라우저가 막아둔 경우에도 동작) ---------- */
@@ -746,6 +850,9 @@
       sheetTitle = $("sheetTitle"), toastEl = $("toast");
   var popKey = null;   /* 직전에 기록되어 애니메이션을 줄 날짜 */
   var pendingDate = null;
+  var quizStep = 0;          /* 지금 보고 있는 문항 번호 */
+  var quizScore = null;      /* 지금까지 모인 성향 점수 */
+  var quizPicks = [];        /* 뒤로 가기를 위해 고른 답을 쌓아둔다 */
 
   var PETALS = ["🥗", "🌿", "✨", "🥬", "💚", "🍅"];
 
@@ -860,6 +967,194 @@
     renderCalendar();
   }
 
+  /* ---------- 점심 성향 테스트 ---------- */
+  function loadType() {
+    try {
+      var raw = window.localStorage.getItem(QUIZ_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+  function saveType(name, axis) {
+    if (!storageOK) { return; }
+    try {
+      window.localStorage.setItem(QUIZ_KEY, JSON.stringify({ name: name, axis: axis }));
+    } catch (e) { storageOK = false; }
+  }
+
+  function menuByName(name) {
+    var found = null;
+    MENUS.forEach(function (m) { if (m.name === name) { found = m; } });
+    return found;
+  }
+
+  /* 축마다 최대 점수가 다르므로(예: 든든함 12점, 빠름 9점) 0~1로 정규화한 뒤
+     메뉴의 성향 가중치와 곱한다. 정규화하지 않으면 점수를 많이 주는 축에
+     가중치를 둔 메뉴만 계속 뽑힌다. 동점이면 배열에서 앞선 메뉴가 이긴다. */
+  function normalized(score) {
+    var out = {};
+    Object.keys(AXIS_MAX).forEach(function (k) {
+      out[k] = (score[k] || 0) / (AXIS_MAX[k] || 1);
+    });
+    return out;
+  }
+
+  function resultOf(score) {
+    var norm = normalized(score);
+    var best = MENUS[0], bestPoint = -1;
+    MENUS.forEach(function (m) {
+      var point = 0;
+      Object.keys(norm).forEach(function (k) { point += (m.ax[k] || 0) * norm[k]; });
+      if (point > bestPoint) { bestPoint = point; best = m; }
+    });
+    /* "오늘의 당신"은 뽑힌 메뉴를 실제로 이기게 만든 축으로 고른다.
+       단순히 점수가 가장 높은 축을 쓰면 결과 문구와 메뉴가 어긋날 수 있다.
+       (예: 빠름 점수가 가장 높아도 최종 메뉴는 가벼움 특화가 뽑히는 경우) */
+    var topAxis = "p", topVal = -1;
+    Object.keys(norm).forEach(function (k) {
+      var contribution = (best.ax[k] || 0) * norm[k];
+      if (contribution > topVal) { topVal = contribution; topAxis = k; }
+    });
+    return { menu: best, axis: topAxis };
+  }
+
+  function startQuiz(dateKey) {
+    pendingDate = dateKey;
+    quizStep = 0;
+    quizScore = { p: 0, l: 0, f: 0, w: 0, q: 0 };
+    quizPicks = [];
+    renderQuiz();
+  }
+
+  function renderQuiz() {
+    var item = QUIZ[quizStep];
+    sheetTitle.textContent = "점심 성향 테스트";
+    sheetBody.textContent = "";
+
+    var head = document.createElement("div");
+    head.className = "quiz-head";
+    var dots = "";
+    QUIZ.forEach(function (_, i) {
+      dots += '<i class="' + (i < quizStep ? "done" : i === quizStep ? "now" : "") + '"></i>';
+    });
+    head.innerHTML = '<div class="quiz-dots" aria-hidden="true">' + dots + '</div>' +
+                     '<span class="quiz-count">' + (quizStep + 1) + ' / ' + QUIZ.length + '</span>';
+    sheetBody.appendChild(head);
+
+    var qBox = document.createElement("div");
+    qBox.className = "quiz-q";
+    qBox.innerHTML = '<div class="q-emo" aria-hidden="true">' + item.emo + '</div><h4>' + item.q + '</h4>';
+    sheetBody.appendChild(qBox);
+
+    var list = document.createElement("div");
+    list.className = "quiz-a";
+    item.a.forEach(function (opt) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "quiz-opt";
+      btn.textContent = opt.t;
+      btn.addEventListener("click", function () { answerQuiz(opt); });
+      list.appendChild(btn);
+    });
+    sheetBody.appendChild(list);
+
+    if (quizStep > 0) {
+      var back = document.createElement("button");
+      back.type = "button";
+      back.className = "quiz-back";
+      back.textContent = "← 이전 질문";
+      back.addEventListener("click", backQuiz);
+      sheetBody.appendChild(back);
+    }
+    showSheet();
+  }
+
+  function answerQuiz(opt) {
+    var k;
+    for (k in opt.s) {
+      if (Object.prototype.hasOwnProperty.call(opt.s, k)) { quizScore[k] += opt.s[k]; }
+    }
+    quizPicks.push(opt);
+    quizStep += 1;
+    if (quizStep >= QUIZ.length) {
+      var r = resultOf(quizScore);
+      saveType(r.menu.name, r.axis);
+      openResult(pendingDate, r.menu, r.axis);
+    } else {
+      renderQuiz();
+    }
+  }
+
+  function backQuiz() {
+    if (!quizPicks.length) { return; }
+    var last = quizPicks.pop();
+    var k;
+    for (k in last.s) {
+      if (Object.prototype.hasOwnProperty.call(last.s, k)) { quizScore[k] -= last.s[k]; }
+    }
+    quizStep -= 1;
+    renderQuiz();
+  }
+
+  /* 메뉴 카드 한 장을 그려서 돌려준다 (테스트 결과 · 빠른 추천 공용) */
+  function menuCard(m) {
+    var box = document.createElement("div");
+    box.className = "pick";
+    box.innerHTML =
+      '<div class="emo" aria-hidden="true">' + m.emo + '</div>' +
+      '<div>' +
+        '<h4>' + m.name + '</h4>' +
+        '<p class="desc">' + m.desc + '</p>' +
+        '<div class="chips">' +
+          (m.sig ? '<span class="chip sig">⭐ 시그니처</span>' : '') +
+          '<span class="chip">' + m.kcal + ' kcal</span>' +
+          '<span class="chip">단백질 ' + m.protein + 'g</span>' +
+          '<span class="chip">⏱️ ' + m.min + '분</span>' +
+        '</div>' +
+      '</div>';
+    return box;
+  }
+
+  function openResult(dateKey, m, axis, isSaved) {
+    pendingDate = dateKey;
+    sheetTitle.textContent = isSaved ? "지난 테스트 결과" : "테스트 결과가 나왔어요";
+    sheetBody.textContent = "";
+
+    var read = AXIS_READ[axis] || AXIS_READ.p;
+    var line = document.createElement("p");
+    line.className = "quiz-read";
+    line.textContent = read.icon + " " + read.line;
+    sheetBody.appendChild(line);
+
+    sheetBody.appendChild(menuCard(m));
+
+    var cta = document.createElement("div");
+    cta.className = "sheet-cta";
+
+    var retry = document.createElement("button");
+    retry.type = "button";
+    retry.className = "btn btn-ghost";
+    retry.textContent = "🔄 " + (isSaved ? "다시 테스트하기" : "테스트 다시 하기");
+    retry.addEventListener("click", function () { startQuiz(dateKey); });
+
+    var ok = document.createElement("button");
+    ok.type = "button";
+    ok.className = "btn btn-primary";
+    ok.textContent = "✅ 이걸로 먹고 기록하기";
+    ok.addEventListener("click", function () { commit(dateKey, m.name); });
+
+    cta.appendChild(retry);
+    cta.appendChild(ok);
+    sheetBody.appendChild(cta);
+    showSheet();
+  }
+
+  /* 저장된 성향이 있으면 결과부터, 없으면 테스트부터 */
+  function openTypeFlow(dateKey) {
+    var saved = loadType();
+    var m = saved && menuByName(saved.name);
+    if (m) { openResult(dateKey, m, saved.axis, true); } else { startQuiz(dateKey); }
+  }
+
   /* ---------- 추천 시트 ---------- */
   function pickMenu(exclude) {
     var pool = MENUS.filter(function (m) { return m.name !== exclude; });
@@ -873,21 +1168,7 @@
     sheetTitle.textContent = isToday ? "오늘의 추천" : dateKey.slice(5).replace("-", "월 ") + "일의 추천";
 
     sheetBody.textContent = "";
-    var box = document.createElement("div");
-    box.className = "pick";
-    box.innerHTML =
-      '<div class="emo" aria-hidden="true">' + picked.emo + '</div>' +
-      '<div>' +
-        '<h4>' + picked.name + '</h4>' +
-        '<p class="desc">' + picked.desc + '</p>' +
-        '<div class="chips">' +
-          (picked.sig ? '<span class="chip sig">⭐ 시그니처</span>' : '') +
-          '<span class="chip">' + picked.kcal + ' kcal</span>' +
-          '<span class="chip">단백질 ' + picked.protein + 'g</span>' +
-          '<span class="chip">⏱️ ' + picked.min + '분</span>' +
-        '</div>' +
-      '</div>';
-    sheetBody.appendChild(box);
+    sheetBody.appendChild(menuCard(picked));
 
     var cta = document.createElement("div");
     cta.className = "sheet-cta";
@@ -907,6 +1188,14 @@
     cta.appendChild(again);
     cta.appendChild(ok);
     sheetBody.appendChild(cta);
+
+    /* 무작위로 뽑히는 게 싫다면 테스트로 넘어갈 수 있게 */
+    var toQuiz = document.createElement("button");
+    toQuiz.type = "button";
+    toQuiz.className = "quiz-back";
+    toQuiz.textContent = "🧪 6문항 테스트로 골라볼래요";
+    toQuiz.addEventListener("click", function () { startQuiz(dateKey); });
+    sheetBody.appendChild(toQuiz);
 
     showSheet();
   }
@@ -1001,7 +1290,7 @@
     /* 오늘이 보이도록 이번 달로 되돌린 뒤 추천 열기 */
     view = new Date(today.getFullYear(), today.getMonth(), 1);
     renderCalendar();
-    if (records[k]) { openRecorded(k); } else { openSuggestion(k, null); }
+    if (records[k]) { openRecorded(k); } else { openTypeFlow(k); }
   });
 
   $("closeSheet").addEventListener("click", closeSheet);
