@@ -397,6 +397,56 @@ section { padding: var(--space-24) 0; }
 }
 .quiz-read .ic-sm { color: var(--vital); }
 
+/* ---------- 미니게임: 이름만 보고 그리기 ---------- */
+.game { background: var(--paper); border-radius: var(--r-2xl); }
+.game-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--r-xl); padding: var(--space-6); max-width: 760px; margin: 0 auto;
+}
+.game-round { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-4); }
+.game-round .step { font-family: var(--en); font-size: var(--text-xs); font-weight: 700; letter-spacing: .04em; color: var(--slate); }
+.game-prompt { text-align: center; padding: var(--space-4) 0 var(--space-5); border-bottom: 1px solid var(--divider); margin-bottom: var(--space-5); }
+.game-prompt .label { font-size: var(--text-sm); color: var(--slate); }
+.game-prompt .name { margin-top: 6px; font-size: clamp(24px, 4vw, var(--text-3xl)); font-weight: 800; color: var(--vital); }
+
+.pad {
+  width: 100%; aspect-ratio: 4 / 3; display: block; border-radius: var(--r-lg);
+  background: var(--white); border: 1.5px solid var(--border);
+  touch-action: none; cursor: crosshair;
+}
+.tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--space-2); margin-top: var(--space-4); }
+.swatches { display: flex; flex-wrap: wrap; gap: 6px; }
+.swatch {
+  width: 30px; height: 30px; border-radius: var(--r-pill); border: 2px solid rgba(0,0,0,.08);
+  transition: transform var(--dur-fast) var(--ease-soft), border-color var(--dur-fast) var(--ease-soft);
+}
+.swatch[aria-pressed="true"] { border-color: var(--ink); transform: scale(1.12); }
+.tool {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--r-pill);
+  background: var(--paper); color: var(--charcoal); font-size: var(--text-xs); font-weight: 600;
+  transition: background var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
+}
+.tool:hover { background: var(--green-tint); color: var(--vital); }
+.tool[aria-pressed="true"] { background: var(--vital); color: var(--sw); }
+.tool .ic-sm { width: 15px; height: 15px; }
+.game-cta { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); justify-content: center; }
+
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); align-items: start; }
+.compare figure { margin: 0; text-align: center; }
+.compare figcaption { margin-top: var(--space-2); font-size: var(--text-sm); font-weight: 700; color: var(--slate); }
+.compare .real {
+  width: 100%; aspect-ratio: 4 / 3; border-radius: var(--r-lg); background: var(--paper);
+  display: grid; place-items: center; border: 1.5px solid var(--border);
+}
+.compare .real svg { width: 68%; height: auto; }
+.verdict {
+  margin-top: var(--space-5); padding: var(--space-4) var(--space-5); background: var(--seed-tint);
+  border-radius: var(--r-md); font-size: var(--text-sm); line-height: 1.7; text-align: center;
+}
+.verdict b { color: var(--vital); }
+.game-note { margin-top: var(--space-4); font-size: var(--text-xs); color: var(--slate); text-align: center; }
+@media (max-width: 560px) { .compare { grid-template-columns: 1fr; } }
+
 /* ---------- 브랜드 소개 ---------- */
 .about { background: var(--paper); border-radius: var(--r-2xl); }
 .about-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); }
@@ -459,6 +509,7 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
     <nav>
       <a class="nav-link" href="#signature">시그니처</a>
       <a class="nav-link" href="#habit">습관 캘린더</a>
+      <a class="nav-link" href="#draw">미니게임</a>
       <a class="nav-link" href="#about">브랜드 소개</a>
       <button class="btn btn-primary btn-sm" data-start-test>오늘 한 끼 고르기</button>
     </nav>
@@ -605,7 +656,59 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
 </section>
 </div>
 
-<!-- ============ 4. 브랜드 소개 ============ -->
+<!-- ============ 4. 미니게임 — 이름만 보고 그리기 ============ -->
+<div class="wrap">
+<section id="draw" class="game">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Mini Game</p>
+      <h2>이름만 보고 그려보기</h2>
+      <p>메뉴 이름만 보고 어떤 샐러드일지 그려보세요. 다 그리면 실제 그림과 나란히 놓고 비교해 드립니다.</p>
+    </div>
+
+    <div class="game-card reveal">
+      <div class="game-round">
+        <span class="step" id="gameStep">1번째 그림</span>
+        <button class="tool" id="gameSkip" type="button">
+          <svg class="ic ic-sm" aria-hidden="true"><use href="#i-refresh"/></svg> 다른 메뉴로 바꾸기
+        </button>
+      </div>
+
+      <div class="game-prompt">
+        <p class="label">이 샐러드를 그려보세요</p>
+        <p class="name" id="gameName">시그니처 그린</p>
+      </div>
+
+      <div id="gameStage">
+        <canvas class="pad" id="pad" width="800" height="600"
+                aria-label="그림을 그리는 영역입니다. 마우스나 손가락으로 그려주세요."></canvas>
+        <div class="tools">
+          <div class="swatches" id="swatches" role="group" aria-label="색 고르기"></div>
+          <button class="tool" id="toolErase" type="button" aria-pressed="false">
+            <svg class="ic ic-sm" aria-hidden="true"><use href="#i-x"/></svg> 지우개
+          </button>
+          <button class="tool" id="toolUndo" type="button">
+            <svg class="ic ic-sm" aria-hidden="true"><use href="#i-back"/></svg> 되돌리기
+          </button>
+          <button class="tool" id="toolClear" type="button">
+            <svg class="ic ic-sm" aria-hidden="true"><use href="#i-refresh"/></svg> 전부 지우기
+          </button>
+        </div>
+      </div>
+
+      <div class="game-cta">
+        <button class="btn btn-primary" id="gameCompare" type="button">
+          <svg class="ic ic-btn" aria-hidden="true"><use href="#i-check"/></svg> 다 그렸어요, 비교하기
+        </button>
+      </div>
+
+      <p class="game-note" id="gameNote">그리기가 어려우시면 비교하기를 눌러 실제 그림만 보셔도 됩니다.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ 5. 브랜드 소개 ============ -->
 <div class="wrap">
 <section id="about" class="about">
   <div class="wrap">
@@ -647,6 +750,7 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
       <div class="foot-links">
         <a href="#signature">시그니처</a>
         <a href="#habit">습관 캘린더</a>
+        <a href="#draw">미니게임</a>
         <a href="#about">브랜드 소개</a>
       </div>
     </div>
@@ -1295,6 +1399,196 @@ footer p { margin-top: var(--space-4); font-size: var(--text-sm); max-width: 32e
       });
     }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
     Array.prototype.forEach.call(items, function (el) { io.observe(el); });
+  }());
+
+  /* ---------- 미니게임: 이름만 보고 그리기 ----------
+     획을 배열로 쌓아두고 매번 다시 그린다. 되돌리기가 간단해지고
+     ImageData 스냅샷을 쌓지 않아 메모리도 아낀다. */
+  (function drawingGame() {
+    var pad = $("pad");
+    if (!pad) { return; }
+    var ctx = pad.getContext("2d");
+
+    var PALETTE = [
+      { c: "#2F6B39", n: "진한 잎" }, { c: "#4E9A45", n: "잎" },
+      { c: "#7CBE55", n: "새싹" },   { c: "#93B23F", n: "올리브" },
+      { c: "#D2395E", n: "토마토" }, { c: "#F4C63C", n: "옥수수" },
+      { c: "#E8863B", n: "당근" },   { c: "#B87C43", n: "곡물" },
+      { c: "#F6EBD2", n: "크림" },   { c: "#CFC7E9", n: "그릇" },
+      { c: "#3A4742", n: "선" }
+    ];
+
+    var strokes = [];        /* [{ color, size, erase, pts: [[x,y], ...] }] */
+    var current = null;
+    var color = PALETTE[1].c;
+    var erasing = false;
+    var round = 0;
+    var revealed = false;
+    var order = [];          /* 같은 메뉴가 연달아 나오지 않도록 섞어서 순회 */
+    var target = null;
+
+    function shuffled() {
+      var a = MENUS.slice();
+      for (var i = a.length - 1; i > 0; i -= 1) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+    function nextMenu() {
+      if (!order.length) { order = shuffled(); }
+      return order.pop();
+    }
+
+    function repaint() {
+      ctx.clearRect(0, 0, pad.width, pad.height);
+      strokes.forEach(function (s) {
+        if (s.pts.length < 1) { return; }
+        ctx.save();
+        ctx.globalCompositeOperation = s.erase ? "destination-out" : "source-over";
+        ctx.strokeStyle = s.color;
+        ctx.fillStyle = s.color;
+        ctx.lineWidth = s.size;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        if (s.pts.length === 1) {
+          ctx.beginPath();
+          ctx.arc(s.pts[0][0], s.pts[0][1], s.size / 2, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(s.pts[0][0], s.pts[0][1]);
+          for (var i = 1; i < s.pts.length; i += 1) { ctx.lineTo(s.pts[i][0], s.pts[i][1]); }
+          ctx.stroke();
+        }
+        ctx.restore();
+      });
+    }
+
+    /* CSS 크기와 캔버스 해상도가 다르므로 좌표를 변환한다 */
+    function posOf(e) {
+      var r = pad.getBoundingClientRect();
+      return [(e.clientX - r.left) * (pad.width / r.width),
+              (e.clientY - r.top) * (pad.height / r.height)];
+    }
+
+    pad.addEventListener("pointerdown", function (e) {
+      if (revealed) { return; }
+      pad.setPointerCapture(e.pointerId);
+      current = { color: color, size: erasing ? 42 : 14, erase: erasing, pts: [posOf(e)] };
+      strokes.push(current);
+      repaint();
+    });
+    pad.addEventListener("pointermove", function (e) {
+      if (!current) { return; }
+      current.pts.push(posOf(e));
+      repaint();
+    });
+    function endStroke() { current = null; }
+    pad.addEventListener("pointerup", endStroke);
+    pad.addEventListener("pointercancel", endStroke);
+    pad.addEventListener("pointerleave", endStroke);
+
+    /* 색 고르기 */
+    var sw = $("swatches");
+    PALETTE.forEach(function (p, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "swatch";
+      b.style.background = p.c;
+      b.title = p.n;
+      b.setAttribute("aria-label", p.n + " 색");
+      b.setAttribute("aria-pressed", String(i === 1));
+      b.addEventListener("click", function () {
+        color = p.c;
+        erasing = false;
+        $("toolErase").setAttribute("aria-pressed", "false");
+        Array.prototype.forEach.call(sw.children, function (el) { el.setAttribute("aria-pressed", "false"); });
+        b.setAttribute("aria-pressed", "true");
+      });
+      sw.appendChild(b);
+    });
+
+    $("toolErase").addEventListener("click", function () {
+      erasing = !erasing;
+      this.setAttribute("aria-pressed", String(erasing));
+    });
+    $("toolUndo").addEventListener("click", function () {
+      if (revealed) { return; }
+      strokes.pop();
+      repaint();
+    });
+    $("toolClear").addEventListener("click", function () {
+      if (revealed) { return; }
+      strokes = [];
+      repaint();
+    });
+
+    function newRound() {
+      target = nextMenu();
+      strokes = [];
+      revealed = false;
+      repaint();
+      round += 1;
+      $("gameStep").textContent = round + "번째 그림";
+      $("gameName").textContent = target.name;
+      $("gameSkip").hidden = false;
+      $("gameNote").hidden = false;
+      $("gameStage").innerHTML = "";
+      $("gameStage").appendChild(pad);
+      $("gameStage").appendChild(toolsEl);
+      $("gameCompare").innerHTML = icon("check", "ic-btn") + "<span>다 그렸어요, 비교하기</span>";
+      $("gameCompare").onclick = reveal;
+    }
+
+    function reveal() {
+      revealed = true;
+      $("gameSkip").hidden = true;
+      $("gameNote").hidden = true;
+
+      var wrap = document.createElement("div");
+      wrap.className = "compare";
+
+      var mine = document.createElement("figure");
+      mine.appendChild(pad);
+      var cap1 = document.createElement("figcaption");
+      cap1.textContent = "내가 그린 " + target.name;
+      mine.appendChild(cap1);
+
+      var real = document.createElement("figure");
+      var box = document.createElement("div");
+      box.className = "real";
+      box.innerHTML = '<svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-' + target.icon + '"/></svg>';
+      real.appendChild(box);
+      var cap2 = document.createElement("figcaption");
+      cap2.textContent = "실제 " + target.name;
+      real.appendChild(cap2);
+
+      wrap.appendChild(mine);
+      wrap.appendChild(real);
+
+      var verdict = document.createElement("p");
+      verdict.className = "verdict";
+      verdict.innerHTML = strokes.length
+        ? "얼마나 닮았나요? 실제 <b>" + target.name + "</b>은 " + target.desc
+        : "이번엔 그리지 않으셨네요. 실제 <b>" + target.name + "</b>은 " + target.desc;
+
+      $("gameStage").innerHTML = "";
+      $("gameStage").appendChild(wrap);
+      $("gameStage").appendChild(verdict);
+      repaint();   /* 캔버스를 옮긴 뒤에도 그림이 남아 있도록 다시 그린다 */
+
+      $("gameCompare").innerHTML = icon("right", "ic-btn") + "<span>다음 메뉴 그리기</span>";
+      $("gameCompare").onclick = newRound;
+    }
+
+    var toolsEl = pad.parentNode.querySelector(".tools");
+    $("gameSkip").addEventListener("click", function () {
+      round -= 1;          /* 건너뛴 것은 회차로 세지 않는다 */
+      newRound();
+    });
+
+    newRound();
   }());
 
   load();
